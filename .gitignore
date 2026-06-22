@@ -1,0 +1,48 @@
+# ==========================================
+# 1. THƯ MỤC DỮ LIỆU (Chặn toàn bộ thư mục, giữ sạch GitHub)
+# ==========================================
+merged_dataset/
+0_normal_dataset/
+unzipped_data/
+fire_smoke_dataset/
+data/
+
+# ==========================================
+# 2. TRỌNG SỐ MÔ HÌNH (Tuyệt đối không đẩy lên vì rất nặng)
+# ==========================================
+*.pth
+*.onnx
+*.weights
+*.pkl
+
+# ==========================================
+# 3. FILE NÉN & ĐỒ HỌA HỆ THỐNG
+# ==========================================
+*.zip
+*.rar
+*.tar.gz
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# 4. PYTHON SYSTEM & CACHES (File rác khi chạy code)
+# ==========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+env/
+venv/
+
+# ==========================================
+# 5. CẤU HÌNH IDE (Cá nhân hóa của máy bạn)
+# ==========================================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
