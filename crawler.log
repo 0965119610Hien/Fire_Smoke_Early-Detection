@@ -1,0 +1,106 @@
+2026-06-24 21:58:50,090 [INFO] Starting crawler. Already have 0/300 OK videos.
+2026-06-24 21:58:50,105 [INFO] === Crawling Class 1 (Positive). Have 0/150 ===
+2026-06-24 21:58:50,105 [INFO] [early_smoke] Searching: 'electrical socket sparking smoke top view' page 1
+2026-06-24 21:58:54,396 [WARNING] Empty response for 'electrical socket sparking smoke top view' page 1
+2026-06-24 21:58:54,396 [INFO] [early_smoke] Searching: 'trash bin smoke starting fire overhead' page 1
+2026-06-24 21:58:57,253 [WARNING] Empty response for 'trash bin smoke starting fire overhead' page 1
+2026-06-24 21:58:57,254 [INFO] [early_smoke] Searching: 'smoldering wire smoke factory ceiling view' page 1
+2026-06-24 21:58:59,160 [WARNING] Empty response for 'smoldering wire smoke factory ceiling view' page 1
+2026-06-24 21:58:59,168 [INFO] [early_smoke] Searching: 'early stage smoke industrial building cctv' page 1
+2026-06-24 21:59:01,488 [WARNING] Empty response for 'early stage smoke industrial building cctv' page 1
+2026-06-24 21:59:01,488 [INFO] [early_smoke] Searching: 'thin smoke rising warehouse corner surveillance' page 1
+2026-06-24 21:59:03,798 [WARNING] Empty response for 'thin smoke rising warehouse corner surveillance' page 1
+2026-06-24 21:59:03,799 [INFO] [early_smoke] Collected 0/35 OK videos
+2026-06-24 21:59:03,799 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 21:59:03,800 [INFO] [heavy_smoke] Searching: 'black smoke plastic burning factory overhead' page 1
+2026-06-24 21:59:06,386 [WARNING] Empty response for 'black smoke plastic burning factory overhead' page 1
+2026-06-24 21:59:06,387 [INFO] [heavy_smoke] Searching: 'thick black smoke fire warehouse cctv' page 1
+2026-06-24 21:59:09,747 [WARNING] Empty response for 'thick black smoke fire warehouse cctv' page 1
+2026-06-24 21:59:09,747 [INFO] [heavy_smoke] Searching: 'rubber tire burning dark smoke top view' page 1
+2026-06-24 21:59:13,316 [WARNING] Empty response for 'rubber tire burning dark smoke top view' page 1
+2026-06-24 21:59:13,317 [INFO] [heavy_smoke] Searching: 'chemical fire heavy smoke industrial building' page 1
+2026-06-24 21:59:17,045 [WARNING] Empty response for 'chemical fire heavy smoke industrial building' page 1
+2026-06-24 21:59:17,045 [INFO] [heavy_smoke] Searching: 'dense smoke rolling fire plant overhead camera' page 1
+2026-06-24 21:59:19,375 [WARNING] Empty response for 'dense smoke rolling fire plant overhead camera' page 1
+2026-06-24 21:59:19,375 [INFO] [heavy_smoke] Searching: 'pallet fire black smoke factory surveillance' page 1
+2026-06-24 21:59:22,090 [WARNING] Empty response for 'pallet fire black smoke factory surveillance' page 1
+2026-06-24 21:59:22,090 [INFO] [heavy_smoke] Collected 0/40 OK videos
+2026-06-24 21:59:22,091 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 21:59:22,091 [INFO] [diffused_smoke] Searching: 'white smoke spreading warehouse room surveillance' page 1
+2026-06-24 21:59:25,984 [WARNING] Empty response for 'white smoke spreading warehouse room surveillance' page 1
+2026-06-24 21:59:25,984 [INFO] [diffused_smoke] Searching: 'paper fire smoke filling room overhead camera' page 1
+2026-06-24 21:59:28,660 [WARNING] Empty response for 'paper fire smoke filling room overhead camera' page 1
+2026-06-24 21:59:28,660 [INFO] [diffused_smoke] Searching: 'fabric cloth fire white smoke top view cctv' page 1
+2026-06-24 21:59:30,633 [WARNING] Empty response for 'fabric cloth fire white smoke top view cctv' page 1
+2026-06-24 21:59:30,634 [INFO] [diffused_smoke] Searching: 'smoke filling factory floor overhead view' page 1
+2026-06-24 21:59:33,006 [WARNING] Empty response for 'smoke filling factory floor overhead view' page 1
+2026-06-24 21:59:33,007 [INFO] [diffused_smoke] Searching: 'diffused smoke fire industrial building camera' page 1
+2026-06-24 21:59:35,968 [WARNING] Empty response for 'diffused smoke fire industrial building camera' page 1
+2026-06-24 21:59:35,968 [INFO] [diffused_smoke] Collected 0/35 OK videos
+2026-06-24 21:59:35,972 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 21:59:35,973 [INFO] [visible_flame] Searching: 'fire flame burning factory warehouse overhead cctv' page 1
+2026-06-24 21:59:39,818 [WARNING] Empty response for 'fire flame burning factory warehouse overhead cctv' page 1
+2026-06-24 21:59:39,818 [INFO] [visible_flame] Searching: 'fire outbreak industrial floor top view camera' page 1
+2026-06-24 21:59:42,031 [WARNING] Empty response for 'fire outbreak industrial floor top view camera' page 1
+2026-06-24 21:59:42,032 [INFO] [visible_flame] Searching: 'flame burning boxes factory surveillance camera' page 1
+2026-06-24 21:59:44,512 [WARNING] Empty response for 'flame burning boxes factory surveillance camera' page 1
+2026-06-24 21:59:44,512 [INFO] [visible_flame] Searching: 'fire visible flame manufacturing plant overhead' page 1
+2026-06-24 21:59:46,677 [WARNING] Empty response for 'fire visible flame manufacturing plant overhead' page 1
+2026-06-24 21:59:46,677 [INFO] [visible_flame] Searching: 'open fire burning warehouse floor cctv footage' page 1
+2026-06-24 21:59:48,617 [WARNING] Empty response for 'open fire burning warehouse floor cctv footage' page 1
+2026-06-24 21:59:48,617 [INFO] [visible_flame] Collected 0/40 OK videos
+2026-06-24 21:59:48,618 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 21:59:48,618 [INFO] === Crawling Class 0 (Negative). Have 0/150 ===
+2026-06-24 21:59:48,618 [INFO] [dust_particles] Searching: 'sawdust flying woodworking factory overhead' page 1
+2026-06-24 21:59:50,924 [WARNING] Empty response for 'sawdust flying woodworking factory overhead' page 1
+2026-06-24 21:59:50,924 [INFO] [dust_particles] Searching: 'cement dust cloud construction overhead camera' page 1
+2026-06-24 21:59:54,091 [WARNING] Empty response for 'cement dust cloud construction overhead camera' page 1
+2026-06-24 21:59:54,091 [INFO] [dust_particles] Searching: 'workshop dust particles air factory cctv' page 1
+2026-06-24 21:59:57,665 [WARNING] Empty response for 'workshop dust particles air factory cctv' page 1
+2026-06-24 21:59:57,665 [INFO] [dust_particles] Searching: 'flour dust cloud industrial plant top view' page 1
+2026-06-24 21:59:59,654 [WARNING] Empty response for 'flour dust cloud industrial plant top view' page 1
+2026-06-24 21:59:59,654 [INFO] [dust_particles] Collected 0/30 OK videos
+2026-06-24 21:59:59,655 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 21:59:59,655 [INFO] [steam_vapor] Searching: 'steam pipe industrial factory overhead camera' page 1
+2026-06-24 22:00:02,014 [WARNING] Empty response for 'steam pipe industrial factory overhead camera' page 1
+2026-06-24 22:00:02,014 [INFO] [steam_vapor] Searching: 'pressure valve steam release factory top view' page 1
+2026-06-24 22:00:04,537 [WARNING] Empty response for 'pressure valve steam release factory top view' page 1
+2026-06-24 22:00:04,538 [INFO] [steam_vapor] Searching: 'cooking steam kitchen industrial overhead cctv' page 1
+2026-06-24 22:00:07,554 [WARNING] Empty response for 'cooking steam kitchen industrial overhead cctv' page 1
+2026-06-24 22:00:07,554 [INFO] [steam_vapor] Searching: 'fog machine mist indoor factory surveillance' page 1
+2026-06-24 22:00:11,257 [WARNING] Empty response for 'fog machine mist indoor factory surveillance' page 1
+2026-06-24 22:00:11,258 [INFO] [steam_vapor] Searching: 'steam boiler factory overhead view' page 1
+2026-06-24 22:00:15,091 [WARNING] Empty response for 'steam boiler factory overhead view' page 1
+2026-06-24 22:00:15,092 [INFO] [steam_vapor] Collected 0/30 OK videos
+2026-06-24 22:00:15,096 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 22:00:15,096 [INFO] [welding_sparks] Searching: 'welding sparks metal workshop overhead camera' page 1
+2026-06-24 22:00:17,806 [WARNING] Empty response for 'welding sparks metal workshop overhead camera' page 1
+2026-06-24 22:00:17,806 [INFO] [welding_sparks] Searching: 'grinding sparks factory floor top view' page 1
+2026-06-24 22:00:21,116 [WARNING] Empty response for 'grinding sparks factory floor top view' page 1
+2026-06-24 22:00:21,116 [INFO] [welding_sparks] Searching: 'metal cutting sparks industrial overhead cctv' page 1
+2026-06-24 22:00:23,985 [WARNING] Empty response for 'metal cutting sparks industrial overhead cctv' page 1
+2026-06-24 22:00:23,985 [INFO] [welding_sparks] Searching: 'welder sparks flying factory surveillance' page 1
+2026-06-24 22:00:26,902 [WARNING] Empty response for 'welder sparks flying factory surveillance' page 1
+2026-06-24 22:00:26,902 [INFO] [welding_sparks] Collected 0/25 OK videos
+2026-06-24 22:00:26,906 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 22:00:26,906 [INFO] [optical_noise] Searching: 'forklift flashing orange light warehouse cctv' page 1
+2026-06-24 22:00:30,323 [WARNING] Empty response for 'forklift flashing orange light warehouse cctv' page 1
+2026-06-24 22:00:30,323 [INFO] [optical_noise] Searching: 'warning beacon strobe light factory floor overhead' page 1
+2026-06-24 22:00:32,606 [WARNING] Empty response for 'warning beacon strobe light factory floor overhead' page 1
+2026-06-24 22:00:32,606 [INFO] [optical_noise] Searching: 'sunlight reflection factory floor surveillance camera' page 1
+2026-06-24 22:00:35,909 [WARNING] Empty response for 'sunlight reflection factory floor surveillance camera' page 1
+2026-06-24 22:00:35,909 [INFO] [optical_noise] Searching: 'flickering light industrial warehouse top view' page 1
+2026-06-24 22:00:38,655 [WARNING] Empty response for 'flickering light industrial warehouse top view' page 1
+2026-06-24 22:00:38,655 [INFO] [optical_noise] Collected 0/25 OK videos
+2026-06-24 22:00:38,656 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 22:00:38,656 [INFO] [cigarette_smoke] Searching: 'cigarette smoke person factory area overhead' page 1
+2026-06-24 22:00:41,308 [WARNING] Empty response for 'cigarette smoke person factory area overhead' page 1
+2026-06-24 22:00:41,308 [INFO] [cigarette_smoke] Searching: 'vape smoke person indoor top view cctv' page 1
+2026-06-24 22:00:43,550 [WARNING] Empty response for 'vape smoke person indoor top view cctv' page 1
+2026-06-24 22:00:43,550 [INFO] [cigarette_smoke] Searching: 'incense smoke small plume overhead camera' page 1
+2026-06-24 22:00:46,131 [WARNING] Empty response for 'incense smoke small plume overhead camera' page 1
+2026-06-24 22:00:46,133 [INFO] [cigarette_smoke] Searching: 'smoking person warehouse cctv surveillance' page 1
+2026-06-24 22:00:48,720 [WARNING] Empty response for 'smoking person warehouse cctv surveillance' page 1
+2026-06-24 22:00:48,720 [INFO] [cigarette_smoke] Collected 0/20 OK videos
+2026-06-24 22:00:48,721 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)
+2026-06-24 22:00:48,723 [INFO] Manifest saved: dataset_test\manifest.csv (0 entries)

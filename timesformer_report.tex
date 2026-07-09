@@ -1,0 +1,921 @@
+\documentclass[12pt,a4paper]{article}
+
+% ─── Packages ────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,vietnamese]{babel}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% Font & Typography
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+% Math
+\usepackage{amsmath, amssymb, bm}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% Graphics & TikZ
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{
+  shapes.geometric, shapes.misc, shapes.arrows, shapes.multipart,
+  arrows.meta, positioning, fit, calc, backgrounds,
+  decorations.pathreplacing, decorations.markings,
+  matrix, chains, scopes
+}
+
+% Code listings
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, breakable, skins}
+
+% Hyperlinks & PDF
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!70!black,
+  citecolor=green!50!black,
+  pdftitle={TimeSformer - Kiến trúc và Pipeline Phát hiện Lửa/Khói},
+  pdfauthor={Fire-Smoke Early Detection Project}
+}
+
+% Section formatting
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{firebrick}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{darkgray}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{darkgray}}{\thesubsubsection}{1em}{}
+
+% Caption
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, labelsep=period}
+
+% ─── Color Palette ───────────────────────────────────────────────
+\definecolor{firebrick}{RGB}{178,34,34}
+\definecolor{fireOrange}{RGB}{230,110,20}
+\definecolor{smokeGray}{RGB}{100,100,120}
+\definecolor{spatialBlue}{RGB}{30,90,180}
+\definecolor{temporalGreen}{RGB}{20,140,80}
+\definecolor{transferPurple}{RGB}{120,40,160}
+\definecolor{blockBg}{RGB}{245,248,255}
+\definecolor{headerBg}{RGB}{220,235,255}
+\definecolor{codeGray}{RGB}{248,248,248}
+\definecolor{keywordColor}{RGB}{0,0,180}
+\definecolor{commentColor}{RGB}{80,120,80}
+\definecolor{stringColor}{RGB}{160,30,30}
+
+% ─── Code style ──────────────────────────────────────────────────
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{keywordColor}\bfseries,
+  commentstyle=\color{commentColor}\itshape,
+  stringstyle=\color{stringColor},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray!40},
+  backgroundcolor=\color{codeGray},
+  numbers=none,
+  xleftmargin=6pt,
+  xrightmargin=6pt,
+}
+
+\newtcblisting{codebox}[1][]{
+  listing only,
+  listing style=pythonstyle,
+  colback=codeGray,
+  colframe=gray!40,
+  arc=4pt,
+  boxrule=0.5pt,
+  top=2pt, bottom=2pt, left=4pt, right=4pt,
+  breakable,
+  #1
+}
+
+% ─── TikZ styles ─────────────────────────────────────────────────
+\tikzset{
+  block/.style 2 args={
+    rectangle, rounded corners=4pt,
+    draw=#1!80!black, fill=#1!12,
+    text width=#2, minimum height=1cm,
+    align=center, font=\small,
+    inner sep=6pt
+  },
+  arrow/.style={-{Stealth[length=6pt]}, thick, #1},
+  label/.style={font=\scriptsize\itshape, text=#1},
+  dblock/.style={
+    rectangle, rounded corners=3pt,
+    draw=gray!60, fill=white,
+    text width=#1, align=center, font=\small,
+    inner sep=5pt
+  },
+  groupbox/.style={
+    rectangle, rounded corners=6pt,
+    draw=#1!70, fill=#1!5, thick,
+    inner sep=10pt
+  }
+}
+
+% ─── Document ────────────────────────────────────────────────────
+\begin{document}
+
+% ═══════════════════════════════════════════════════════════════
+% TITLE PAGE
+% ═══════════════════════════════════════════════════════════════
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+
+  {\Huge\bfseries\color{firebrick}
+    TimeSformer\\[0.4em]
+    \large\color{darkgray}
+    Kiến trúc \& Pipeline Phát hiện Lửa/Khói\\[0.2em]
+    Sử dụng Divided Space-Time Attention
+  }
+
+  \vspace{1.5cm}
+  \begin{tikzpicture}
+    \draw[firebrick, line width=2pt] (0,0) -- (12,0);
+  \end{tikzpicture}
+
+  \vspace{1.5cm}
+  {\large Fire \& Smoke Early Detection System}\\[0.5em]
+  {\normalsize Triển khai trên Modal Cloud --- GPU A10G / H100}
+
+  \vspace{2cm}
+  \begin{tcolorbox}[
+    colback=firebrick!8, colframe=firebrick!60,
+    arc=6pt, boxrule=1pt,
+    width=10cm, halign=center
+  ]
+    \textbf{Hệ thống gồm 5 module chính:}\\[6pt]
+    \texttt{train\_spatial.py} $\cdot$ \texttt{evaluate\_spatial.py}\\
+    \texttt{train\_temporal.py} $\cdot$ \texttt{evaluate\_temporal.py}\\
+    \texttt{inference\_realtime.py}
+  \end{tcolorbox}
+
+  \vfill
+  {\small\color{gray} Phiên bản 1.0 --- \today}
+\end{titlepage}
+
+% ═══════════════════════════════════════════════════════════════
+% TABLE OF CONTENTS
+% ═══════════════════════════════════════════════════════════════
+\tableofcontents
+\newpage
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 1: TỔNG QUAN
+% ═══════════════════════════════════════════════════════════════
+\section{Tổng quan Hệ thống}
+
+\subsection{Chiến lược Huấn luyện 2 Giai đoạn}
+
+TimeSformer sở hữu hai loại attention hoàn toàn độc lập trong mỗi block:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Loại Attention} & \textbf{Học gì} & \textbf{Dữ liệu cần} \\
+\midrule
+Space Attention & Hình dạng, màu sắc, texture lửa/khói trong 1 frame & Ảnh tĩnh \\
+Time Attention  & Biến đổi, chuyển động, lan rộng qua nhiều frame    & Video clip \\
+\bottomrule
+\end{tabular}
+\caption{Hai loại attention trong TimeSformer}
+\end{table}
+
+Hệ thống được thiết kế thành \textbf{2 giai đoạn huấn luyện tuần tự}:
+
+\begin{tcolorbox}[
+  colback=spatialBlue!5, colframe=spatialBlue!50,
+  arc=5pt, boxrule=0.8pt, title={\textbf{Giai đoạn 1 --- Spatial Pre-training}},
+  fonttitle=\bfseries\color{spatialBlue}
+]
+\texttt{num\_frames = 1} $\Rightarrow$ Time Attention gần như vô nghĩa (T=1)\\
+\textbf{Dữ liệu:} Ảnh tĩnh YOLO format (\texttt{merged\_dataset/})\\
+\textbf{Mục tiêu:} Học nhận biết hình dạng/texture của lửa \& khói\\
+\textbf{Output:} \texttt{spatial\_fire\_smoke\_weights\_v2.pth}
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\begin{center}
+  $\downarrow$ \textit{Transfer Learning (strict=False) + Resize time\_embedding T=1$\to$T=8}
+\end{center}
+\vspace{0.3cm}
+
+\begin{tcolorbox}[
+  colback=temporalGreen!5, colframe=temporalGreen!50,
+  arc=5pt, boxrule=0.8pt, title={\textbf{Giai đoạn 2 --- Full Spatio-Temporal Training}},
+  fonttitle=\bfseries\color{temporalGreen}
+]
+\texttt{num\_frames = 8} $\Rightarrow$ Time Attention được kích hoạt hoàn toàn\\
+\textbf{Dữ liệu:} Video clips theo thư mục \texttt{fire/}, \texttt{smoke/}, \texttt{normal/}\\
+\textbf{Mục tiêu:} Học biến đổi không-thời gian của lửa/khói\\
+\textbf{Output:} \texttt{full\_fire\_smoke\_weights\_v1.pth}
+\end{tcolorbox}
+
+\paragraph{Lý do 2 giai đoạn hiệu quả hơn train end-to-end:}
+\begin{itemize}
+  \item Dữ liệu ảnh tĩnh dồi dào $\Rightarrow$ spatial features được học tốt từ đầu
+  \item Fine-tune temporal chỉ cần dataset video nhỏ hơn nhiều
+  \item Tránh gradient vanishing khi train từ đầu với chuỗi frames dài
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 2: KIẾN TRÚC
+% ═══════════════════════════════════════════════════════════════
+\section{Kiến trúc Mô hình TimeSformer}
+
+\subsection{Sơ đồ Kiến trúc Tổng thể}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[node distance=0.55cm and 0.3cm, >=Stealth]
+
+  % ── INPUT ──
+  \node[block={firebrick}{4.8cm}, fill=firebrick!15, text=black]
+    (input) {\textbf{Input Video}\\$[B,\,C,\,T,\,H,\,W]$\\{\scriptsize $B$=batch, $C$=3, $T$=frames, $H$=$W$=224}};
+
+  % ── PATCH EMBEDDING ──
+  \node[block={spatialBlue}{4.8cm}, below=of input]
+    (patch) {\textbf{Patch Embedding (Linear)}\\$3\!\times\!16\!\times\!16=768 \to \text{dim}=256$\\{\scriptsize Output: $[B,\,T,\,196,\,256]$, \; $196=(224/16)^2$}};
+
+  % ── CLS + EMBED ──
+  \node[block={spatialBlue}{4.8cm}, below=of patch]
+    (cls) {\textbf{CLS Token + Positional \& Time Embedding}\\{\scriptsize $[B,T,197,256]$ sau khi concat CLS}\\{\scriptsize $+$ \texttt{pos\_embedding}$[1,1,197,256]$ \; $+$ \texttt{time\_embedding}$[1,T,1,256]$}};
+
+  % ── BLOCK ──
+  \node[block={transferPurple}{4.8cm}, below=0.6cm of cls, minimum height=7.8cm]
+    (block) {};
+
+  % label block
+  \node[above=0pt of block.north, font=\small\bfseries\color{transferPurple}]
+    {DividedSpaceTimeBlock $\times$ 6};
+
+  % Sub-blocks inside
+  \node[dblock={4.0cm}, fill=firebrick!10, draw=firebrick!60,
+        below=0.45cm of block.north] (tattn)
+    {\textbf{Temporal Attention}\\
+     {\scriptsize $[B,T,N,D]\!\to\![(B\!\times\!N),T,D]$}\\
+     {\scriptsize LN $\to$ MHSA $\to$ temporal\_fc $\to$ DropPath $\to$ Res}};
+
+  \node[dblock={4.0cm}, fill=spatialBlue!10, draw=spatialBlue!60,
+        below=0.35cm of tattn] (sattn)
+    {\textbf{Spatial Attention}\\
+     {\scriptsize $[B,T,N,D]\!\to\![(B\!\times\!T),N,D]$}\\
+     {\scriptsize LN $\to$ MHSA $\to$ proj $\to$ DropPath $\to$ Res}};
+
+  \node[dblock={4.0cm}, fill=temporalGreen!10, draw=temporalGreen!60,
+        below=0.35cm of sattn] (mlp)
+    {\textbf{MLP Feed-Forward}\\
+     {\scriptsize $[B,T,N,D]\!\to\![(B\!\times\!T\!\times\!N),D]$}\\
+     {\scriptsize LN $\to$ Linear(256$\!\to\!$1024) $\to$ GELU $\to$ Dropout $\to$ Linear $\to$ Res}};
+
+  % ── NORM ──
+  \node[block={gray}{4.8cm}, below=0.7cm of block]
+    (norm) {\textbf{LayerNorm + CLS Pooling}\\{\scriptsize $x[:,\!:,\!0,\!:]$ $\to$ $[B,T,D]$ $\xrightarrow{\text{mean}_T}$ $[B,D]$}};
+
+  % ── MLP HEAD ──
+  \node[block={fireOrange}{4.8cm}, below=of norm]
+    (head) {\textbf{MLP Head}\\{\scriptsize LayerNorm $\to$ Linear($256\!\to\!2$)}};
+
+  % ── OUTPUT ──
+  \node[block={firebrick}{4.8cm}, fill=firebrick!18, below=of head]
+    (out) {\textbf{Output Logits} $[B,2]$\\{\scriptsize $\xrightarrow{\sigma}$ $[P(\text{Fire}),\; P(\text{Smoke})]$}};
+
+  % ── ARROWS ──
+  \foreach \a/\b in {input/patch, patch/cls, cls/block, block/norm, norm/head, head/out}
+    \draw[arrow={}] (\a) -- (\b);
+
+  % ── Side annotations ──
+  \node[label=gray, right=0.35cm of patch, text width=3cm]
+    {\scriptsize rearrange:\\$b\,c\,t\,(h\,p1)\,(w\,p2)$\\$\to b\,t\,(h\,w)\,(c\,p1\,p2)$};
+
+  \node[label=firebrick, right=0.35cm of block, text width=2.8cm]
+    {\scriptsize Stochastic Depth\\rate: $0 \to 0.1$\\per layer};
+
+\end{tikzpicture}
+\caption{Kiến trúc đầy đủ của \texttt{TimeSformerFull} (Giai đoạn 2)}
+\label{fig:arch}
+\end{figure}
+
+\subsection{Sơ đồ DividedSpaceTimeBlock Chi tiết}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.5cm and 1.8cm,
+  every node/.style={font=\small}]
+
+  % Input
+  \node[block={gray}{3.5cm}] (xin) {\textbf{Input} $x$\\$[B,\,T,\,N,\,D]$};
+
+  % ─── TEMPORAL BRANCH (Left Column) ─────────────────────────
+  \node[dblock={3cm}, fill=firebrick!8, draw=firebrick!50, below left=1.2cm and 2.2cm of xin]
+    (tr) {rearrange\\$\to [(B\!\times\!N),\,T,\,D]$};
+
+  \node[above=0.2cm of tr, font=\small\bfseries\color{firebrick}] {Temporal Attention};
+
+  \node[dblock={3cm}, fill=firebrick!8, draw=firebrick!50, below=0.3cm of tr]
+    (tln) {LayerNorm};
+
+  \node[dblock={3cm}, fill=firebrick!12, draw=firebrick!60, below=0.3cm of tln]
+    (tattn2) {Multi-Head\\Self-Attention\\(across $T$)};
+
+  \node[dblock={3cm}, fill=firebrick!8, draw=firebrick!50, below=0.3cm of tattn2]
+    (tfc) {\textbf{temporal\_fc}\\Linear($D\!\to\!D$)\\{\tiny init $\mathbf{W}=0,\,\mathbf{b}=0$}};
+
+  \node[dblock={3cm}, fill=firebrick!8, draw=firebrick!50, below=0.3cm of tfc]
+    (tdp) {DropPath};
+
+  \node[dblock={3cm}, fill=firebrick!8, draw=firebrick!50, below=0.3cm of tdp]
+    (tback) {rearrange\\$\to [B,\,T,\,N,\,D]$};
+
+  \node[circle, draw=firebrick!70, fill=firebrick!15, minimum size=0.55cm, below=0.4cm of tback]
+    (tadd) {\scriptsize$+$};
+
+  % ─── SPATIAL BRANCH (Middle Column) ────────────────────────
+  \node[dblock={3cm}, fill=spatialBlue!8, draw=spatialBlue!50, right=1.2cm of tr]
+    (sr) {rearrange\\$\to [(B\!\times\!T),\,N,\,D]$};
+
+  \node[above=0.2cm of sr, font=\small\bfseries\color{spatialBlue}] {Spatial Attention};
+
+  \node[dblock={3cm}, fill=spatialBlue!8, draw=spatialBlue!50, below=0.3cm of sr]
+    (sln) {LayerNorm};
+
+  \node[dblock={3cm}, fill=spatialBlue!12, draw=spatialBlue!60, below=0.3cm of sln]
+    (sattn2) {Multi-Head\\Self-Attention\\(across $N$)};
+
+  \node[dblock={3cm}, fill=spatialBlue!8, draw=spatialBlue!50, below=0.3cm of sattn2]
+    (sdp) {DropPath};
+
+  \node[dblock={3cm}, fill=spatialBlue!8, draw=spatialBlue!50, below=0.3cm of sdp]
+    (sback) {rearrange\\$\to [B,\,T,\,N,\,D]$};
+
+  \node[circle, draw=spatialBlue!70, fill=spatialBlue!15, minimum size=0.55cm, below=2.1cm of sback]
+    (sadd) {\scriptsize$+$};
+
+  % ─── MLP BRANCH (Right Column) ────────────────────────────
+  \node[dblock={3cm}, fill=temporalGreen!8, draw=temporalGreen!50, right=1.2cm of sr]
+    (mr) {rearrange\\$\to [(B\!\times\!T\!\times\!N),\,D]$};
+
+  \node[above=0.2cm of mr, font=\small\bfseries\color{temporalGreen}] {MLP Feed-Forward};
+
+  \node[dblock={3cm}, fill=temporalGreen!8, draw=temporalGreen!50, below=0.3cm of mr]
+    (mln) {LayerNorm};
+
+  \node[dblock={3cm}, fill=temporalGreen!12, draw=temporalGreen!60, below=0.3cm of mln]
+    (mfc1) {Linear($256\!\to\!1024$)};
+
+  \node[dblock={3cm}, fill=temporalGreen!8, draw=temporalGreen!50, below=0.3cm of mfc1]
+    (mgelu) {GELU + Dropout};
+
+  \node[dblock={3cm}, fill=temporalGreen!12, draw=temporalGreen!60, below=0.3cm of mgelu]
+    (mfc2) {Linear($1024\!\to\!256$)};
+
+  \node[dblock={3cm}, fill=temporalGreen!8, draw=temporalGreen!50, below=0.3cm of mfc2]
+    (mdp) {DropPath};
+
+  \node[dblock={3cm}, fill=temporalGreen!8, draw=temporalGreen!50, below=0.3cm of mdp]
+    (mback) {rearrange\\$\to [B,\,T,\,N,\,D]$};
+
+  \node[circle, draw=temporalGreen!70, fill=temporalGreen!15, minimum size=0.55cm, below=0.4cm of mback]
+    (madd) {\scriptsize$+$};
+
+  % Output
+  \node[block={gray}{3.5cm}, below=1.0cm of sadd] (xout)
+    {\textbf{Output} $x$\\$[B,\,T,\,N,\,D]$};
+
+  % ─── ARROWS ────────────────────────────────────────────────
+  \draw[arrow={gray}] (xin) -- (tr);
+  \draw[arrow={firebrick!70}] (tr) -- (tln);
+  \draw[arrow={firebrick!70}] (tln) -- (tattn2);
+  \draw[arrow={firebrick!70}] (tattn2) -- (tfc);
+  \draw[arrow={firebrick!70}] (tfc) -- (tdp);
+  \draw[arrow={firebrick!70}] (tdp) -- (tback);
+  \draw[arrow={firebrick!70}] (tback) -- (tadd);
+
+  \draw[arrow={gray}] (tadd) -- (sr);
+  \draw[arrow={spatialBlue!70}] (sr) -- (sln);
+  \draw[arrow={spatialBlue!70}] (sln) -- (sattn2);
+  \draw[arrow={spatialBlue!70}] (sattn2) -- (sdp);
+  \draw[arrow={spatialBlue!70}] (sdp) -- (sback);
+  \draw[arrow={spatialBlue!70}] (sback) -- (sadd);
+
+  \draw[arrow={gray}] (sadd) -- (mr);
+  \draw[arrow={temporalGreen!70}] (mr) -- (mln);
+  \draw[arrow={temporalGreen!70}] (mln) -- (mfc1);
+  \draw[arrow={temporalGreen!70}] (mfc1) -- (mgelu);
+  \draw[arrow={temporalGreen!70}] (mgelu) -- (mfc2);
+  \draw[arrow={temporalGreen!70}] (mfc2) -- (mdp);
+  \draw[arrow={temporalGreen!70}] (mdp) -- (mback);
+  \draw[arrow={temporalGreen!70}] (mback) -- (madd);
+  \draw[arrow={gray}] (madd) -- (xout);
+
+  % Residual skip connections
+  \draw[arrow={firebrick!50}, dashed] (xin.west) -- ++(-5.5,0) |- (tadd.west);
+  \draw[arrow={spatialBlue!50}, dashed] (tadd.east) -- (sadd.west);
+  \draw[arrow={temporalGreen!50}, dashed] (sadd.east) -- (madd.west);
+
+\end{tikzpicture}
+\caption{Chi tiết luồng tính toán bên trong một \texttt{DividedSpaceTimeBlock}}
+\label{fig:block}
+\end{figure}
+
+\subsection{Cơ chế Multi-Head Self-Attention}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.45cm and 1.2cm]
+
+  \node[block={gray}{2.5cm}] (x) {$x$\\$[B,\,N,\,C]$};
+
+  \node[block={spatialBlue}{2.5cm}, below=of x] (qkv)
+    {Linear($C,\,3C$)\\reshape \& permute};
+
+  \node[dblock={1.8cm}, fill=red!10, draw=red!50, below left=0.5cm and 1.2cm of qkv] (Q) {$\mathbf{Q}$\\$[B,h,N,d]$};
+  \node[dblock={1.8cm}, fill=green!10, draw=green!50, below=0.5cm of qkv] (K) {$\mathbf{K}$\\$[B,h,N,d]$};
+  \node[dblock={1.8cm}, fill=blue!10, draw=blue!50, below right=0.5cm and 1.2cm of qkv] (V) {$\mathbf{V}$\\$[B,h,N,d]$};
+
+  \node[block={orange}{3.5cm}, below=1.2cm of K] (score)
+    {$\text{Attn} = \text{softmax}\!\left(\dfrac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d}}\right)$\\$[B,h,N,N]$};
+
+  \node[block={spatialBlue}{2.5cm}, below=0.5cm of score] (out)
+    {$\text{Attn}\cdot\mathbf{V}$\\reshape $\to [B,N,C]$};
+
+  \node[block={gray}{2.5cm}, below=of out] (proj)
+    {Linear($C,C$) + Dropout};
+
+  \draw[arrow={}] (x) -- (qkv);
+  \draw[arrow={}] (qkv) -- (Q);
+  \draw[arrow={}] (qkv) -- (K);
+  \draw[arrow={}] (qkv) -- (V);
+  \draw[arrow={}] (Q) |- (score);
+  \draw[arrow={}] (K) -- (score);
+  \draw[arrow={}] (V) |- (score);
+  \draw[arrow={}] (score) -- (out);
+  \draw[arrow={}] (out) -- (proj);
+
+  \node[right=0.4cm of score, font=\scriptsize\itshape, text=gray, text width=2.5cm]
+    {scale = $d^{-0.5}$\\$d = C/h = 32$\\$h = 8$ heads};
+
+\end{tikzpicture}
+\caption{Cơ chế Multi-Head Self-Attention với $h=8$ heads, $d_\text{head}=32$}
+\label{fig:attn}
+\end{figure}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 3: HYPERPARAMETERS
+% ═══════════════════════════════════════════════════════════════
+\section{Hyperparameters}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!8}{white}
+\begin{tabular}{llll}
+\toprule
+\textbf{Hyperparameter} & \textbf{Giai đoạn 1} & \textbf{Giai đoạn 2} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{image\_size} & 224 & 224 & Kích thước frame \\
+\texttt{patch\_size} & 16 & 16 & Patch $16\!\times\!16$ pixel \\
+\texttt{num\_frames} & \textbf{1} \quad \textbf{!} & \textbf{8} \quad $\checkmark$ & Số frames/clip \\
+\texttt{num\_patches} & 196 & 196 & $(224/16)^2 = 14\!\times\!14$ \\
+\texttt{num\_classes} & 2 & 2 & Fire + Smoke \\
+\texttt{dim} & 256 & 256 & Embedding dimension \\
+\texttt{depth} & 6 & 6 & Số DividedSpaceTimeBlock \\
+\texttt{heads} & 8 & 8 & Số attention heads \\
+\texttt{mlp\_dim} & 512 & 1024 & FFN hidden dimension \\
+\texttt{dropout} & 0.1 & 0.1 & Dropout rate \\
+\texttt{attn\_drop} & 0.0 & 0.1 & Attention dropout \\
+\texttt{drop\_path\_rate} & --- & 0.1 & Stochastic Depth \\
+\texttt{qkv\_bias} & False & True & Bias trong QKV projection \\
+\texttt{temporal\_fc} & Không có & Init zeros & Residual gate temporal \\
+\bottomrule
+\end{tabular}
+\caption{So sánh hyperparameters giữa hai giai đoạn}
+\end{table}
+
+\subsection{Stochastic Depth (DropPath)}
+
+Tỷ lệ drop tăng tuyến tính theo chiều sâu của mạng, từ $0$ đến $0.1$:
+
+\[
+\text{dpr}_i = \frac{i}{L-1} \times r_{\max}, \quad i=0,1,\ldots,L-1, \quad L=6, \quad r_{\max}=0.1
+\]
+
+\begin{center}
+\begin{tikzpicture}
+  \foreach \i in {0,...,5} {
+    \pgfmathsetmacro{\dpr}{\i * 0.02}
+    \pgfmathsetmacro{\h}{\dpr * 30 + 0.3}
+    \pgfmathsetmacro{\pct}{\i * 12 + 10}
+    \filldraw[draw=transferPurple!80, fill=transferPurple!\pct]
+      (\i*1.6, 0) rectangle (\i*1.6+1.2, \h);
+    \node[below, font=\scriptsize] at (\i*1.6+0.6, 0) {Layer \i};
+    \node[above, font=\scriptsize, color=transferPurple] at (\i*1.6+0.6, \h)
+      {\pgfmathprintnumber[fixed,precision=3]{\dpr}};
+  }
+  \draw[->] (-0.2,0) -- (10,0) node[right] {\small depth};
+  \draw[->] (-0.2,0) -- (-0.2,3.5) node[above] {\small dpr};
+\end{tikzpicture}
+\end{center}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 4: TRANSFER LEARNING
+% ═══════════════════════════════════════════════════════════════
+\section{Transfer Learning: Giai đoạn 1 $\to$ Giai đoạn 2}
+
+\subsection{Vấn đề tương thích Weights}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Layer} & \textbf{Shape GĐ1} & \textbf{Shape GĐ2} & \textbf{Xử lý} \\
+\midrule
+\texttt{to\_patch\_embedding.weight} & $[256, 768]$ & $[256, 768]$ & $\checkmark$ Load trực tiếp \\
+\texttt{pos\_embedding}              & $[1,1,197,256]$ & $[1,1,197,256]$ & $\checkmark$ Load trực tiếp \\
+\texttt{time\_embedding}             & $[1,1,1,256]$ & $\mathbf{[1,8,1,256]}$ & \textbf{!} Interpolate \\
+\texttt{layers.*.attn.*}             & khớp & khớp & $\checkmark$ Load trực tiếp \\
+\texttt{layers.*.temporal\_fc.*}     & Không tồn tại & $[256,256]$ & Init zeros \\
+\texttt{mlp\_head.*}                 & khớp & khớp & $\checkmark$ Load trực tiếp \\
+\bottomrule
+\end{tabular}
+\caption{Tương thích weights khi chuyển từ Giai đoạn 1 sang Giai đoạn 2}
+\end{table}
+
+\subsection{Xử lý Time Embedding bằng Interpolation}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.8cm and 1.5cm]
+
+  \node[block={spatialBlue}{3.5cm}] (te1)
+    {\textbf{time\_embedding} (GĐ1)\\$[1,\,1,\,1,\,256]$};
+
+  \node[block={gray}{3.5cm}, right=2cm of te1] (perm1)
+    {permute\\$\to [1,\,256,\,1,\,1]$};
+
+  \node[block={transferPurple}{3.5cm}, right=2cm of perm1] (interp)
+    {\textbf{F.interpolate}\\bilinear\\$\to [1,\,256,\,1,\,8]$};
+
+  \node[block={temporalGreen}{3.5cm}, below=1.2cm of interp] (perm2)
+    {permute\\$\to [1,\,8,\,1,\,256]$};
+
+  \node[block={temporalGreen}{3.5cm}, left=2cm of perm2] (te2)
+    {\textbf{time\_embedding} (GĐ2)\\$[1,\,8,\,1,\,256]$};
+
+  \draw[arrow={}] (te1) -- (perm1);
+  \draw[arrow={}] (perm1) -- (interp);
+  \draw[arrow={}] (interp) -- (perm2);
+  \draw[arrow={}] (perm2) -- (te2);
+
+  \node[above=0.15cm of interp, font=\scriptsize\itshape\color{gray}]
+    {T: $1 \to 8$ frames};
+
+\end{tikzpicture}
+\caption{Quá trình resize \texttt{time\_embedding} từ $T=1$ lên $T=8$}
+\label{fig:interpolate}
+\end{figure}
+
+\subsection{Tại sao temporal\_fc init zeros là quan trọng?}
+
+\begin{tcolorbox}[
+  colback=firebrick!5, colframe=firebrick!40,
+  arc=4pt, boxrule=0.6pt
+]
+\[
+\text{Temporal residual} = \texttt{temporal\_fc}\!\left(\texttt{temporal\_attn}(x)\right)
+= \mathbf{W}_{\text{temp}} \cdot (\ldots) + \mathbf{b} = \mathbf{0}
+\quad (\text{vì } \mathbf{W}=0, \, \mathbf{b}=0)
+\]
+
+\textbf{Hệ quả:} Ở epoch đầu tiên, temporal contribution $= 0$ $\Rightarrow$ model hoàn toàn giống Giai đoạn 1 (spatial only) $\Rightarrow$ Không phá vỡ spatial features đã học. Temporal\_fc sẽ dần học ra giá trị khác 0 theo gradient descent.
+\end{tcolorbox}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 5: DỮ LIỆU
+% ═══════════════════════════════════════════════════════════════
+\section{Chuẩn bị Dữ liệu}
+
+\subsection{Giai đoạn 1 --- Ảnh tĩnh (YOLO Format)}
+
+\subsubsection{Chuyển đổi nhãn YOLO $\to$ Multi-label}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{cll}
+\toprule
+\textbf{Class ID (file .txt)} & \textbf{Nhãn} & \textbf{Vector} \\
+\midrule
+\texttt{0} & Lửa (Fire) & $[1.0,\; 0.0]$ \\
+\texttt{1} & Khói (Smoke) & $[0.0,\; 1.0]$ \\
+Cả \texttt{0} và \texttt{1} & Fire + Smoke & $[1.0,\; 1.0]$ \\
+Không có & Normal & $[0.0,\; 0.0]$ \\
+\bottomrule
+\end{tabular}
+\caption{Ánh xạ YOLO class ID sang multi-label vector}
+\end{table}
+
+\subsubsection{Pipeline tiền xử lý (Train)}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.4cm]
+  \tikzset{pipe/.style={block={gray}{3.8cm}, minimum height=0.8cm}}
+
+  \node[pipe] (a) {Ảnh BGR gốc};
+  \node[pipe, below=of a] (b) {Horizontal Flip (50\%)};
+  \node[pipe, below=of b] (c) {Contrast $\alpha\!\in\![0.8,1.2]$ (50\%)};
+  \node[pipe, below=of c] (d) {Brightness $\beta\!\in\![-15,15]$ (50\%)};
+  \node[pipe, below=of d] (e) {BGR $\to$ RGB};
+  \node[pipe, below=of e] (f) {resize$(224,224)$ $\div$ 255};
+  \node[pipe, below=of f] (g) {transpose HWC$\to$CHW};
+  \node[pipe=spatialBlue, below=of g, fill=spatialBlue!12] (h)
+    {unsqueeze(dim=1) $\to [C,1,H,W]$ \quad (T=1 nhân tạo)};
+
+  \foreach \a/\b in {a/b,b/c,c/d,d/e,e/f,f/g,g/h}
+    \draw[arrow={}] (\a) -- (\b);
+
+  \node[right=0.5cm of d, font=\scriptsize\color{gray}, text width=3cm]
+    {Augmentation chỉ áp dụng cho tập Train};
+\end{tikzpicture}
+\caption{Pipeline tiền xử lý ảnh tĩnh (Giai đoạn 1)}
+\end{figure}
+
+\subsection{Giai đoạn 2 --- Video Clips}
+
+\subsubsection{Cấu trúc thư mục và nhãn}
+
+Nhãn được suy ra trực tiếp từ tên thư mục cha:
+\begin{itemize}
+  \item \texttt{fire/} $\to$ $[1.0,\; 0.0]$
+  \item \texttt{smoke/} $\to$ $[0.0,\; 1.0]$
+  \item \texttt{normal/} $\to$ $[0.0,\; 0.0]$
+\end{itemize}
+
+\subsubsection{Frame Sampling Strategy}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth]
+  % Train - random start
+  \draw[thick] (0,1.5) -- (9,1.5);
+  \node[left] at (0,1.5) {\small Train:};
+  \foreach \i in {0,...,8} \draw (\i,1.3) -- (\i,1.7);
+  % random clip
+  \filldraw[firebrick!30] (2,1.3) rectangle (6,1.7);
+  \node[above, font=\scriptsize] at (4,1.7) {Random start $\in[0, F-8]$, 8 frames liên tiếp};
+
+  % Val - uniform
+  \draw[thick] (0,0) -- (9,0);
+  \node[left] at (0,0) {\small Val/Test:};
+  \foreach \i in {0,...,8} \draw (\i,-0.2) -- (\i,0.2);
+  \foreach \i in {0,...,7} {
+    \pgfmathsetmacro{\x}{\i * 1.286}
+    \filldraw[spatialBlue] (\x+0.05, -0.15) circle (3pt);
+  }
+  \node[above, font=\scriptsize] at (4.5,0.2)
+    {Uniform sampling: \texttt{linspace(0, F-1, 8)}};
+\end{tikzpicture}
+\caption{Chiến lược lấy mẫu frames từ video clip}
+\end{figure}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 6: HUẤN LUYỆN
+% ═══════════════════════════════════════════════════════════════
+\section{Quá trình Huấn luyện}
+
+\subsection{Cấu hình so sánh hai giai đoạn}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!8}{white}
+\begin{tabular}{lll}
+\toprule
+\textbf{Tham số} & \textbf{Giai đoạn 1} & \textbf{Giai đoạn 2} \\
+\midrule
+Script & \texttt{train\_spatial.py} & \texttt{train\_temporal.py} \\
+GPU & NVIDIA A10G (24GB) & \textbf{NVIDIA H100 (80GB)} \\
+Optimizer & Adam, lr=$10^{-4}$ đồng nhất & Adam, \textbf{Differential LR} \\
+Loss & BCEWithLogitsLoss & BCEWithLogitsLoss \\
+pos\_weight & $[1.18,\; 1.71]$ & $[1.18,\; 1.71]$ \\
+Epochs tối đa & 100 & 50 \\
+Batch size & 64 & \textbf{8} \\
+Early Stopping & patience = 5 & patience = 7 \\
+Output & \texttt{spatial\_weights\_v*.pth} & \texttt{full\_weights\_v*.pth} \\
+\bottomrule
+\end{tabular}
+\caption{So sánh cấu hình training hai giai đoạn}
+\end{table}
+
+\subsection{Differential Learning Rate (Giai đoạn 2)}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.6cm and 2cm]
+
+  \node[block={gray}{4cm}] (params) {Model Parameters\\$\theta = \theta_{\text{spatial}} \cup \theta_{\text{temporal}}$};
+
+  \node[block={spatialBlue}{3.5cm}, below left=1cm and 1.5cm of params] (sp)
+    {\textbf{Spatial Params}\\(pre-trained)\\$lr = 10^{-5}$};
+
+  \node[block={firebrick}{3.5cm}, below right=1cm and 1.5cm of params] (tp)
+    {\textbf{Temporal Params}\\(mới học)\\$lr = 10^{-4}$};
+
+  \node[block={temporalGreen}{4cm}, below=2.5cm of params] (optim)
+    {\textbf{Adam Optimizer}\\2 param groups\\fine-tune nhẹ nhàng spatial\\học mạnh temporal};
+
+  \draw[arrow={spatialBlue}] (params.south) -- (sp.north);
+  \draw[arrow={firebrick}] (params.south) -- (tp.north);
+  \draw[arrow={temporalGreen}] (sp.south) |- (optim.west);
+  \draw[arrow={temporalGreen}] (tp.south) |- (optim.east);
+
+  \node[above=0.1cm of sp, font=\tiny\color{gray}]
+    {norm1, attn, mlp, pos\_emb, patch\_emb, ...};
+  \node[above=0.1cm of tp, font=\tiny\color{gray}]
+    {temporal\_norm1, temporal\_attn, temporal\_fc, time\_emb, ...};
+
+\end{tikzpicture}
+\caption{Chiến lược Differential Learning Rate trong Giai đoạn 2}
+\end{figure}
+
+\subsection{Early Stopping với Best-weight Restore}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.7cm and 2cm,
+  every node/.style={font=\small}]
+
+  \node[block={gray}{3.8cm}] (epoch) {Bắt đầu Epoch $e$};
+
+  \node[block={spatialBlue}{3.8cm}, below=of epoch] (train)
+    {Training Phase\\(model.train(), augment=True)};
+
+  \node[block={temporalGreen}{3.8cm}, below=of train] (val)
+    {Validation Phase\\(model.eval(), no\_grad)};
+
+  \node[diamond, draw=orange!80, fill=orange!15, below=0.7cm of val,
+        align=center, inner sep=3pt] (cmp)
+    {val\_loss $<$\\best\_val\_loss?};
+
+  \node[block={temporalGreen}{3.2cm}, right=2cm of cmp] (save)
+    {Lưu best weights\\(deepcopy)\\epochs\_no\_improve=0};
+
+  \node[diamond, draw=firebrick!80, fill=firebrick!15, below=1cm of cmp,
+        align=center, inner sep=3pt] (pat)
+    {no\_improve\\$\geq$ patience?};
+
+  \node[block={spatialBlue}{3.2cm}, left=2cm of pat] (cont)
+    {Tiếp tục\\epoch $e+1$};
+
+  \node[block={firebrick}{3.2cm}, right=2cm of pat] (stop)
+    {Early Stop\\Restore best\\weights};
+
+  \draw[arrow={}] (epoch) -- (train);
+  \draw[arrow={}] (train) -- (val);
+  \draw[arrow={}] (val) -- (cmp);
+  \draw[arrow={}] (cmp) -- node[above]{\small Yes} (save);
+  \draw[arrow={}] (cmp) -- node[right]{\small No} (pat);
+  \draw[arrow={}] (save) |- (pat);
+  \draw[arrow={}] (pat) -- node[above]{\small No} (cont);
+  \draw[arrow={}] (pat) -- node[above]{\small Yes} (stop);
+  \draw[arrow={}] (cont) |- (epoch);
+
+\end{tikzpicture}
+\caption{Luồng điều khiển Early Stopping với Best-weight Restore}
+\end{figure}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 7: ĐÁNH GIÁ
+% ═══════════════════════════════════════════════════════════════
+\section{Đánh giá Mô hình}
+
+\subsection{Bộ Metrics Toàn diện}
+
+\subsubsection{Nhóm 1: Metrics cơ bản (Threshold = 0.5)}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lp{8cm}}
+\toprule
+\textbf{Metric} & \textbf{Ý nghĩa} \\
+\midrule
+Precision & Trong các dự đoán Positive, bao nhiêu \% đúng \\
+Recall    & Trong các nhãn Positive thực tế, bao nhiêu \% tìm được \\
+F1-Score  & $\frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision}+\text{Recall}}$ \\
+Exact Match Ratio & \% mẫu dự đoán đúng \textbf{hoàn toàn} cả 2 nhãn \\
+Hamming Loss & Tỷ lệ nhãn bị dự đoán sai (càng thấp càng tốt) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Nhóm 2: Metrics chuyên sâu (Threshold-Independent)}
+
+\begin{align}
+  \text{ROC-AUC} &= \int_0^1 \text{TPR}(t)\, d\,\text{FPR}(t) \\
+  \text{AP}      &= \sum_k (R_k - R_{k-1})\, P_k
+\end{align}
+
+Cả hai được tính per-class và macro-average cho Fire và Smoke.
+
+\subsubsection{Nhóm 3: Multilabel Confusion Matrix}
+
+\[
+\text{Per-class:}\quad
+\begin{bmatrix} \text{TN} & \text{FP} \\ \text{FN} & \text{TP} \end{bmatrix}_{\text{Fire}}
+\quad\text{và}\quad
+\begin{bmatrix} \text{TN} & \text{FP} \\ \text{FN} & \text{TP} \end{bmatrix}_{\text{Smoke}}
+\]
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 8: REAL-TIME INFERENCE
+% ═══════════════════════════════════════════════════════════════
+\section{Real-time Inference}
+
+\subsection{Sliding Window Architecture}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=0.5cm and 1.5cm]
+
+  \node[block={firebrick}{3.5cm}] (cam)
+    {\textbf{Input Source}\\Camera / RTSP / Video};
+
+  \node[block={gray}{3.5cm}, below=of cam] (pre)
+    {Preprocess\\BGR$\to$RGB $\to$ resize(224)\\$\div$ 255 $\to$ CHW};
+
+  \node[block={spatialBlue}{3.5cm}, below=of pre] (buf)
+    {\textbf{Frame Buffer}\\deque(maxlen=8)\\Sliding Window};
+
+  \node[diamond, draw=orange!80, fill=orange!15,
+        below=0.7cm of buf, align=center, inner sep=4pt] (cond)
+    {frame\_count\\$\%\;5 = 0$?};
+
+  \node[block={transferPurple}{3.5cm}, right=2cm of cond] (inf)
+    {\textbf{Inference}\\stack $\to [C,T,H,W]$\\unsqueeze $\to [1,C,T,H,W]$\\model.forward()\\(no\_grad)};
+
+  \node[block={temporalGreen}{3.5cm}, right=2cm of inf] (sig)
+    {sigmoid(logits)\\$P_\text{fire},\; P_\text{smoke}$\\$> 0.5$?};
+
+  \node[block={firebrick}{3.5cm}, below=of sig] (label)
+    {\textbf{Label}\\normal / fire\\smoke / fire+smoke};
+
+  \node[block={gray}{3.5cm}, below=2.5cm of cond] (disp)
+    {draw\_overlay()\\Viền màu + Alert\\FPS counter};
+
+  \draw[arrow={}] (cam) -- (pre);
+  \draw[arrow={}] (pre) -- (buf);
+  \draw[arrow={}] (buf) -- (cond);
+  \draw[arrow={}] (cond) -- node[above]{\small Yes} (inf);
+  \draw[arrow={}] (inf) -- (sig);
+  \draw[arrow={}] (sig) -- (label);
+  \draw[arrow={}] (cond) -- node[right]{\small No} (disp);
+  \draw[arrow={}] (label.west) -- ++(-1.5,0) |- (disp.east);
+
+\end{tikzpicture}
+\caption{Kiến trúc Sliding Window cho real-time inference}
+\end{figure}
+
+% ═══════════════════════════════════════════════════════════════
+% SECTION 9: TỔNG KẾT
+% ═══════════════════════════════════════════════════════════════
+\section{Tổng kết So sánh}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!8}{white}
+\begin{tabular}{lll}
+\toprule
+\textbf{Đặc điểm} & \textbf{Giai đoạn 1} & \textbf{Giai đoạn 2} \\
+\midrule
+Kiến trúc & TimeSformer & TimeSformerFull \\
+num\_frames & 1 (nhân tạo) & 8 (thực sự) \\
+Time Attention & Trivial (T=1) & Fully active \\
+DropPath & Không & Có (dpr: $0\to0.1$) \\
+temporal\_fc & Không & Có (init zeros) \\
+qkv\_bias & False & True \\
+Dữ liệu & Ảnh tĩnh YOLO & Video clip thư mục \\
+Augmentation & Flip + Brightness & + Random clip start \\
+Batch size & 64 & 8 \\
+LR Strategy & Uniform $10^{-4}$ & Differential $10^{-5}/10^{-4}$ \\
+Epochs & 100 (patience=5) & 50 (patience=7) \\
+GPU & A10G 24GB & H100 80GB \\
+Học được & Texture, hình dạng & + Biến đổi thời gian \\
+\bottomrule
+\end{tabular}
+\caption{Bảng so sánh đầy đủ hai giai đoạn huấn luyện}
+\end{table}
+
+\end{document}

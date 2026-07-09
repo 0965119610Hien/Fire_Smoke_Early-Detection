@@ -19,11 +19,13 @@ def train_model_on_modal():
     import numpy as np
     import glob
     import re
-    import copy # Thêm thư viện để copy trọng số tốt nhất
+    import copy 
 
     print("🚀 ĐÃ KHỞI ĐỘNG MÁY CHỦ MODAL THÀNH CÔNG (GPU: A10G)!")
 
-    # --- KHỐI MẠNG LÕI ---
+    # ==========================================
+    # 1. KHỐI MẠNG LÕI TIMESFORMER
+    # ==========================================
     class Mlp(nn.Module):
         def __init__(self, in_features, hidden_features=None, out_features=None, drop=0.):
             super().__init__()
@@ -91,8 +93,10 @@ def train_model_on_modal():
             for layer in self.layers: x = layer(x, t)
             return self.mlp_head(x[:, :, 0, :].mean(dim=1))
 
-    # --- HÀM LOAD DỮ LIỆU THỦ CÔNG ---
-    def custom_yolo_to_classification_generator(image_dir, batch_size=32, shuffle=True):
+    # ==========================================
+    # 2. HÀM LOAD DỮ LIỆU THỦ CÔNG (CÓ AUGMENTATION)
+    # ==========================================
+    def custom_yolo_to_classification_generator(image_dir, batch_size=32, shuffle=True, augment=False):
         label_dir = image_dir.replace('images', 'labels')
         image_files = [f for f in os.listdir(image_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
         if shuffle: random.shuffle(image_files)
@@ -103,7 +107,23 @@ def train_model_on_modal():
             img = cv2.imread(img_path)
             if img is None: continue
             
-            img = np.transpose(cv2.resize(cv2.cvtColor(img, cv2.COLOR_BGR2RGB), (224, 224)).astype(np.float32) / 255.0, (2, 0, 1))
+            # --- ÁP DỤNG DATA AUGMENTATION ---
+            if augment:
+                # Lật ngang ngẫu nhiên (50% cơ hội)
+                if random.random() > 0.5:
+                    img = cv2.flip(img, 1)
+                
+                # Tinh chỉnh độ sáng và độ tương phản ngẫu nhiên (50% cơ hội)
+                if random.random() > 0.5:
+                    alpha = random.uniform(0.8, 1.2) # Contrast [0.8 - 1.2]
+                    beta = random.randint(-15, 15)   # Brightness [-15 - 15]
+                    img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
+            
+            # Chuyển đổi hệ màu và resize
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = cv2.resize(img, (224, 224)).astype(np.float32) / 255.0
+            img = np.transpose(img, (2, 0, 1)) # HWC sang CHW
+            
             target = [0.0, 0.0]
             txt_path = os.path.join(label_dir, os.path.splitext(img_file)[0] + '.txt')
             if os.path.exists(txt_path):
@@ -116,6 +136,7 @@ def train_model_on_modal():
             
             batch_imgs.append(img)
             batch_targets.append(target)
+            
             if len(batch_imgs) == batch_size:
                 yield torch.tensor(np.array(batch_imgs)), torch.tensor(np.array(batch_targets))
                 batch_imgs, batch_targets = [], []
@@ -123,30 +144,41 @@ def train_model_on_modal():
         if len(batch_imgs) > 0:
             yield torch.tensor(np.array(batch_imgs)), torch.tensor(np.array(batch_targets))
 
-    # --- KHỞI TẠO & HUẤN LUYỆN ---
+    # ==========================================
+    # 3. KHỞI TẠO & HUẤN LUYỆN
+    # ==========================================
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TimeSformer(image_size=224, patch_size=16, num_frames=1, num_classes=2, dim=256, depth=6).to(device)
-    loss_fn = nn.BCEWithLogitsLoss()
+    
+    # Cấu hình Class Weights giải quyết mất cân bằng
+    # Lửa (Index 0): 1.18 | Khói (Index 1): 1.71
+    pos_weights = torch.tensor([1.18, 1.71]).to(device)
+    loss_fn = nn.BCEWithLogitsLoss(pos_weight=pos_weights)
+    
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
     train_dir = '/data/merged_dataset/train/images'
-    val_dir = '/data/merged_dataset/val/images' # Thư mục Val để chạy Early Stopping
+    val_dir = '/data/merged_dataset/val/images' 
     
-    epochs = 80
+    epochs = 100
     batch_size = 64
 
-    # --- CẤU HÌNH EARLY STOPPING ---
-    patience = 5  # Số epoch tối đa chịu đựng nếu Loss không giảm
+    # CẤU HÌNH EARLY STOPPING
+    patience = 5  
     best_val_loss = float('inf')
     epochs_no_improve = 0
     best_model_weights = copy.deepcopy(model.state_dict())
 
     for epoch in range(epochs):
-        # 1. GIAI ĐOẠN TRAINING
+        # --- GIAI ĐOẠN TRAINING ---
         model.train()
         running_train_loss = 0.0
         train_batches = 0
-        train_gen = custom_yolo_to_classification_generator(train_dir, batch_size=batch_size, shuffle=True)
+        
+        # BẬT Augmentation cho tập Train
+        train_gen = custom_yolo_to_classification_generator(
+            train_dir, batch_size=batch_size, shuffle=True, augment=True
+        )
         
         for batch_imgs, batch_targets in train_gen:
             batch_imgs, batch_targets = batch_imgs.unsqueeze(2).to(device), batch_targets.to(device)
@@ -161,14 +193,16 @@ def train_model_on_modal():
                 
         avg_train_loss = running_train_loss / train_batches
 
-        # 2. GIAI ĐOẠN VALIDATION (Tính điểm để xem xét Early Stopping)
+        # --- GIAI ĐOẠN VALIDATION ---
         model.eval()
         running_val_loss = 0.0
         val_batches = 0
-        # Tắt gradient để tiết kiệm VRAM và tăng tốc tính toán
+        
         with torch.no_grad():
-            # Không cần shuffle tập Val
-            val_gen = custom_yolo_to_classification_generator(val_dir, batch_size=batch_size, shuffle=False)
+            # TẮT Augmentation và Shuffle cho tập Val
+            val_gen = custom_yolo_to_classification_generator(
+                val_dir, batch_size=batch_size, shuffle=False, augment=False
+            )
             for batch_imgs, batch_targets in val_gen:
                 batch_imgs, batch_targets = batch_imgs.unsqueeze(2).to(device), batch_targets.to(device)
                 outputs = model(batch_imgs)
@@ -180,11 +214,10 @@ def train_model_on_modal():
         
         print(f"---> HOÀN THÀNH EPOCH {epoch+1} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
 
-        # 3. KIỂM TRA EARLY STOPPING
+        # --- KIỂM TRA EARLY STOPPING ---
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             epochs_no_improve = 0
-            # Lưu lại trạng thái của mô hình tốt nhất
             best_model_weights = copy.deepcopy(model.state_dict())
             print(f"     🌟 Val Loss giảm kỷ lục! Đã lưu trọng số tạm thời.")
         else:
@@ -196,12 +229,12 @@ def train_model_on_modal():
                 print(f"🛑 KÍCH HOẠT EARLY STOPPING TẠI EPOCH {epoch+1}!")
                 print(f"Khôi phục trọng số về phiên bản tốt nhất (Val Loss: {best_val_loss:.4f})")
                 print("="*50 + "\n")
-                # Nạp lại trọng số tốt nhất vào model trước khi thoát vòng lặp
                 model.load_state_dict(best_model_weights)
                 break
 
-    # --- TỰ ĐỘNG ĐÁNH DẤU PHIÊN BẢN (AUTO-VERSIONING) ---
-    # Lúc này mô hình đang giữ trọng số tốt nhất (từ epoch có Val Loss thấp nhất)
+    # ==========================================
+    # 4. TỰ ĐỘNG ĐÁNH DẤU PHIÊN BẢN (AUTO-VERSIONING)
+    # ==========================================
     existing_models = glob.glob('/data/spatial_fire_smoke_weights_v*.pth')
     max_version = 0
     for f in existing_models:

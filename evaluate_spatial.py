@@ -17,11 +17,18 @@ def evaluate_model_on_modal():
     import numpy as np
     import glob
     import re
-    from sklearn.metrics import classification_report, accuracy_score
+    from sklearn.metrics import (
+        classification_report, 
+        accuracy_score,
+        roc_auc_score,
+        average_precision_score,
+        hamming_loss,
+        multilabel_confusion_matrix
+    )
 
-    print("🚀 ĐANG KHỞI ĐỘNG TRÌNH ĐÁNH GIÁ TRÊN MODAL...")
+    print("🚀 ĐANG KHỞI ĐỘNG TRÌNH ĐÁNH GIÁ ĐA CHIỀU TRÊN MODAL...")
 
-    # --- KHỐI MẠNG LÕI (Giữ nguyên kiến trúc) ---
+    # --- KHỐI MẠNG LÕI TIMESFORMER ---
     class Mlp(nn.Module):
         def __init__(self, in_features, hidden_features=None, out_features=None, drop=0.):
             super().__init__()
@@ -89,7 +96,7 @@ def evaluate_model_on_modal():
             for layer in self.layers: x = layer(x, t)
             return self.mlp_head(x[:, :, 0, :].mean(dim=1))
 
-    # --- HÀM LOAD DỮ LIỆU TEST CHAY ---
+    # --- HÀM LOAD DỮ LIỆU TEST ---
     def custom_yolo_to_classification_generator(image_dir, batch_size=32):
         label_dir = image_dir.replace('images', 'labels')
         image_files = sorted([f for f in os.listdir(image_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))])
@@ -145,37 +152,98 @@ def evaluate_model_on_modal():
 
     test_dir = '/data/merged_dataset/test/images'
     test_gen = custom_yolo_to_classification_generator(test_dir, batch_size=64)
-    all_preds, all_targets = [], []
+    
+    all_preds, all_probs, all_targets = [], [], []
 
-    print(f"Đang tiến hành chạy inference trên tập Test...")
+    print(f"⏳ Đang tiến hành chạy inference trên tập Test...")
     with torch.no_grad():
         for batch_imgs, batch_targets in test_gen:
+            # Lấy xác suất nguyên thủy (0.0 -> 1.0) để tính toán ROC-AUC và mAP
             probs = torch.sigmoid(model(batch_imgs.unsqueeze(2).to(device)))
+            
+            all_probs.append(probs.cpu().numpy())
             all_preds.append((probs > 0.5).float().cpu().numpy())
             all_targets.append(batch_targets.numpy())
 
+    all_probs = np.vstack(all_probs)
     all_preds = np.vstack(all_preds)
     all_targets = np.vstack(all_targets)
 
-    # --- IN BÁO CÁO VÀ LƯU THÀNH FILE TEXT ---
     target_names = ['Fire (Lửa)', 'Smoke (Khói)']
+
+    # ========================================================
+    # TÍNH TOÁN CÁC BENCHMARK CHUYÊN SÂU
+    # ========================================================
+    
+    # 1. Cơ bản: Report & Exact Match
     report = classification_report(all_targets, all_preds, target_names=target_names, zero_division=0)
     exact_match = accuracy_score(all_targets, all_preds)
+    
+    # 2. Hamming Loss: Tỉ lệ dự đoán sai trên tổng số nhãn (Càng thấp càng tốt)
+    h_loss = hamming_loss(all_targets, all_preds)
+    
+    # 3. ROC-AUC: Đo lường độ nhạy của mô hình với ngưỡng
+    try:
+        roc_auc_per_class = roc_auc_score(all_targets, all_probs, average=None)
+        roc_auc_macro = roc_auc_score(all_targets, all_probs, average='macro')
+    except ValueError:
+        roc_auc_per_class = [0.0, 0.0]
+        roc_auc_macro = 0.0
+        
+    # 4. Average Precision (mAP): Cực kỳ quan trọng với tập dữ liệu mất cân bằng
+    try:
+        ap_per_class = average_precision_score(all_targets, all_probs, average=None)
+        ap_macro = average_precision_score(all_targets, all_probs, average='macro')
+    except ValueError:
+        ap_per_class = [0.0, 0.0]
+        ap_macro = 0.0
+        
+    # 5. Multilabel Confusion Matrix: TN, FP, FN, TP cho từng class riêng biệt
+    mcm = multilabel_confusion_matrix(all_targets, all_preds)
 
-    print("\n" + "="*50)
-    print(f" BÁO CÁO ĐÁNH GIÁ (VERSION {latest_version})")
-    print("="*50)
-    print(report)
-    print(f"\nĐộ chính xác tuyệt đối (Exact Match Ratio): {exact_match*100:.2f}%")
-    print("="*50 + "\n")
+    # --- TẠO BÁO CÁO TOÀN DIỆN ---
+    full_report_text = f"""
+==================================================
+ 📊 BÁO CÁO ĐÁNH GIÁ TOÀN DIỆN (VERSION {latest_version})
+==================================================
+
+1. KẾT QUẢ PHÂN LOẠI CƠ BẢN (Threshold = 0.5)
+--------------------------------------------------
+{report}
+
+- Độ chính xác tuyệt đối (Exact Match Ratio) : {exact_match*100:.2f}%
+- Hamming Loss (Tỷ lệ dự đoán nhãn sai)      : {h_loss:.4f}
+
+2. ĐÁNH GIÁ CHUYÊN SÂU (Threshold-Independent)
+--------------------------------------------------
+[ROC-AUC] (Khả năng phân biệt Thật/Giả)
+- Fire (Lửa)   : {roc_auc_per_class[0]:.4f}
+- Smoke (Khói) : {roc_auc_per_class[1]:.4f}
+- Trung bình   : {roc_auc_macro:.4f}
+
+[Average Precision / mAP] (Hiệu năng với dữ liệu lệch)
+- Fire (Lửa)   : {ap_per_class[0]:.4f}
+- Smoke (Khói) : {ap_per_class[1]:.4f}
+- Trung bình   : {ap_macro:.4f}
+
+3. MA TRẬN NHẦM LẪN CHI TIẾT TỪNG LỚP
+--------------------------------------------------
+[Lớp: Fire (Lửa)]
+[[True Negative (TN): {mcm[0][0][0]:<5}  | False Positive (FP): {mcm[0][0][1]:<5} ]
+ [False Negative (FN): {mcm[0][1][0]:<5} | True Positive (TP): {mcm[0][1][1]:<5} ]]
+
+[Lớp: Smoke (Khói)]
+[[True Negative (TN): {mcm[1][0][0]:<5}  | False Positive (FP): {mcm[1][0][1]:<5} ]
+ [False Negative (FN): {mcm[1][1][0]:<5} | True Positive (TP): {mcm[1][1][1]:<5} ]]
+==================================================
+"""
+
+    print(full_report_text)
 
     # Lưu kết quả xuống file để tiện theo dõi sau này
     eval_save_path = f'/data/evaluation_v{latest_version}.txt'
     with open(eval_save_path, 'w', encoding='utf-8') as f:
-        f.write(f"BÁO CÁO ĐÁNH GIÁ (VERSION {latest_version})\n")
-        f.write("="*50 + "\n")
-        f.write(report)
-        f.write(f"\n\nĐộ chính xác tuyệt đối (Exact Match Ratio): {exact_match*100:.2f}%\n")
+        f.write(full_report_text)
     
     print(f"📝 Đã lưu lại lịch sử kết quả đánh giá tại: {eval_save_path}")
 

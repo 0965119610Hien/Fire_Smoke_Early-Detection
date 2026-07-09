@@ -6,6 +6,7 @@ merged_dataset/
 unzipped_data/
 fire_smoke_dataset/
 data/
+dataset_merged/
 
 # ==========================================
 # 2. TRỌNG SỐ MÔ HÌNH (Tuyệt đối không đẩy lên vì rất nặng)
@@ -36,6 +37,7 @@ __pycache__/
 .venv/
 env/
 venv/
+venv38/
 
 # ==========================================
 # 5. CẤU HÌNH IDE (Cá nhân hóa của máy bạn)
@@ -46,3 +48,5 @@ venv/
 *.ntvs*
 *.njsproj
 *.sln
+*.pth
+*.pptx
