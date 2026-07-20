@@ -1,0 +1,679 @@
+{
+  "timestamp": "2026-07-20T21:03:01.696702",
+  "description": "Relabel: cigarette_smoke + cooking_smoke from label1 -> label0",
+  "moves": [
+    {
+      "file": "cleaned_02af2970_pexels_cooking_smoke_3472823.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_02af2970_pexels_cooking_smoke_3472823.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_02af2970_pexels_cooking_smoke_3472823.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_034f5d53_pexels_cigarette_smoke_8139853.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_034f5d53_pexels_cigarette_smoke_8139853.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_034f5d53_pexels_cigarette_smoke_8139853.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_061c767b_pexels_cigarette_smoke_8139855.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_061c767b_pexels_cigarette_smoke_8139855.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_061c767b_pexels_cigarette_smoke_8139855.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_097ffe01_pexels_cooking_smoke_5793721.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_097ffe01_pexels_cooking_smoke_5793721.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_097ffe01_pexels_cooking_smoke_5793721.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_09ca60ff_pexels_cooking_smoke_6289339.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_09ca60ff_pexels_cooking_smoke_6289339.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_09ca60ff_pexels_cooking_smoke_6289339.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_0bcf05c5_pexels_cigarette_smoke_8425862.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0bcf05c5_pexels_cigarette_smoke_8425862.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0bcf05c5_pexels_cigarette_smoke_8425862.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_0bf38fc1_pexels_cigarette_smoke_7609090.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0bf38fc1_pexels_cigarette_smoke_7609090.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0bf38fc1_pexels_cigarette_smoke_7609090.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_0c1e777c_pexels_cooking_smoke_8626674.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0c1e777c_pexels_cooking_smoke_8626674.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0c1e777c_pexels_cooking_smoke_8626674.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_0cfcf3f5_pexels_cooking_smoke_6316937.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0cfcf3f5_pexels_cooking_smoke_6316937.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0cfcf3f5_pexels_cooking_smoke_6316937.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_0f1f9000_pexels_cooking_smoke_8094279.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0f1f9000_pexels_cooking_smoke_8094279.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0f1f9000_pexels_cooking_smoke_8094279.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_0f39007e_pexels_cooking_smoke_18270789.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_0f39007e_pexels_cooking_smoke_18270789.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_0f39007e_pexels_cooking_smoke_18270789.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_1043a656_pexels_cooking_smoke_37876544.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1043a656_pexels_cooking_smoke_37876544.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1043a656_pexels_cooking_smoke_37876544.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_104b3da3_pexels_cigarette_smoke_7277921.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_104b3da3_pexels_cigarette_smoke_7277921.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_104b3da3_pexels_cigarette_smoke_7277921.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_114174ee_pexels_cooking_smoke_8094290.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_114174ee_pexels_cooking_smoke_8094290.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_114174ee_pexels_cooking_smoke_8094290.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_115be835_pexels_cooking_smoke_12001580.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_115be835_pexels_cooking_smoke_12001580.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_115be835_pexels_cooking_smoke_12001580.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_116209db_yt_cooking_smoke_k_JxXHu1DFA.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_116209db_yt_cooking_smoke_k_JxXHu1DFA.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_116209db_yt_cooking_smoke_k_JxXHu1DFA.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_14199674_pexels_cigarette_smoke_8427740.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_14199674_pexels_cigarette_smoke_8427740.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_14199674_pexels_cigarette_smoke_8427740.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_14eae8d6_pexels_cigarette_smoke_8718631.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_14eae8d6_pexels_cigarette_smoke_8718631.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_14eae8d6_pexels_cigarette_smoke_8718631.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_15f5f1ec_pexels_cigarette_smoke_8087613.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_15f5f1ec_pexels_cigarette_smoke_8087613.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_15f5f1ec_pexels_cigarette_smoke_8087613.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_1709e49f_pexels_cigarette_smoke_6037658.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1709e49f_pexels_cigarette_smoke_6037658.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1709e49f_pexels_cigarette_smoke_6037658.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_1799db64_pexels_cooking_smoke_7696837.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1799db64_pexels_cooking_smoke_7696837.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1799db64_pexels_cooking_smoke_7696837.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_18b3c23c_pexels_cooking_smoke_9015742.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_18b3c23c_pexels_cooking_smoke_9015742.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_18b3c23c_pexels_cooking_smoke_9015742.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_1a123dd8_pexels_cooking_smoke_32001621.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1a123dd8_pexels_cooking_smoke_32001621.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1a123dd8_pexels_cooking_smoke_32001621.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_1a1a9327_pexels_cooking_smoke_854216.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1a1a9327_pexels_cooking_smoke_854216.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1a1a9327_pexels_cooking_smoke_854216.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_1b66ee33_pexels_cooking_smoke_8094274.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1b66ee33_pexels_cooking_smoke_8094274.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1b66ee33_pexels_cooking_smoke_8094274.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_1f5e92fd_pexels_cooking_smoke_7299442.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_1f5e92fd_pexels_cooking_smoke_7299442.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_1f5e92fd_pexels_cooking_smoke_7299442.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_2338c32c_pexels_cigarette_smoke_7277917.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_2338c32c_pexels_cigarette_smoke_7277917.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_2338c32c_pexels_cigarette_smoke_7277917.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_2398da81_pexels_cigarette_smoke_7269149.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_2398da81_pexels_cigarette_smoke_7269149.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_2398da81_pexels_cigarette_smoke_7269149.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_23a70322_pexels_cigarette_smoke_4728121.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_23a70322_pexels_cigarette_smoke_4728121.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_23a70322_pexels_cigarette_smoke_4728121.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_24f30848_pexels_cooking_smoke_6222558.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_24f30848_pexels_cooking_smoke_6222558.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_24f30848_pexels_cooking_smoke_6222558.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_26cc1e35_pexels_cigarette_smoke_7279736.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_26cc1e35_pexels_cigarette_smoke_7279736.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_26cc1e35_pexels_cigarette_smoke_7279736.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_28f4ec5d_pexels_cigarette_smoke_8139860.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_28f4ec5d_pexels_cigarette_smoke_8139860.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_28f4ec5d_pexels_cigarette_smoke_8139860.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_29469e37_pexels_cigarette_smoke_7271352.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_29469e37_pexels_cigarette_smoke_7271352.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_29469e37_pexels_cigarette_smoke_7271352.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_2a1a316a_pexels_cigarette_smoke_7231661.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_2a1a316a_pexels_cigarette_smoke_7231661.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_2a1a316a_pexels_cigarette_smoke_7231661.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_309d3c67_pexels_cigarette_smoke_7231750.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_309d3c67_pexels_cigarette_smoke_7231750.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_309d3c67_pexels_cigarette_smoke_7231750.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_312fe283_pexels_cigarette_smoke_6143909.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_312fe283_pexels_cigarette_smoke_6143909.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_312fe283_pexels_cigarette_smoke_6143909.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_317a2c49_pexels_cigarette_smoke_30784858.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_317a2c49_pexels_cigarette_smoke_30784858.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_317a2c49_pexels_cigarette_smoke_30784858.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_352c793d_pexels_cooking_smoke_13507446.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_352c793d_pexels_cooking_smoke_13507446.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_352c793d_pexels_cooking_smoke_13507446.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_36f3eac1_pexels_cigarette_smoke_5075501.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_36f3eac1_pexels_cigarette_smoke_5075501.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_36f3eac1_pexels_cigarette_smoke_5075501.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_396ebe8b_pexels_cigarette_smoke_8425947.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_396ebe8b_pexels_cigarette_smoke_8425947.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_396ebe8b_pexels_cigarette_smoke_8425947.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_39734ccd_pexels_cooking_smoke_11131967.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_39734ccd_pexels_cooking_smoke_11131967.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_39734ccd_pexels_cooking_smoke_11131967.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_3a6dd576_pexels_cooking_smoke_7702651.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_3a6dd576_pexels_cooking_smoke_7702651.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_3a6dd576_pexels_cooking_smoke_7702651.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_3aa2be24_pexels_cigarette_smoke_5320212.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_3aa2be24_pexels_cigarette_smoke_5320212.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_3aa2be24_pexels_cigarette_smoke_5320212.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_3baf355e_pexels_cooking_smoke_7341260.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_3baf355e_pexels_cooking_smoke_7341260.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_3baf355e_pexels_cooking_smoke_7341260.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_3c5b06dc_pexels_cigarette_smoke_7319399.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_3c5b06dc_pexels_cigarette_smoke_7319399.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_3c5b06dc_pexels_cigarette_smoke_7319399.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_3e8740f4_pexels_cooking_smoke_6161929.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_3e8740f4_pexels_cooking_smoke_6161929.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_3e8740f4_pexels_cooking_smoke_6161929.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_41f3f355_pexels_cigarette_smoke_7280179.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_41f3f355_pexels_cigarette_smoke_7280179.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_41f3f355_pexels_cigarette_smoke_7280179.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_425ceb02_pexels_cigarette_smoke_7230859.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_425ceb02_pexels_cigarette_smoke_7230859.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_425ceb02_pexels_cigarette_smoke_7230859.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_478ae18d_pexels_cigarette_smoke_6037938.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_478ae18d_pexels_cigarette_smoke_6037938.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_478ae18d_pexels_cigarette_smoke_6037938.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_47edc2fb_pexels_cigarette_smoke_9644281.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_47edc2fb_pexels_cigarette_smoke_9644281.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_47edc2fb_pexels_cigarette_smoke_9644281.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_491409b8_yt_cooking_smoke_MgXXclCbqqs.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_491409b8_yt_cooking_smoke_MgXXclCbqqs.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_491409b8_yt_cooking_smoke_MgXXclCbqqs.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_49b38159_pexels_cooking_smoke_8094291.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_49b38159_pexels_cooking_smoke_8094291.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_49b38159_pexels_cooking_smoke_8094291.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_4a594ede_pexels_cigarette_smoke_5075501.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_4a594ede_pexels_cigarette_smoke_5075501.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_4a594ede_pexels_cigarette_smoke_5075501.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_4da1b425_pexels_cigarette_smoke_8425946.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_4da1b425_pexels_cigarette_smoke_8425946.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_4da1b425_pexels_cigarette_smoke_8425946.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_4e4cf13d_pexels_cigarette_smoke_7926365.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_4e4cf13d_pexels_cigarette_smoke_7926365.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_4e4cf13d_pexels_cigarette_smoke_7926365.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_54431343_pexels_cigarette_smoke_8090379.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_54431343_pexels_cigarette_smoke_8090379.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_54431343_pexels_cigarette_smoke_8090379.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_56189f42_pexels_cigarette_smoke_8139474.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_56189f42_pexels_cigarette_smoke_8139474.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_56189f42_pexels_cigarette_smoke_8139474.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_5c34e610_pexels_cigarette_smoke_10254013.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_5c34e610_pexels_cigarette_smoke_10254013.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_5c34e610_pexels_cigarette_smoke_10254013.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_5c5efe73_pexels_cooking_smoke_18105249.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_5c5efe73_pexels_cooking_smoke_18105249.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_5c5efe73_pexels_cooking_smoke_18105249.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_5cd640fb_pexels_cigarette_smoke_30784702.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_5cd640fb_pexels_cigarette_smoke_30784702.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_5cd640fb_pexels_cigarette_smoke_30784702.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_605db0b3_pexels_cooking_smoke_4970522.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_605db0b3_pexels_cooking_smoke_4970522.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_605db0b3_pexels_cooking_smoke_4970522.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_6137d8d7_pexels_cigarette_smoke_8139847.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6137d8d7_pexels_cigarette_smoke_8139847.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6137d8d7_pexels_cigarette_smoke_8139847.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_63323b2f_pexels_cigarette_smoke_8425948.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_63323b2f_pexels_cigarette_smoke_8425948.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_63323b2f_pexels_cigarette_smoke_8425948.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_6367f1d1_pexels_cooking_smoke_8094273.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6367f1d1_pexels_cooking_smoke_8094273.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6367f1d1_pexels_cooking_smoke_8094273.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_639f2b5f_pexels_cigarette_smoke_30784858.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_639f2b5f_pexels_cigarette_smoke_30784858.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_639f2b5f_pexels_cigarette_smoke_30784858.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_63ae116f_pexels_cigarette_smoke_7230301.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_63ae116f_pexels_cigarette_smoke_7230301.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_63ae116f_pexels_cigarette_smoke_7230301.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_64eb6e05_pexels_cigarette_smoke_6973186.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_64eb6e05_pexels_cigarette_smoke_6973186.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_64eb6e05_pexels_cigarette_smoke_6973186.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_659aa9ff_pexels_cigarette_smoke_8139860.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_659aa9ff_pexels_cigarette_smoke_8139860.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_659aa9ff_pexels_cigarette_smoke_8139860.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_6846ea28_pexels_cooking_smoke_4253146.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6846ea28_pexels_cooking_smoke_4253146.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6846ea28_pexels_cooking_smoke_4253146.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_6c80cf6d_pexels_cigarette_smoke_7609091.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6c80cf6d_pexels_cigarette_smoke_7609091.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6c80cf6d_pexels_cigarette_smoke_7609091.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_6db8e7b5_pexels_cigarette_smoke_7926604.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6db8e7b5_pexels_cigarette_smoke_7926604.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6db8e7b5_pexels_cigarette_smoke_7926604.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_6e3dc5df_pexels_cooking_smoke_8094278.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6e3dc5df_pexels_cooking_smoke_8094278.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6e3dc5df_pexels_cooking_smoke_8094278.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_6ee28e79_pexels_cigarette_smoke_5075505.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_6ee28e79_pexels_cigarette_smoke_5075505.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_6ee28e79_pexels_cigarette_smoke_5075505.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_70487aa5_pexels_cigarette_smoke_8425950.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_70487aa5_pexels_cigarette_smoke_8425950.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_70487aa5_pexels_cigarette_smoke_8425950.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_722d7455_pexels_cigarette_smoke_10273279.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_722d7455_pexels_cigarette_smoke_10273279.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_722d7455_pexels_cigarette_smoke_10273279.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_72edec36_pexels_cooking_smoke_10248816.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_72edec36_pexels_cooking_smoke_10248816.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_72edec36_pexels_cooking_smoke_10248816.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_74565841_pexels_cigarette_smoke_7279748.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_74565841_pexels_cigarette_smoke_7279748.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_74565841_pexels_cigarette_smoke_7279748.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_774c248f_pexels_cigarette_smoke_7230873.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_774c248f_pexels_cigarette_smoke_7230873.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_774c248f_pexels_cigarette_smoke_7230873.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_784514d1_pexels_cigarette_smoke_7688800.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_784514d1_pexels_cigarette_smoke_7688800.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_784514d1_pexels_cigarette_smoke_7688800.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_79f1e1f3_pexels_cooking_smoke_8094280.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_79f1e1f3_pexels_cooking_smoke_8094280.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_79f1e1f3_pexels_cooking_smoke_8094280.mp4",
+      "subtype": "cooking_smoke"
+    },
+    {
+      "file": "cleaned_7e2716e4_pexels_cigarette_smoke_6909683.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_7e2716e4_pexels_cigarette_smoke_6909683.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_7e2716e4_pexels_cigarette_smoke_6909683.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_82268606_pexels_cigarette_smoke_7231750.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_82268606_pexels_cigarette_smoke_7231750.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_82268606_pexels_cigarette_smoke_7231750.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_835087c9_pexels_cigarette_smoke_6037419.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_835087c9_pexels_cigarette_smoke_6037419.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_835087c9_pexels_cigarette_smoke_6037419.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_85d546fa_pexels_cigarette_smoke_6951596.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_85d546fa_pexels_cigarette_smoke_6951596.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_85d546fa_pexels_cigarette_smoke_6951596.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_86b99b94_pexels_cigarette_smoke_14500437.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_86b99b94_pexels_cigarette_smoke_14500437.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_86b99b94_pexels_cigarette_smoke_14500437.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_8c9afd0a_pexels_cigarette_smoke_7610856.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_8c9afd0a_pexels_cigarette_smoke_7610856.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_8c9afd0a_pexels_cigarette_smoke_7610856.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_8e1e83d0_pexels_cigarette_smoke_7926439.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_8e1e83d0_pexels_cigarette_smoke_7926439.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_8e1e83d0_pexels_cigarette_smoke_7926439.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_94a4bc5b_pexels_cigarette_smoke_8425959.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_94a4bc5b_pexels_cigarette_smoke_8425959.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_94a4bc5b_pexels_cigarette_smoke_8425959.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_9613e2ca_pexels_cigarette_smoke_14500435.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_9613e2ca_pexels_cigarette_smoke_14500435.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_9613e2ca_pexels_cigarette_smoke_14500435.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_96319f19_pexels_cigarette_smoke_5075505.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_96319f19_pexels_cigarette_smoke_5075505.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_96319f19_pexels_cigarette_smoke_5075505.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_9a1867f9_pexels_cigarette_smoke_7926364.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_9a1867f9_pexels_cigarette_smoke_7926364.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_9a1867f9_pexels_cigarette_smoke_7926364.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_9a4f1c00_pexels_cigarette_smoke_5097421.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_9a4f1c00_pexels_cigarette_smoke_5097421.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_9a4f1c00_pexels_cigarette_smoke_5097421.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_9b677126_pexels_cigarette_smoke_9531458.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_9b677126_pexels_cigarette_smoke_9531458.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_9b677126_pexels_cigarette_smoke_9531458.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_a0f3e531_pexels_cigarette_smoke_31037594.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_a0f3e531_pexels_cigarette_smoke_31037594.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_a0f3e531_pexels_cigarette_smoke_31037594.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_a199d367_pexels_cigarette_smoke_14500435.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_a199d367_pexels_cigarette_smoke_14500435.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_a199d367_pexels_cigarette_smoke_14500435.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_a289c57f_pexels_cigarette_smoke_7231660.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_a289c57f_pexels_cigarette_smoke_7231660.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_a289c57f_pexels_cigarette_smoke_7231660.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_a9693a42_pexels_cigarette_smoke_34725302.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_a9693a42_pexels_cigarette_smoke_34725302.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_a9693a42_pexels_cigarette_smoke_34725302.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_aba7e45c_pexels_cigarette_smoke_14500437.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_aba7e45c_pexels_cigarette_smoke_14500437.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_aba7e45c_pexels_cigarette_smoke_14500437.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_acc305b8_pexels_cigarette_smoke_7277932.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_acc305b8_pexels_cigarette_smoke_7277932.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_acc305b8_pexels_cigarette_smoke_7277932.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_ad3116e7_pexels_cigarette_smoke_8425862.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_ad3116e7_pexels_cigarette_smoke_8425862.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_ad3116e7_pexels_cigarette_smoke_8425862.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_b3ce3d34_pexels_cigarette_smoke_7610858.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_b3ce3d34_pexels_cigarette_smoke_7610858.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_b3ce3d34_pexels_cigarette_smoke_7610858.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_b53c197b_pexels_cigarette_smoke_8087766.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_b53c197b_pexels_cigarette_smoke_8087766.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_b53c197b_pexels_cigarette_smoke_8087766.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_b8eed8e2_pexels_cigarette_smoke_6037419.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_b8eed8e2_pexels_cigarette_smoke_6037419.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_b8eed8e2_pexels_cigarette_smoke_6037419.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_bf60b2de_pexels_cigarette_smoke_7610861.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_bf60b2de_pexels_cigarette_smoke_7610861.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_bf60b2de_pexels_cigarette_smoke_7610861.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_cb56bb8b_pexels_cigarette_smoke_7271359.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_cb56bb8b_pexels_cigarette_smoke_7271359.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_cb56bb8b_pexels_cigarette_smoke_7271359.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_d1c96e2e_pexels_cigarette_smoke_7230307.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_d1c96e2e_pexels_cigarette_smoke_7230307.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_d1c96e2e_pexels_cigarette_smoke_7230307.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_eaf43091_pexels_cigarette_smoke_7610862.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_eaf43091_pexels_cigarette_smoke_7610862.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_eaf43091_pexels_cigarette_smoke_7610862.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_ec3c3d2e_pexels_cigarette_smoke_7610857.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_ec3c3d2e_pexels_cigarette_smoke_7610857.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_ec3c3d2e_pexels_cigarette_smoke_7610857.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_fcf201d6_pexels_cigarette_smoke_7926439.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_fcf201d6_pexels_cigarette_smoke_7926439.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_fcf201d6_pexels_cigarette_smoke_7926439.mp4",
+      "subtype": "cigarette_smoke"
+    },
+    {
+      "file": "cleaned_fd223c6c_pexels_cigarette_smoke_34725296.mp4",
+      "from": "d:\\zip_dataset\\Video\\Video\\1_controlled_fire\\cleaned_fd223c6c_pexels_cigarette_smoke_34725296.mp4",
+      "to": "d:\\zip_dataset\\Video\\Video\\0_normal_noise\\cleaned_fd223c6c_pexels_cigarette_smoke_34725296.mp4",
+      "subtype": "cigarette_smoke"
+    }
+  ],
+  "before": {
+    "label_0": 276,
+    "label_1": 402,
+    "label_2": 323
+  },
+  "after": {
+    "label_0": 386,
+    "label_1": 292,
+    "label_2": 323
+  },
+  "moved_count": 110,
+  "error_count": 0,
+  "errors": []
+}

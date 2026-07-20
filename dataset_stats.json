@@ -1,0 +1,1426 @@
+{
+  "train": {
+    "0_normal_noise": {
+      "count": 386,
+      "duration_s": {
+        "count": 386,
+        "min": 5.05,
+        "max": 221.23,
+        "mean": 18.35,
+        "median": 15.08,
+        "stdev": 19.48
+      },
+      "size_mb": {
+        "count": 386,
+        "min": 0.07,
+        "max": 39.14,
+        "mean": 5.83,
+        "median": 4.86,
+        "stdev": 4.98
+      },
+      "fps": {
+        "count": 386,
+        "min": 8.8,
+        "max": 60.0,
+        "mean": 29.42,
+        "median": 25.0,
+        "stdev": 9.1
+      },
+      "resolutions": [
+        "1280x720",
+        "1366x720",
+        "1920x1080",
+        "2048x1080",
+        "240x426",
+        "506x960",
+        "540x960",
+        "600x480",
+        "640x480"
+      ],
+      "res_dominant": {
+        "1920x1080": 233,
+        "540x960": 50,
+        "2048x1080": 38,
+        "1280x720": 34,
+        "506x960": 10
+      },
+      "total_duration_min": 118.1,
+      "total_size_gb": 2.199
+    },
+    "1_controlled_fire": {
+      "count": 292,
+      "duration_s": {
+        "count": 292,
+        "min": 3.6,
+        "max": 182.53,
+        "mean": 15.38,
+        "median": 13.81,
+        "stdev": 13.91
+      },
+      "size_mb": {
+        "count": 292,
+        "min": 0.29,
+        "max": 399.92,
+        "mean": 19.15,
+        "median": 9.16,
+        "stdev": 32.89
+      },
+      "fps": {
+        "count": 292,
+        "min": 23.98,
+        "max": 120.0,
+        "mean": 32.97,
+        "median": 29.97,
+        "stdev": 12.73
+      },
+      "resolutions": [
+        "1080x1080",
+        "1080x1920",
+        "1280x720",
+        "1440x2560",
+        "1440x3200",
+        "1920x1080",
+        "2160x3840",
+        "2320x1080",
+        "2400x1080",
+        "240x426",
+        "3114x1440",
+        "3816x1600",
+        "3840x2160",
+        "426x240",
+        "456x240",
+        "480x854",
+        "506x960",
+        "540x960",
+        "640x360",
+        "640x480"
+      ],
+      "res_dominant": {
+        "1920x1080": 127,
+        "1080x1920": 37,
+        "2160x3840": 34,
+        "540x960": 25,
+        "3840x2160": 17
+      },
+      "total_duration_min": 74.9,
+      "total_size_gb": 5.46
+    },
+    "2_uncontrolled_hazard": {
+      "count": 323,
+      "duration_s": {
+        "count": 323,
+        "min": 5.33,
+        "max": 277.97,
+        "mean": 16.42,
+        "median": 16.85,
+        "stdev": 15.32
+      },
+      "size_mb": {
+        "count": 323,
+        "min": 0.39,
+        "max": 675.9,
+        "mean": 6.12,
+        "median": 2.75,
+        "stdev": 37.58
+      },
+      "fps": {
+        "count": 323,
+        "min": 15.0,
+        "max": 59.94,
+        "mean": 30.47,
+        "median": 29.97,
+        "stdev": 8.53
+      },
+      "resolutions": [
+        "1280x720",
+        "1440x2560",
+        "1920x1080",
+        "2048x1080",
+        "426x240",
+        "540x960",
+        "640x360",
+        "640x480",
+        "854x480",
+        "960x720"
+      ],
+      "res_dominant": {
+        "1920x1080": 192,
+        "1280x720": 66,
+        "640x480": 46,
+        "540x960": 7,
+        "854x480": 7
+      },
+      "total_duration_min": 88.4,
+      "total_size_gb": 1.93
+    },
+    "_total": {
+      "count": 1001,
+      "duration_s": {
+        "count": 1001,
+        "min": 3.6,
+        "max": 277.97,
+        "mean": 16.86,
+        "median": 15.16,
+        "stdev": 16.72
+      },
+      "size_mb": {
+        "count": 1001,
+        "min": 0.07,
+        "max": 675.9,
+        "mean": 9.81,
+        "median": 4.74,
+        "stdev": 28.55
+      },
+      "fps": {
+        "count": 1001,
+        "min": 8.8,
+        "max": 120.0,
+        "mean": 30.79,
+        "median": 29.97,
+        "stdev": 10.22
+      },
+      "resolutions": [
+        "1080x1080",
+        "1080x1920",
+        "1280x720",
+        "1366x720",
+        "1440x2560",
+        "1440x3200",
+        "1920x1080",
+        "2048x1080",
+        "2160x3840",
+        "2320x1080",
+        "2400x1080",
+        "240x426",
+        "3114x1440",
+        "3816x1600",
+        "3840x2160",
+        "426x240",
+        "456x240",
+        "480x854",
+        "506x960",
+        "540x960",
+        "600x480",
+        "640x360",
+        "640x480",
+        "854x480",
+        "960x720"
+      ],
+      "res_dominant": {
+        "1920x1080": 552,
+        "1280x720": 114,
+        "540x960": 82,
+        "640x480": 63,
+        "2048x1080": 39
+      },
+      "total_duration_min": 281.3,
+      "total_size_gb": 9.589
+    }
+  },
+  "test": {
+    "0_normal_noise": {
+      "subtypes": {
+        "cigarette_vape_smoke": {
+          "count": 38,
+          "duration_s": {
+            "count": 38,
+            "min": 19.58,
+            "max": 83.48,
+            "mean": 34.87,
+            "median": 29.54,
+            "stdev": 15.19
+          },
+          "size_mb": {
+            "count": 38,
+            "min": 1.39,
+            "max": 47.9,
+            "mean": 12.69,
+            "median": 10.63,
+            "stdev": 9.68
+          },
+          "fps": {
+            "count": 38,
+            "min": 24.0,
+            "max": 30.0,
+            "mean": 25.05,
+            "median": 25.0,
+            "stdev": 0.87
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "2048x1080": 15,
+            "1920x1080": 14,
+            "540x960": 4,
+            "1280x720": 2,
+            "1366x720": 2
+          },
+          "total_duration_min": 22.1,
+          "total_size_gb": 0.471
+        },
+        "cooking_smoke_normal": {
+          "count": 40,
+          "duration_s": {
+            "count": 40,
+            "min": 19.72,
+            "max": 86.4,
+            "mean": 31.94,
+            "median": 28.98,
+            "stdev": 12.8
+          },
+          "size_mb": {
+            "count": 40,
+            "min": 1.12,
+            "max": 101.98,
+            "mean": 14.03,
+            "median": 9.67,
+            "stdev": 16.06
+          },
+          "fps": {
+            "count": 40,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 26.42,
+            "median": 25.0,
+            "stdev": 5.71
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 20,
+            "540x960": 6,
+            "506x960": 5,
+            "2048x1080": 5,
+            "1280x720": 2
+          },
+          "total_duration_min": 21.3,
+          "total_size_gb": 0.548
+        },
+        "daily_activity_fp": {
+          "count": 38,
+          "duration_s": {
+            "count": 38,
+            "min": 21.17,
+            "max": 86.36,
+            "mean": 34.56,
+            "median": 27.88,
+            "stdev": 14.73
+          },
+          "size_mb": {
+            "count": 38,
+            "min": 1.52,
+            "max": 40.24,
+            "mean": 9.76,
+            "median": 7.36,
+            "stdev": 8.23
+          },
+          "fps": {
+            "count": 38,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 26.94,
+            "median": 25.0,
+            "stdev": 5.88
+          },
+          "resolutions": [
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "2048x1080": 11,
+            "506x960": 10,
+            "1920x1080": 8,
+            "540x960": 7,
+            "1366x720": 2
+          },
+          "total_duration_min": 21.9,
+          "total_size_gb": 0.362
+        },
+        "decorative_fire_fp": {
+          "count": 39,
+          "duration_s": {
+            "count": 39,
+            "min": 20.0,
+            "max": 91.62,
+            "mean": 36.98,
+            "median": 30.08,
+            "stdev": 18.28
+          },
+          "size_mb": {
+            "count": 39,
+            "min": 1.58,
+            "max": 94.03,
+            "mean": 19.94,
+            "median": 17.65,
+            "stdev": 18.61
+          },
+          "fps": {
+            "count": 39,
+            "min": 23.98,
+            "max": 30.0,
+            "mean": 27.45,
+            "median": 29.97,
+            "stdev": 2.79
+          },
+          "resolutions": [
+            "1280x720",
+            "1282x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "432x960",
+            "540x936",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 21,
+            "540x960": 9,
+            "1280x720": 3,
+            "2048x1080": 2,
+            "432x960": 1
+          },
+          "total_duration_min": 24.0,
+          "total_size_gb": 0.76
+        },
+        "dust_particles": {
+          "count": 40,
+          "duration_s": {
+            "count": 40,
+            "min": 19.52,
+            "max": 71.36,
+            "mean": 31.05,
+            "median": 26.48,
+            "stdev": 12.84
+          },
+          "size_mb": {
+            "count": 40,
+            "min": 0.6,
+            "max": 77.41,
+            "mean": 11.59,
+            "median": 9.26,
+            "stdev": 14.06
+          },
+          "fps": {
+            "count": 40,
+            "min": 23.98,
+            "max": 50.0,
+            "mean": 29.92,
+            "median": 25.0,
+            "stdev": 9.52
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "240x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 17,
+            "540x960": 9,
+            "2048x1080": 8,
+            "1280x720": 3,
+            "506x960": 2
+          },
+          "total_duration_min": 20.7,
+          "total_size_gb": 0.453
+        },
+        "optical_noise": {
+          "count": 62,
+          "duration_s": {
+            "count": 62,
+            "min": 19.75,
+            "max": 106.81,
+            "mean": 33.55,
+            "median": 28.82,
+            "stdev": 16.38
+          },
+          "size_mb": {
+            "count": 62,
+            "min": 1.48,
+            "max": 209.99,
+            "mean": 16.41,
+            "median": 11.04,
+            "stdev": 27.37
+          },
+          "fps": {
+            "count": 62,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 29.93,
+            "median": 25.0,
+            "stdev": 9.69
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 29,
+            "2048x1080": 12,
+            "540x960": 9,
+            "506x960": 9,
+            "1280x720": 2
+          },
+          "total_duration_min": 34.7,
+          "total_size_gb": 0.993
+        },
+        "steam_vapor": {
+          "count": 49,
+          "duration_s": {
+            "count": 49,
+            "min": 20.33,
+            "max": 88.29,
+            "mean": 34.61,
+            "median": 30.43,
+            "stdev": 15.36
+          },
+          "size_mb": {
+            "count": 49,
+            "min": 2.52,
+            "max": 77.8,
+            "mean": 20.23,
+            "median": 15.36,
+            "stdev": 15.25
+          },
+          "fps": {
+            "count": 49,
+            "min": 23.98,
+            "max": 50.0,
+            "mean": 27.89,
+            "median": 29.97,
+            "stdev": 4.2
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 37,
+            "540x960": 6,
+            "1280x720": 2,
+            "2048x1080": 2,
+            "506x960": 2
+          },
+          "total_duration_min": 28.3,
+          "total_size_gb": 0.968
+        },
+        "welding_sparks_noise": {
+          "count": 39,
+          "duration_s": {
+            "count": 39,
+            "min": 19.58,
+            "max": 76.2,
+            "mean": 30.44,
+            "median": 24.69,
+            "stdev": 13.26
+          },
+          "size_mb": {
+            "count": 39,
+            "min": 0.8,
+            "max": 59.07,
+            "mean": 16.04,
+            "median": 13.55,
+            "stdev": 13.91
+          },
+          "fps": {
+            "count": 39,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 30.29,
+            "median": 25.0,
+            "stdev": 10.39
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "240x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 18,
+            "540x960": 13,
+            "506x960": 3,
+            "2048x1080": 2,
+            "1366x720": 1
+          },
+          "total_duration_min": 19.8,
+          "total_size_gb": 0.611
+        }
+      },
+      "all": {
+        "count": 345,
+        "duration_s": {
+          "count": 345,
+          "min": 19.52,
+          "max": 106.81,
+          "mean": 33.52,
+          "median": 28.8,
+          "stdev": 15.04
+        },
+        "size_mb": {
+          "count": 345,
+          "min": 0.6,
+          "max": 209.99,
+          "mean": 15.33,
+          "median": 11.08,
+          "stdev": 17.49
+        },
+        "fps": {
+          "count": 345,
+          "min": 23.98,
+          "max": 60.0,
+          "mean": 28.13,
+          "median": 25.0,
+          "stdev": 7.26
+        },
+        "resolutions": [
+          "1280x720",
+          "1282x720",
+          "1366x720",
+          "1920x1080",
+          "2048x1080",
+          "226x426",
+          "240x426",
+          "432x960",
+          "506x960",
+          "540x936",
+          "540x960"
+        ],
+        "res_dominant": {
+          "1920x1080": 164,
+          "540x960": 63,
+          "2048x1080": 57,
+          "506x960": 32,
+          "1280x720": 15
+        },
+        "total_duration_min": 192.7,
+        "total_size_gb": 5.166
+      }
+    },
+    "1_controlled_fire": {
+      "subtypes": {
+        "cigarette_controlled": {
+          "count": 59,
+          "duration_s": {
+            "count": 59,
+            "min": 19.97,
+            "max": 60.07,
+            "mean": 32.82,
+            "median": 31.7,
+            "stdev": 9.66
+          },
+          "size_mb": {
+            "count": 59,
+            "min": 1.09,
+            "max": 29.09,
+            "mean": 11.91,
+            "median": 11.99,
+            "stdev": 7.44
+          },
+          "fps": {
+            "count": 59,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 26.64,
+            "median": 25.0,
+            "stdev": 6.5
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "240x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 26,
+            "2048x1080": 17,
+            "540x960": 7,
+            "506x960": 4,
+            "1280x720": 3
+          },
+          "total_duration_min": 32.3,
+          "total_size_gb": 0.686
+        },
+        "cooking_smoke_threshold": {
+          "count": 68,
+          "duration_s": {
+            "count": 68,
+            "min": 19.84,
+            "max": 189.29,
+            "mean": 35.43,
+            "median": 27.74,
+            "stdev": 23.43
+          },
+          "size_mb": {
+            "count": 68,
+            "min": 1.34,
+            "max": 97.88,
+            "mean": 15.65,
+            "median": 12.74,
+            "stdev": 15.26
+          },
+          "fps": {
+            "count": 68,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 25.95,
+            "median": 25.0,
+            "stdev": 4.57
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 26,
+            "506x960": 15,
+            "2048x1080": 13,
+            "540x960": 8,
+            "226x426": 2
+          },
+          "total_duration_min": 40.2,
+          "total_size_gb": 1.039
+        },
+        "daily_activity_fire_ctx": {
+          "count": 35,
+          "duration_s": {
+            "count": 35,
+            "min": 19.56,
+            "max": 79.52,
+            "mean": 32.86,
+            "median": 26.23,
+            "stdev": 14.72
+          },
+          "size_mb": {
+            "count": 35,
+            "min": 0.99,
+            "max": 44.96,
+            "mean": 13.08,
+            "median": 9.49,
+            "stdev": 11.15
+          },
+          "fps": {
+            "count": 35,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 27.71,
+            "median": 25.0,
+            "stdev": 8.35
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 15,
+            "540x960": 8,
+            "2048x1080": 5,
+            "506x960": 4,
+            "1280x720": 2
+          },
+          "total_duration_min": 19.2,
+          "total_size_gb": 0.447
+        },
+        "early_smoke_onset": {
+          "count": 66,
+          "duration_s": {
+            "count": 66,
+            "min": 19.61,
+            "max": 108.05,
+            "mean": 32.7,
+            "median": 29.2,
+            "stdev": 15.29
+          },
+          "size_mb": {
+            "count": 66,
+            "min": 0.52,
+            "max": 58.44,
+            "mean": 9.75,
+            "median": 9.21,
+            "stdev": 9.45
+          },
+          "fps": {
+            "count": 66,
+            "min": 23.98,
+            "max": 50.0,
+            "mean": 26.54,
+            "median": 25.0,
+            "stdev": 4.74
+          },
+          "resolutions": [
+            "1080x1080",
+            "1920x1080",
+            "2048x1080",
+            "2048x988",
+            "226x426",
+            "240x426",
+            "338x640",
+            "506x960",
+            "540x936",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 28,
+            "540x960": 12,
+            "2048x1080": 10,
+            "506x960": 7,
+            "540x936": 3
+          },
+          "total_duration_min": 36.0,
+          "total_size_gb": 0.629
+        },
+        "heavy_smoke_controlled": {
+          "count": 69,
+          "duration_s": {
+            "count": 69,
+            "min": 19.68,
+            "max": 136.04,
+            "mean": 41.27,
+            "median": 32.68,
+            "stdev": 26.07
+          },
+          "size_mb": {
+            "count": 69,
+            "min": 1.57,
+            "max": 84.98,
+            "mean": 17.83,
+            "median": 15.27,
+            "stdev": 14.4
+          },
+          "fps": {
+            "count": 69,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 27.98,
+            "median": 25.0,
+            "stdev": 9.19
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "2522x1080",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 43,
+            "2048x1080": 7,
+            "540x960": 7,
+            "1280x720": 7,
+            "506x960": 3
+          },
+          "total_duration_min": 47.5,
+          "total_size_gb": 1.202
+        },
+        "small_visible_flame": {
+          "count": 38,
+          "duration_s": {
+            "count": 38,
+            "min": 20.8,
+            "max": 67.24,
+            "mean": 32.61,
+            "median": 28.78,
+            "stdev": 11.74
+          },
+          "size_mb": {
+            "count": 38,
+            "min": 0.55,
+            "max": 60.56,
+            "mean": 14.46,
+            "median": 8.37,
+            "stdev": 15.04
+          },
+          "fps": {
+            "count": 38,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 29.38,
+            "median": 25.0,
+            "stdev": 9.39
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "226x426",
+            "240x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 16,
+            "506x960": 9,
+            "540x960": 5,
+            "2048x1080": 3,
+            "240x426": 2
+          },
+          "total_duration_min": 20.7,
+          "total_size_gb": 0.537
+        },
+        "welding_sparks_ctrl": {
+          "count": 45,
+          "duration_s": {
+            "count": 45,
+            "min": 20.24,
+            "max": 86.25,
+            "mean": 37.07,
+            "median": 30.66,
+            "stdev": 16.9
+          },
+          "size_mb": {
+            "count": 45,
+            "min": 1.85,
+            "max": 86.84,
+            "mean": 21.01,
+            "median": 14.31,
+            "stdev": 18.7
+          },
+          "fps": {
+            "count": 45,
+            "min": 23.98,
+            "max": 59.94,
+            "mean": 29.46,
+            "median": 25.0,
+            "stdev": 10.5
+          },
+          "resolutions": [
+            "1920x1080",
+            "2048x1080",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 29,
+            "540x960": 12,
+            "506x960": 3,
+            "2048x1080": 1
+          },
+          "total_duration_min": 27.8,
+          "total_size_gb": 0.923
+        }
+      },
+      "all": {
+        "count": 380,
+        "duration_s": {
+          "count": 380,
+          "min": 19.56,
+          "max": 189.29,
+          "mean": 35.29,
+          "median": 29.58,
+          "stdev": 18.7
+        },
+        "size_mb": {
+          "count": 380,
+          "min": 0.52,
+          "max": 97.88,
+          "mean": 14.72,
+          "median": 11.2,
+          "stdev": 13.73
+        },
+        "fps": {
+          "count": 380,
+          "min": 23.98,
+          "max": 60.0,
+          "mean": 27.45,
+          "median": 25.0,
+          "stdev": 7.64
+        },
+        "resolutions": [
+          "1080x1080",
+          "1280x720",
+          "1366x720",
+          "1920x1080",
+          "2048x1080",
+          "2048x988",
+          "226x426",
+          "240x426",
+          "2522x1080",
+          "338x640",
+          "506x960",
+          "540x936",
+          "540x960"
+        ],
+        "res_dominant": {
+          "1920x1080": 183,
+          "540x960": 59,
+          "2048x1080": 56,
+          "506x960": 45,
+          "1280x720": 15
+        },
+        "total_duration_min": 223.5,
+        "total_size_gb": 5.463
+      }
+    },
+    "2_uncontrolled_hazard": {
+      "subtypes": {
+        "daily_ctx_real_fire": {
+          "count": 70,
+          "duration_s": {
+            "count": 70,
+            "min": 19.92,
+            "max": 110.42,
+            "mean": 35.7,
+            "median": 28.67,
+            "stdev": 18.28
+          },
+          "size_mb": {
+            "count": 70,
+            "min": 1.51,
+            "max": 134.44,
+            "mean": 22.65,
+            "median": 15.65,
+            "stdev": 23.06
+          },
+          "fps": {
+            "count": 70,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 31.87,
+            "median": 27.48,
+            "stdev": 11.77
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "1922x1080",
+            "2048x1080",
+            "226x426",
+            "506x960",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 30,
+            "540x960": 23,
+            "506x960": 6,
+            "1280x720": 4,
+            "2048x1080": 3
+          },
+          "total_duration_min": 41.7,
+          "total_size_gb": 1.549
+        },
+        "diffused_smoke_spreading": {
+          "count": 39,
+          "duration_s": {
+            "count": 39,
+            "min": 19.56,
+            "max": 76.05,
+            "mean": 38.01,
+            "median": 33.87,
+            "stdev": 15.94
+          },
+          "size_mb": {
+            "count": 39,
+            "min": 0.85,
+            "max": 153.26,
+            "mean": 20.56,
+            "median": 11.23,
+            "stdev": 26.58
+          },
+          "fps": {
+            "count": 39,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 28.13,
+            "median": 25.0,
+            "stdev": 7.89
+          },
+          "resolutions": [
+            "1920x1080",
+            "2048x1080",
+            "240x426",
+            "506x960",
+            "540x960",
+            "720x900"
+          ],
+          "res_dominant": {
+            "1920x1080": 24,
+            "540x960": 8,
+            "2048x1080": 4,
+            "720x900": 1,
+            "506x960": 1
+          },
+          "total_duration_min": 24.7,
+          "total_size_gb": 0.783
+        },
+        "early_smoke_real_fire": {
+          "count": 49,
+          "duration_s": {
+            "count": 49,
+            "min": 19.56,
+            "max": 224.38,
+            "mean": 44.57,
+            "median": 34.33,
+            "stdev": 31.92
+          },
+          "size_mb": {
+            "count": 49,
+            "min": 2.72,
+            "max": 154.1,
+            "mean": 22.27,
+            "median": 17.44,
+            "stdev": 24.92
+          },
+          "fps": {
+            "count": 49,
+            "min": 23.98,
+            "max": 119.88,
+            "mean": 30.52,
+            "median": 25.0,
+            "stdev": 15.53
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "2048x988",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 34,
+            "1280x720": 6,
+            "2048x1080": 4,
+            "540x960": 4,
+            "2048x988": 1
+          },
+          "total_duration_min": 36.4,
+          "total_size_gb": 1.066
+        },
+        "heavy_smoke_hazard": {
+          "count": 55,
+          "duration_s": {
+            "count": 55,
+            "min": 20.04,
+            "max": 240.75,
+            "mean": 51.99,
+            "median": 38.3,
+            "stdev": 38.57
+          },
+          "size_mb": {
+            "count": 55,
+            "min": 3.97,
+            "max": 169.84,
+            "mean": 38.33,
+            "median": 22.93,
+            "stdev": 38.41
+          },
+          "fps": {
+            "count": 55,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 30.53,
+            "median": 29.97,
+            "stdev": 9.73
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "1920x960",
+            "2048x1080",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 41,
+            "1280x720": 7,
+            "540x960": 3,
+            "2048x1080": 3,
+            "1920x960": 1
+          },
+          "total_duration_min": 47.7,
+          "total_size_gb": 2.059
+        },
+        "large_visible_flame": {
+          "count": 47,
+          "duration_s": {
+            "count": 47,
+            "min": 19.52,
+            "max": 207.53,
+            "mean": 42.21,
+            "median": 30.8,
+            "stdev": 30.33
+          },
+          "size_mb": {
+            "count": 47,
+            "min": 3.7,
+            "max": 68.7,
+            "mean": 22.3,
+            "median": 18.36,
+            "stdev": 14.47
+          },
+          "fps": {
+            "count": 47,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 29.05,
+            "median": 29.97,
+            "stdev": 7.85
+          },
+          "resolutions": [
+            "1280x720",
+            "1366x720",
+            "1920x1080",
+            "2048x1080",
+            "240x426",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 29,
+            "540x960": 7,
+            "2048x1080": 5,
+            "1280x720": 4,
+            "1366x720": 1
+          },
+          "total_duration_min": 33.1,
+          "total_size_gb": 1.024
+        },
+        "residential_indoor_fire": {
+          "count": 42,
+          "duration_s": {
+            "count": 42,
+            "min": 19.8,
+            "max": 193.54,
+            "mean": 38.87,
+            "median": 29.22,
+            "stdev": 31.39
+          },
+          "size_mb": {
+            "count": 42,
+            "min": 1.32,
+            "max": 127.48,
+            "mean": 22.81,
+            "median": 14.61,
+            "stdev": 26.83
+          },
+          "fps": {
+            "count": 42,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 28.7,
+            "median": 25.0,
+            "stdev": 9.18
+          },
+          "resolutions": [
+            "1280x720",
+            "1464x1080",
+            "1906x1080",
+            "1920x1080",
+            "2046x1080",
+            "2048x1080",
+            "2048x988",
+            "240x426",
+            "506x960",
+            "540x936",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 18,
+            "540x960": 13,
+            "2048x1080": 2,
+            "2048x988": 2,
+            "1280x720": 1
+          },
+          "total_duration_min": 27.2,
+          "total_size_gb": 0.936
+        },
+        "toxic_material_smoke": {
+          "count": 39,
+          "duration_s": {
+            "count": 39,
+            "min": 19.99,
+            "max": 81.68,
+            "mean": 39.3,
+            "median": 31.46,
+            "stdev": 15.53
+          },
+          "size_mb": {
+            "count": 39,
+            "min": 1.87,
+            "max": 190.6,
+            "mean": 31.89,
+            "median": 21.61,
+            "stdev": 36.32
+          },
+          "fps": {
+            "count": 39,
+            "min": 23.98,
+            "max": 60.0,
+            "mean": 35.87,
+            "median": 29.97,
+            "stdev": 14.99
+          },
+          "resolutions": [
+            "1280x720",
+            "1920x1080",
+            "2048x1080",
+            "2048x988",
+            "540x960"
+          ],
+          "res_dominant": {
+            "1920x1080": 23,
+            "2048x1080": 8,
+            "1280x720": 5,
+            "540x960": 2,
+            "2048x988": 1
+          },
+          "total_duration_min": 25.5,
+          "total_size_gb": 1.214
+        }
+      },
+      "all": {
+        "count": 341,
+        "duration_s": {
+          "count": 341,
+          "min": 19.52,
+          "max": 240.75,
+          "mean": 41.57,
+          "median": 32.08,
+          "stdev": 27.85
+        },
+        "size_mb": {
+          "count": 341,
+          "min": 0.85,
+          "max": 190.6,
+          "mean": 25.91,
+          "median": 17.36,
+          "stdev": 28.48
+        },
+        "fps": {
+          "count": 341,
+          "min": 23.98,
+          "max": 119.88,
+          "mean": 30.71,
+          "median": 25.0,
+          "stdev": 11.52
+        },
+        "resolutions": [
+          "1280x720",
+          "1366x720",
+          "1464x1080",
+          "1906x1080",
+          "1920x1080",
+          "1920x960",
+          "1922x1080",
+          "2046x1080",
+          "2048x1080",
+          "2048x988",
+          "226x426",
+          "240x426",
+          "506x960",
+          "540x936",
+          "540x960",
+          "720x900"
+        ],
+        "res_dominant": {
+          "1920x1080": 199,
+          "540x960": 60,
+          "2048x1080": 29,
+          "1280x720": 27,
+          "506x960": 8
+        },
+        "total_duration_min": 236.2,
+        "total_size_gb": 8.63
+      }
+    },
+    "_total": {
+      "count": 1066,
+      "duration_s": {
+        "count": 1066,
+        "min": 19.52,
+        "max": 240.75,
+        "mean": 36.72,
+        "median": 30.03,
+        "stdev": 21.37
+      },
+      "size_mb": {
+        "count": 1066,
+        "min": 0.52,
+        "max": 209.99,
+        "mean": 18.5,
+        "median": 12.71,
+        "stdev": 21.23
+      },
+      "fps": {
+        "count": 1066,
+        "min": 23.98,
+        "max": 119.88,
+        "mean": 28.71,
+        "median": 25.0,
+        "stdev": 9.06
+      },
+      "resolutions": [
+        "1080x1080",
+        "1280x720",
+        "1282x720",
+        "1366x720",
+        "1464x1080",
+        "1906x1080",
+        "1920x1080",
+        "1920x960",
+        "1922x1080",
+        "2046x1080",
+        "2048x1080",
+        "2048x988",
+        "226x426",
+        "240x426",
+        "2522x1080",
+        "338x640",
+        "432x960",
+        "506x960",
+        "540x936",
+        "540x960",
+        "720x900"
+      ],
+      "res_dominant": {
+        "1920x1080": 546,
+        "540x960": 182,
+        "2048x1080": 142,
+        "506x960": 85,
+        "1280x720": 57
+      },
+      "total_duration_min": 652.4,
+      "total_size_gb": 19.258
+    }
+  }
+}

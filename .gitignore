@@ -7,6 +7,8 @@ unzipped_data/
 fire_smoke_dataset/
 data/
 dataset_merged/
+Video/
+
 
 # ==========================================
 # 2. TRỌNG SỐ MÔ HÌNH (Tuyệt đối không đẩy lên vì rất nặng)
