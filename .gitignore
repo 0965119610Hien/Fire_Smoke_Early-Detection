@@ -8,6 +8,8 @@ fire_smoke_dataset/
 data/
 dataset_merged/
 Video/
+Data/
+image_dataset/
 
 
 # ==========================================
