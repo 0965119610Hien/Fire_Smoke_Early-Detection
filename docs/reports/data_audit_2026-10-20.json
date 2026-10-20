@@ -1,0 +1,1707 @@
+{
+  "generated_at": "2026-10-20T22:03:42",
+  "paths": {
+    "splits_dir": "data\\data_splits",
+    "static_root": "E:\\NCKH\\Code\\Fire_Smoke_Early-Detection\\data\\Fire_Smoke.v4i.png-mask-semantic\\train",
+    "video_root": "E:\\NCKH\\Code\\Fire_Smoke_Early-Detection\\data\\dataset_video_unified"
+  },
+  "video_leakage": {
+    "num_videos": {
+      "train": 75,
+      "val": 19,
+      "test": 17
+    },
+    "overlaps": {},
+    "source_video_overlaps": {},
+    "ok": true
+  },
+  "static_leakage": {
+    "num_images": 1238,
+    "unreadable": [],
+    "max_hamming": 4,
+    "cross_split_near_duplicates": 0,
+    "near_duplicates_by_split_pair": {},
+    "pairs": [],
+    "shared_roboflow_sources": 0,
+    "shared_roboflow_source_examples": {},
+    "category_counts": {
+      "train": {
+        "fire_only": 374,
+        "smoke_only": 222,
+        "empty": 126,
+        "both": 123
+      },
+      "val": {
+        "fire_only": 93,
+        "smoke_only": 55,
+        "empty": 32,
+        "both": 31
+      },
+      "test": {
+        "fire_only": 83,
+        "smoke_only": 49,
+        "both": 27,
+        "empty": 23
+      }
+    },
+    "ok": true
+  },
+  "masks": {
+    "static_checked": 1238,
+    "video_checked": 1864,
+    "bad": [],
+    "unreadable": [],
+    "mask_image_size_mismatch": [],
+    "ok": true
+  },
+  "frame_sizes": {
+    "distribution": {
+      "960x540": 1092,
+      "540x960": 516,
+      "640x360": 66,
+      "640x480": 32,
+      "650x480": 28,
+      "854x480": 26,
+      "960x506": 22,
+      "960x720": 16,
+      "960x544": 15,
+      "600x480": 14,
+      "960x432": 13,
+      "240x426": 13,
+      "960x444": 11
+    },
+    "min": "240x426",
+    "max": "960x720",
+    "all_512x512": false
+  },
+  "pixel_stats": {
+    "train": {
+      "frames": 1270,
+      "empty_frames": 357,
+      "total_pixels": 647011200,
+      "bg_pixels": 600082844,
+      "fire_pixels": 9864662,
+      "smoke_pixels": 37063694,
+      "empty_frame_pixels": 177987840,
+      "videos": 75,
+      "bg_pct": 92.74690206290092,
+      "fire_pct": 1.5246508870325584,
+      "smoke_pct": 5.728447050066522,
+      "empty_frame_pct": 28.11023622047244,
+      "constraint_bg_ge_empty_pixels": true,
+      "min_bg_pct_implied_by_empty_frames": 27.509236316156507
+    },
+    "val": {
+      "frames": 315,
+      "empty_frames": 83,
+      "total_pixels": 149566080,
+      "bg_pixels": 137918974,
+      "fire_pixels": 2458051,
+      "smoke_pixels": 9189055,
+      "empty_frame_pixels": 44056320,
+      "videos": 19,
+      "bg_pct": 92.21273566840824,
+      "fire_pct": 1.6434548528650346,
+      "smoke_pct": 6.143809478726728,
+      "empty_frame_pct": 26.349206349206348,
+      "constraint_bg_ge_empty_pixels": true,
+      "min_bg_pct_implied_by_empty_frames": 29.45609057882643
+    },
+    "test": {
+      "frames": 279,
+      "empty_frames": 80,
+      "total_pixels": 126461280,
+      "bg_pixels": 118326283,
+      "fire_pixels": 1911003,
+      "smoke_pixels": 6223994,
+      "empty_frame_pixels": 36864000,
+      "videos": 17,
+      "bg_pct": 93.56720333686327,
+      "fire_pct": 1.5111368475789586,
+      "smoke_pct": 4.921659815557774,
+      "empty_frame_pct": 28.67383512544803,
+      "constraint_bg_ge_empty_pixels": true,
+      "min_bg_pct_implied_by_empty_frames": 29.15042454101366
+    }
+  },
+  "manifest_pixel_mismatch": {
+    "count": 0,
+    "examples": []
+  },
+  "clips": {
+    "train": {
+      "clips": 439,
+      "videos": 75,
+      "T": 8,
+      "inferred_stride": 2,
+      "stride_histogram": {
+        "2": 333,
+        "1": 29,
+        "0": 2
+      },
+      "explanation": "439 clips from 75 videos: each video with n>=T frames gives floor((n-8)/2)+1 clips (stride 2), +1 tail-anchored clip when (n-8) % 2 != 0; videos with n<8 give 1 padded clip.",
+      "manifest_videos_without_clips": [],
+      "manifest_frames_not_in_any_clip": 0,
+      "uncovered_examples": [],
+      "clip_frames_not_in_manifest": 0,
+      "in_sync_with_manifest": true,
+      "per_video": [
+        {
+          "video": "012f0550_pexels_heavy_smoke_36164483",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "02af2970_pexels_cooking_smoke_3472823_pure",
+          "frames": 45,
+          "clips": 20,
+          "padded": false
+        },
+        {
+          "video": "04d83ee6_pexels_early_smoke_7926437_pure",
+          "frames": 9,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "05ca4b9b_pexels_welding_sparks_34771762",
+          "frames": 22,
+          "clips": 8,
+          "padded": false
+        },
+        {
+          "video": "0aefc692_pexels_welding_sparks_4941457_pure",
+          "frames": 8,
+          "clips": 1,
+          "padded": false
+        },
+        {
+          "video": "0bcf05c5_pexels_cigarette_smoke_8425862_pure",
+          "frames": 13,
+          "clips": 4,
+          "padded": true
+        },
+        {
+          "video": "0d48a1ea_pexels_heavy_smoke_8339804_pure",
+          "frames": 47,
+          "clips": 21,
+          "padded": false
+        },
+        {
+          "video": "0f39007e_pexels_cooking_smoke_18270789_pure",
+          "frames": 24,
+          "clips": 9,
+          "padded": false
+        },
+        {
+          "video": "12150804_1080_1920_30fps_pure",
+          "frames": 6,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "12172035_2160_3840_30fps_pure",
+          "frames": 13,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "12192259_1080_1920_30fps_pure",
+          "frames": 19,
+          "clips": 7,
+          "padded": false
+        },
+        {
+          "video": "12218199_3114_1440_30fps_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "13097120_2160_3840_30fps_pure",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "13106016_2160_3840_60fps",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "13256420_1080_1920_30fps_pure",
+          "frames": 43,
+          "clips": 19,
+          "padded": false
+        },
+        {
+          "video": "13269425_2160_3840_30fps",
+          "frames": 31,
+          "clips": 13,
+          "padded": false
+        },
+        {
+          "video": "13270890_2160_3840_60fps",
+          "frames": 14,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "13280461_3840_2160_24fps_pure",
+          "frames": 13,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "13570717_2160_3840_30fps_pure",
+          "frames": 13,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "13589189_2160_3840_60fps_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "13676716_2160_3840_30fps_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "13845809_2160_3840_25fps",
+          "frames": 13,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "13890243_2160_3840_30fps_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "13903817_3840_2160_30fps_pure",
+          "frames": 23,
+          "clips": 9,
+          "padded": false
+        },
+        {
+          "video": "13976903_1080_1920_25fps_pure",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "14003137_2160_3840_30fps_pure",
+          "frames": 6,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "14283156_1080_1920_30fps_pure",
+          "frames": 21,
+          "clips": 8,
+          "padded": false
+        },
+        {
+          "video": "14379036_1920_1080_50fps",
+          "frames": 1,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "14477514_1080_1920_30fps_pure",
+          "frames": 5,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "17116108-hd_1920_1080_25fps_pure",
+          "frames": 10,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "2016 April - Fire Investigation 1B - Milpitas CA_pure_chunk_02",
+          "frames": 31,
+          "clips": 13,
+          "padded": false
+        },
+        {
+          "video": "2016 April - Fire Investigation 1B - Milpitas CA_pure_chunk_03",
+          "frames": 30,
+          "clips": 12,
+          "padded": false
+        },
+        {
+          "video": "36f3eac1_pexels_cigarette_smoke_5075501_pure",
+          "frames": 7,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "394a2a56_pexels_visible_flame_6985324_pure",
+          "frames": 12,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "3aa2be24_pexels_cigarette_smoke_5320212",
+          "frames": 25,
+          "clips": 10,
+          "padded": false
+        },
+        {
+          "video": "407b06ea_pexels_early_smoke_8516427",
+          "frames": 4,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "47edc2fb_pexels_cigarette_smoke_9644281",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "4a37a9df_pexels_heavy_smoke_17202470_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "4e0040e9_pexels_heavy_smoke_34992285_pure",
+          "frames": 14,
+          "clips": 4,
+          "padded": false
+        },
+        {
+          "video": "66d00a95_pexels_diffused_smoke_35582792",
+          "frames": 15,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "6770d887_pexels_heavy_smoke_28478389_pure",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "6a95cab6_pexels_heavy_smoke_10666165",
+          "frames": 11,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "6bc652d9_pexels_diffused_smoke_9589423",
+          "frames": 7,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "6c3dee00_pexels_heavy_smoke_6618036",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "6eeb70d4_pexels_heavy_smoke_34004202",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "774e8545_pexels_diffused_smoke_36252846",
+          "frames": 22,
+          "clips": 8,
+          "padded": false
+        },
+        {
+          "video": "816fd10a_pexels_cooking_smoke_37848046",
+          "frames": 1,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "a7f3eb27_pexels_diffused_smoke_6731483",
+          "frames": 31,
+          "clips": 13,
+          "padded": false
+        },
+        {
+          "video": "adc26840_pexels_diffused_smoke_6956078",
+          "frames": 12,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "battery_thermal_runaway_krHU3jlR4Pc",
+          "frames": 49,
+          "clips": 22,
+          "padded": false
+        },
+        {
+          "video": "battery_thermal_runaway_oieH2wwDGzo",
+          "frames": 19,
+          "clips": 7,
+          "padded": false
+        },
+        {
+          "video": "electrical_ignition_5NAkyEmC0IU_continuous_trimmed",
+          "frames": 47,
+          "clips": 21,
+          "padded": false
+        },
+        {
+          "video": "electrical_ignition_Kzv1Qn1pPpc",
+          "frames": 14,
+          "clips": 5,
+          "padded": true
+        },
+        {
+          "video": "neg_hard_negatives_1_OXM4mr_i0",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_6rCG4oF2qrA",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_Afa6qOVfn7M",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_BvTBuLESrJ0",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_OGFxYoQHGco",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_P2QxCFyusSA",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_aM2GDiFoy8Q",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_erqtaaYXWzY",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_fHGR3iYfX4w",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_iaZ3E1mD96Q",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_k1leKhvOtqg",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_lqNZtZFUgcE",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_m7QxBFe8wZw",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_r-9qPsm_pvc",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_tMUbJs2iweQ",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_wb6iirzZKlk",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_zzclsZ5v0SM",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_1gi5qn1khVk_4MP_PTZ_Camera_with_Night_",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_Od6EeCWytZo_The_famous_Shibuya_crossin",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_bpxhdKKRD5c_Cottonwood_tree_and_windst",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_cmEmAzR0ybA_How_to_Protect_Parking_Lot",
+          "frames": 16,
+          "clips": 5,
+          "padded": false
+        }
+      ]
+    },
+    "val": {
+      "clips": 67,
+      "videos": 19,
+      "T": 8,
+      "inferred_stride": 4,
+      "stride_histogram": {
+        "4": 41,
+        "2": 3,
+        "1": 2,
+        "3": 2
+      },
+      "explanation": "67 clips from 19 videos: each video with n>=T frames gives floor((n-8)/4)+1 clips (stride 4), +1 tail-anchored clip when (n-8) % 4 != 0; videos with n<8 give 1 padded clip.",
+      "manifest_videos_without_clips": [],
+      "manifest_frames_not_in_any_clip": 0,
+      "uncovered_examples": [],
+      "clip_frames_not_in_manifest": 0,
+      "in_sync_with_manifest": true,
+      "per_video": [
+        {
+          "video": "00e18d86-3389d8dc_pure",
+          "frames": 50,
+          "clips": 12,
+          "padded": false
+        },
+        {
+          "video": "034f5d53_pexels_cigarette_smoke_8139853_pure",
+          "frames": 12,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "0fd09443_pexels_welding_sparks_14314814",
+          "frames": 3,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "12935692_1080_1920_60fps_pure",
+          "frames": 5,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "13323137_1920_1080_60fps",
+          "frames": 9,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "14056668_2160_3840_60fps_pure",
+          "frames": 8,
+          "clips": 1,
+          "padded": false
+        },
+        {
+          "video": "14112316_1440_2560_60fps_pure",
+          "frames": 11,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "312fe283_pexels_cigarette_smoke_6143909",
+          "frames": 11,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "38c6467b_pexels_heavy_smoke_35865134",
+          "frames": 8,
+          "clips": 1,
+          "padded": false
+        },
+        {
+          "video": "7cc52846_pexels_heavy_smoke_35241029",
+          "frames": 6,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "9a06358f_pexels_heavy_smoke_3568453",
+          "frames": 3,
+          "clips": 1,
+          "padded": true
+        },
+        {
+          "video": "battery_thermal_runaway_ld00r-tEEJ4_continuous_trimmed",
+          "frames": 33,
+          "clips": 8,
+          "padded": false
+        },
+        {
+          "video": "bucket11",
+          "frames": 50,
+          "clips": 12,
+          "padded": false
+        },
+        {
+          "video": "electrical_ignition_qRoT41qla9I_continuous_trimmed",
+          "frames": 26,
+          "clips": 6,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_9bas4RV3btM",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_CIvTKFlBTaw",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_Gc-70RMuyBI",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_fq3l2_IRW_0",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_YqkiOmfMQjk_Garmin_20_Dash_Cam___Sunny",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        }
+      ]
+    },
+    "test": {
+      "clips": 57,
+      "videos": 17,
+      "T": 8,
+      "inferred_stride": 4,
+      "stride_histogram": {
+        "4": 32,
+        "1": 3,
+        "3": 2,
+        "2": 1,
+        "0": 2
+      },
+      "explanation": "57 clips from 17 videos: each video with n>=T frames gives floor((n-8)/4)+1 clips (stride 4), +1 tail-anchored clip when (n-8) % 4 != 0; videos with n<8 give 1 padded clip.",
+      "manifest_videos_without_clips": [],
+      "manifest_frames_not_in_any_clip": 0,
+      "uncovered_examples": [],
+      "clip_frames_not_in_manifest": 0,
+      "in_sync_with_manifest": true,
+      "per_video": [
+        {
+          "video": "01c73785_pexels_heavy_smoke_37765564_pure",
+          "frames": 13,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "12393269_1440_2560_30fps_pure",
+          "frames": 11,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "13106082_2160_3840_60fps",
+          "frames": 8,
+          "clips": 1,
+          "padded": false
+        },
+        {
+          "video": "13862697_2160_3840_25fps",
+          "frames": 12,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "28f4ec5d_pexels_cigarette_smoke_8139860_pure",
+          "frames": 11,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "316af409_pexels_heavy_smoke_18105251_pure",
+          "frames": 13,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "4cf31d6f_pexels_heavy_smoke_36068162_pure",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "battery_thermal_runaway_o7szQvxW_KM",
+          "frames": 10,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "e731c09a_pexels_visible_flame_14071614",
+          "frames": 53,
+          "clips": 13,
+          "padded": true
+        },
+        {
+          "video": "electrical_ignition_Roltnt5J_e0",
+          "frames": 15,
+          "clips": 3,
+          "padded": true
+        },
+        {
+          "video": "electrical_ignition_VimYV-zgYo0_continuous_trimmed",
+          "frames": 28,
+          "clips": 6,
+          "padded": false
+        },
+        {
+          "video": "electrical_ignition_g6T6G_-htVw_continuous_trimmed",
+          "frames": 9,
+          "clips": 2,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_jKMNSvpB9dY",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_nJe-Y9QM0cA",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_hard_negatives_zFDB6XlHWVU",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_pc8eQZW9E8Q_YI_Indoor_Camera___Sample_",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        },
+        {
+          "video": "neg_normal_rBZk3mR6VM0_HD_Convenience_Store_CCTV_",
+          "frames": 16,
+          "clips": 3,
+          "padded": false
+        }
+      ]
+    }
+  },
+  "illustrations": {
+    "files": [
+      {
+        "file": "inference_comparisons/comparison_clip10_14283156_1080_1920_f1.jpg",
+        "video_prefix": "14283156_1080_1920",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip11_14283156_1080_1920_f3.jpg",
+        "video_prefix": "14283156_1080_1920",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip12_14283156_1080_1920_f6.jpg",
+        "video_prefix": "14283156_1080_1920",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip13_28f4ec5d_pexels_ci_f7.jpg",
+        "video_prefix": "28f4ec5d_pexels_ci",
+        "videos": [
+          "28f4ec5d_pexels_cigarette_smoke_8139860_pure"
+        ],
+        "splits": [
+          "test"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip14_407b06ea_pexels_ea_f4.jpg",
+        "video_prefix": "407b06ea_pexels_ea",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip15_407b06ea_pexels_ea_f0.jpg",
+        "video_prefix": "407b06ea_pexels_ea",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip16_6c3dee00_pexels_he_f0.jpg",
+        "video_prefix": "6c3dee00_pexels_he",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip17_6c3dee00_pexels_he_f0.jpg",
+        "video_prefix": "6c3dee00_pexels_he",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip18_6c3dee00_pexels_he_f2.jpg",
+        "video_prefix": "6c3dee00_pexels_he",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip1_12192259_1080_1920_f5.jpg",
+        "video_prefix": "12192259_1080_1920",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip2_12192259_1080_1920_f1.jpg",
+        "video_prefix": "12192259_1080_1920",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip3_12192259_1080_1920_f4.jpg",
+        "video_prefix": "12192259_1080_1920",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip4_13097120_2160_3840_f6.jpg",
+        "video_prefix": "13097120_2160_3840",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip5_13097120_2160_3840_f6.jpg",
+        "video_prefix": "13097120_2160_3840",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip6_13097120_2160_3840_f2.jpg",
+        "video_prefix": "13097120_2160_3840",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip7_13106082_2160_3840_f7.jpg",
+        "video_prefix": "13106082_2160_3840",
+        "videos": [
+          "13106082_2160_3840_60fps"
+        ],
+        "splits": [
+          "test"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip8_14056668_2160_3840_f4.jpg",
+        "video_prefix": "14056668_2160_3840",
+        "videos": [
+          "14056668_2160_3840_60fps_pure"
+        ],
+        "splits": [
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons/comparison_clip9_14283156_1080_1920_f5.jpg",
+        "video_prefix": "14283156_1080_1920",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_01_fire_only_12192259_1080_19_f3.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_02_fire_only_12192259_1080_19_f6.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_03_fire_only_12192259_1080_19_f3.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_04_fire_only_12192259_1080_19_f6.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_05_fire_only_12192259_1080_19_f3.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_06_fire_only_12192259_1080_19_f6.jpg",
+        "video_prefix": "12192259_1080_19",
+        "videos": [
+          "12192259_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_07_fire_only_13097120_2160_38_f3.jpg",
+        "video_prefix": "13097120_2160_38",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_08_fire_only_13097120_2160_38_f6.jpg",
+        "video_prefix": "13097120_2160_38",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_09_fire_only_13097120_2160_38_f3.jpg",
+        "video_prefix": "13097120_2160_38",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_10_fire_only_13097120_2160_38_f6.jpg",
+        "video_prefix": "13097120_2160_38",
+        "videos": [
+          "13097120_2160_3840_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_11_smoke_only_407b06ea_pexels__f2.jpg",
+        "video_prefix": "407b06ea_pexels_",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_12_smoke_only_407b06ea_pexels__f5.jpg",
+        "video_prefix": "407b06ea_pexels_",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_13_smoke_only_407b06ea_pexels__f2.jpg",
+        "video_prefix": "407b06ea_pexels_",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_14_smoke_only_407b06ea_pexels__f5.jpg",
+        "video_prefix": "407b06ea_pexels_",
+        "videos": [
+          "407b06ea_pexels_early_smoke_8516427"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_15_smoke_only_6c3dee00_pexels__f2.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_16_smoke_only_6c3dee00_pexels__f5.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_17_smoke_only_6c3dee00_pexels__f2.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_18_smoke_only_6c3dee00_pexels__f5.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_19_smoke_only_6c3dee00_pexels__f2.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_20_smoke_only_6c3dee00_pexels__f5.jpg",
+        "video_prefix": "6c3dee00_pexels_",
+        "videos": [
+          "6c3dee00_pexels_heavy_smoke_6618036"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_21_both_14056668_2160_38_f3.jpg",
+        "video_prefix": "14056668_2160_38",
+        "videos": [
+          "14056668_2160_3840_60fps_pure"
+        ],
+        "splits": [
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_22_both_14056668_2160_38_f6.jpg",
+        "video_prefix": "14056668_2160_38",
+        "videos": [
+          "14056668_2160_3840_60fps_pure"
+        ],
+        "splits": [
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_23_both_14283156_1080_19_f3.jpg",
+        "video_prefix": "14283156_1080_19",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_24_both_14283156_1080_19_f6.jpg",
+        "video_prefix": "14283156_1080_19",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_25_both_14283156_1080_19_f4.jpg",
+        "video_prefix": "14283156_1080_19",
+        "videos": [
+          "14283156_1080_1920_30fps_pure"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_26_hard_negative_neg_hard_negativ_f1.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_27_hard_negative_neg_hard_negativ_f5.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_28_hard_negative_neg_hard_negativ_f1.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_29_hard_negative_neg_hard_negativ_f5.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_30_hard_negative_neg_hard_negativ_f1.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_31_hard_negative_neg_hard_negativ_f5.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_32_hard_negative_neg_hard_negativ_f1.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_33_hard_negative_neg_hard_negativ_f5.jpg",
+        "video_prefix": "neg_hard_negativ",
+        "videos": [
+          "neg_hard_negatives_1_OXM4mr_i0",
+          "neg_hard_negatives_6rCG4oF2qrA",
+          "neg_hard_negatives_9bas4RV3btM",
+          "neg_hard_negatives_Afa6qOVfn7M",
+          "neg_hard_negatives_BvTBuLESrJ0",
+          "neg_hard_negatives_CIvTKFlBTaw",
+          "neg_hard_negatives_Gc-70RMuyBI",
+          "neg_hard_negatives_OGFxYoQHGco",
+          "neg_hard_negatives_P2QxCFyusSA",
+          "neg_hard_negatives_aM2GDiFoy8Q",
+          "neg_hard_negatives_erqtaaYXWzY",
+          "neg_hard_negatives_fHGR3iYfX4w",
+          "neg_hard_negatives_fq3l2_IRW_0",
+          "neg_hard_negatives_iaZ3E1mD96Q",
+          "neg_hard_negatives_jKMNSvpB9dY",
+          "neg_hard_negatives_k1leKhvOtqg",
+          "neg_hard_negatives_lqNZtZFUgcE",
+          "neg_hard_negatives_m7QxBFe8wZw",
+          "neg_hard_negatives_nJe-Y9QM0cA",
+          "neg_hard_negatives_r-9qPsm_pvc",
+          "neg_hard_negatives_tMUbJs2iweQ",
+          "neg_hard_negatives_wb6iirzZKlk",
+          "neg_hard_negatives_zFDB6XlHWVU",
+          "neg_hard_negatives_zzclsZ5v0SM"
+        ],
+        "splits": [
+          "test",
+          "train",
+          "val"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_34_normal_cctv_neg_normal_G8z74_f1.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_35_normal_cctv_neg_normal_G8z74_f5.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_36_normal_cctv_neg_normal_G8z74_f1.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_37_normal_cctv_neg_normal_G8z74_f5.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_38_normal_cctv_neg_normal_G8z74_f1.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_39_normal_cctv_neg_normal_G8z74_f5.jpg",
+        "video_prefix": "neg_normal_G8z74",
+        "videos": [
+          "neg_normal_G8z74loJO7U_ClearPix_Camera_Warehouse_"
+        ],
+        "splits": [
+          "train"
+        ]
+      },
+      {
+        "file": "inference_comparisons_40/sample_40_normal_cctv_neg_normal_YqkiO_f3.jpg",
+        "video_prefix": "neg_normal_YqkiO",
+        "videos": [
+          "neg_normal_YqkiOmfMQjk_Garmin_20_Dash_Cam___Sunny"
+        ],
+        "splits": [
+          "val"
+        ]
+      }
+    ],
+    "split_counts": {
+      "train": 44,
+      "test": 2,
+      "val": 4,
+      "test,train,val": 8
+    },
+    "non_test": [
+      "inference_comparisons/comparison_clip10_14283156_1080_1920_f1.jpg",
+      "inference_comparisons/comparison_clip11_14283156_1080_1920_f3.jpg",
+      "inference_comparisons/comparison_clip12_14283156_1080_1920_f6.jpg",
+      "inference_comparisons/comparison_clip14_407b06ea_pexels_ea_f4.jpg",
+      "inference_comparisons/comparison_clip15_407b06ea_pexels_ea_f0.jpg",
+      "inference_comparisons/comparison_clip16_6c3dee00_pexels_he_f0.jpg",
+      "inference_comparisons/comparison_clip17_6c3dee00_pexels_he_f0.jpg",
+      "inference_comparisons/comparison_clip18_6c3dee00_pexels_he_f2.jpg",
+      "inference_comparisons/comparison_clip1_12192259_1080_1920_f5.jpg",
+      "inference_comparisons/comparison_clip2_12192259_1080_1920_f1.jpg",
+      "inference_comparisons/comparison_clip3_12192259_1080_1920_f4.jpg",
+      "inference_comparisons/comparison_clip4_13097120_2160_3840_f6.jpg",
+      "inference_comparisons/comparison_clip5_13097120_2160_3840_f6.jpg",
+      "inference_comparisons/comparison_clip6_13097120_2160_3840_f2.jpg",
+      "inference_comparisons/comparison_clip8_14056668_2160_3840_f4.jpg",
+      "inference_comparisons/comparison_clip9_14283156_1080_1920_f5.jpg",
+      "inference_comparisons_40/sample_01_fire_only_12192259_1080_19_f3.jpg",
+      "inference_comparisons_40/sample_02_fire_only_12192259_1080_19_f6.jpg",
+      "inference_comparisons_40/sample_03_fire_only_12192259_1080_19_f3.jpg",
+      "inference_comparisons_40/sample_04_fire_only_12192259_1080_19_f6.jpg",
+      "inference_comparisons_40/sample_05_fire_only_12192259_1080_19_f3.jpg",
+      "inference_comparisons_40/sample_06_fire_only_12192259_1080_19_f6.jpg",
+      "inference_comparisons_40/sample_07_fire_only_13097120_2160_38_f3.jpg",
+      "inference_comparisons_40/sample_08_fire_only_13097120_2160_38_f6.jpg",
+      "inference_comparisons_40/sample_09_fire_only_13097120_2160_38_f3.jpg",
+      "inference_comparisons_40/sample_10_fire_only_13097120_2160_38_f6.jpg",
+      "inference_comparisons_40/sample_11_smoke_only_407b06ea_pexels__f2.jpg",
+      "inference_comparisons_40/sample_12_smoke_only_407b06ea_pexels__f5.jpg",
+      "inference_comparisons_40/sample_13_smoke_only_407b06ea_pexels__f2.jpg",
+      "inference_comparisons_40/sample_14_smoke_only_407b06ea_pexels__f5.jpg",
+      "inference_comparisons_40/sample_15_smoke_only_6c3dee00_pexels__f2.jpg",
+      "inference_comparisons_40/sample_16_smoke_only_6c3dee00_pexels__f5.jpg",
+      "inference_comparisons_40/sample_17_smoke_only_6c3dee00_pexels__f2.jpg",
+      "inference_comparisons_40/sample_18_smoke_only_6c3dee00_pexels__f5.jpg",
+      "inference_comparisons_40/sample_19_smoke_only_6c3dee00_pexels__f2.jpg",
+      "inference_comparisons_40/sample_20_smoke_only_6c3dee00_pexels__f5.jpg",
+      "inference_comparisons_40/sample_21_both_14056668_2160_38_f3.jpg",
+      "inference_comparisons_40/sample_22_both_14056668_2160_38_f6.jpg",
+      "inference_comparisons_40/sample_23_both_14283156_1080_19_f3.jpg",
+      "inference_comparisons_40/sample_24_both_14283156_1080_19_f6.jpg",
+      "inference_comparisons_40/sample_25_both_14283156_1080_19_f4.jpg",
+      "inference_comparisons_40/sample_26_hard_negative_neg_hard_negativ_f1.jpg",
+      "inference_comparisons_40/sample_27_hard_negative_neg_hard_negativ_f5.jpg",
+      "inference_comparisons_40/sample_28_hard_negative_neg_hard_negativ_f1.jpg",
+      "inference_comparisons_40/sample_29_hard_negative_neg_hard_negativ_f5.jpg",
+      "inference_comparisons_40/sample_30_hard_negative_neg_hard_negativ_f1.jpg",
+      "inference_comparisons_40/sample_31_hard_negative_neg_hard_negativ_f5.jpg",
+      "inference_comparisons_40/sample_32_hard_negative_neg_hard_negativ_f1.jpg",
+      "inference_comparisons_40/sample_33_hard_negative_neg_hard_negativ_f5.jpg",
+      "inference_comparisons_40/sample_34_normal_cctv_neg_normal_G8z74_f1.jpg",
+      "inference_comparisons_40/sample_35_normal_cctv_neg_normal_G8z74_f5.jpg",
+      "inference_comparisons_40/sample_36_normal_cctv_neg_normal_G8z74_f1.jpg",
+      "inference_comparisons_40/sample_37_normal_cctv_neg_normal_G8z74_f5.jpg",
+      "inference_comparisons_40/sample_38_normal_cctv_neg_normal_G8z74_f1.jpg",
+      "inference_comparisons_40/sample_39_normal_cctv_neg_normal_G8z74_f5.jpg",
+      "inference_comparisons_40/sample_40_normal_cctv_neg_normal_YqkiO_f3.jpg"
+    ]
+  }
+}

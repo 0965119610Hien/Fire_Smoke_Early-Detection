@@ -32,7 +32,30 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--dense", action="store_true",
                     help="upload data/dataset_video_dense + dense_*_clips.csv (scripts/build_dense_clips.py)")
+    ap.add_argument("--unified", action="store_true",
+                    help="upload data/dataset_video_unified + every data_splits csv/json (scripts/build_unified_dataset.py)")
     args = ap.parse_args()
+
+    if args.unified:
+        unified = DATA / "dataset_video_unified"
+        files = sorted(p for p in (DATA / "data_splits").iterdir() if p.is_file() and p.suffix in (".csv", ".json"))
+        n = sum(1 for _ in unified.rglob("*") if _.is_file())
+        folds = DATA / "data_splits" / "folds"
+        n_folds = sum(1 for _ in folds.rglob("*.csv")) if folds.exists() else 0
+        print(f"Volume: {VOLUME_NAME}\n- {n} file -> /dataset_video_unified/\n- {len(files)} file -> /data_splits/"
+              f"\n- {n_folds} file -> /data_splits/folds/")
+        if args.dry_run:
+            return
+        import modal
+        vol = modal.Volume.from_name(VOLUME_NAME)
+        with vol.batch_upload(force=True) as batch:
+            batch.put_directory(str(unified), "/dataset_video_unified")
+            for p in files:
+                batch.put_file(str(p), f"/data_splits/{p.name}")
+            if n_folds:
+                batch.put_directory(str(folds), "/data_splits/folds")
+        print("✅ Upload unified xong. Kiểm tra trên volume: modal run scripts/audit_data.py")
+        return
 
     if args.dense:
         dense = DATA / "dataset_video_dense"

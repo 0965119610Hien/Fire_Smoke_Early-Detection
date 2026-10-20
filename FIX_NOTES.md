@@ -246,3 +246,31 @@ Còn lại (không sửa được / không thuộc dữ liệu train):
 4. `modal run --detach src/train_stage2_timesformer.py` (không `--resume`)
 5. `modal run src/evaluate_test.py`
 6. Viết lại báo cáo chỉ từ `docs/reports/eval_<run_id>.json`.
+
+## Gộp dữ liệu + chia lại (2026-10-20, `scripts/build_unified_dataset.py`)
+
+- Nguồn mới: `data/Frames_video.v2i.png-mask-semantic` (692 ảnh = 388 ảnh của v1i + 304 ảnh mới thuộc 11 video).
+  Ảnh mới được ghép với `frames_for_annotation/<video>/frame_XXXXX.jpg` bằng so khớp pixel (sai khác ~0.5 vs ≥ 8 với ứng viên thứ hai).
+- Một quy ước lưu trữ cho mọi frame video: giải mã lại từ video gốc theo `frame_orig` / `anchor_raw_idx`, giữ tỉ lệ,
+  cạnh dài ≤ 960, JPEG q95 → `data/dataset_video_unified/<video>/raw_<idx>.jpg`; mask resize nearest. Không còn CLAHE / kéo giãn
+  sẵn trong dữ liệu (round 2 trước đây bị CLAHE 2 lần). Tăng cường ảnh chỉ chạy lúc load (`fire_core`).
+  Sparse và dense dùng chung thư mục này; `dataset_video_prepared` / `dataset_video_dense` không còn được dùng.
+- Frame không được export từ Roboflow (`auto_bg` cũ) không còn coi là nền; chỉ làm ngữ cảnh (mask 255).
+- 1864 frame có nhãn / 111 video. Chia theo nhóm nguồn (pexels id / YouTube id / chunk), tối ưu 70/15/15 theo frame lửa / khói / rỗng
+  và loại video: train 78 video 1302 frame | val 17 video 280 | test 16 video 282. 43/100 video cũ đổi split
+  → **số liệu test cũ không còn so sánh được**.
+- Ảnh tĩnh chia lại theo nhóm với cùng tỉ lệ: 855 / 192 / 191 (vẫn ép nhóm giống frame video val/test vào đúng split).
+- Audit: `docs/reports/data_audit_2026-10-20.json` — sạch. Bản cũ của data_splits: `data/data_splits/archive/20261020-161110/`.
+- Cần làm: `py -3.12 scripts/sync_fixed_data_to_modal.py --unified`, `modal run scripts/audit_data.py`, rồi train lại Stage 1 → Stage 2.
+
+### Chia lại bằng MILP + 5-fold (2026-10-20)
+
+- `build_unified_dataset.py --resplit-only`: test cố định 15% + 5 fold (~17%) theo nhóm nguồn, MILP minimax (scipy/HiGHS) cân bằng
+  số frame lửa/khói/rỗng, tổng diện tích lửa/khói và số frame lửa/khói nhỏ/vừa/lớn; số video mỗi loại là ràng buộc cứng.
+  Lệch tránh được tối đa 2.78 điểm % (video). Không tránh được: `bucket11` chứa 30% frame khói nhỏ.
+- Ảnh tĩnh cùng 6 phần; nhóm giống frame video bị ép theo fold của video (0 xung đột). Vì ảnh tĩnh rỗng (180/181) là frame
+  của video âm tính, bài toán chia video cân bằng luôn số ảnh tĩnh gắn với mỗi video → ảnh rỗng 16.6–17.7% mỗi fold.
+- `data_splits/` = val fold 0 (lệnh cũ chạy như trước); `data_splits/folds/fold<k>/` cho từng fold.
+  Train: `modal run --detach src/train_stage1_segformer.py --fold k`, `... train_stage2_timesformer.py [--dense] --fold k`
+  (Stage 2 fold k đọc `segformer_spatial_best_fold<k>.pth`); `modal run src/evaluate_test.py --fold k --stage1-ckpt ... --stage2-ckpt ...`.
+- Nguồn cố định của pipeline cũ (dense clips cũ, manifest prepared, v1 mapping): `data/data_splits/legacy_sources/`.

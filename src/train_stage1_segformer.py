@@ -59,7 +59,7 @@ def local_git_commit():
     timeout=86400,
     memory=32768,
 )
-def train_stage1(git_commit: str = "unknown"):
+def train_stage1(git_commit: str = "unknown", fold: int = -1):
     import random
     import numpy as np
 
@@ -83,12 +83,14 @@ def train_stage1(git_commit: str = "unknown"):
     print(f"🚀 [STAGE 1] Khởi chạy huấn luyện SegFormer-B2 trên Modal GPU: {torch.cuda.get_device_name(0)}")
 
     DATA_ROOT = Path("/data/Fire_Smoke.v4i/train")
-    SPLITS_DIR = Path("/data/data_splits")
+    # fold = -1 -> default layout of data_splits/ (val = fold 0); fold = k -> data_splits/folds/fold<k>/
+    SPLITS_DIR = Path("/data/data_splits") / (f"folds/fold{fold}" if fold >= 0 else "")
+    FOLD_TAG = f"_fold{fold}" if fold >= 0 else ""
     CHECKPOINTS_DIR = Path("/data/checkpoints")
     LOGS_DIR = Path("/data/logs")
     CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    BEST_CHECKPOINT = CHECKPOINTS_DIR / "segformer_spatial_best.pth"
+    BEST_CHECKPOINT = CHECKPOINTS_DIR / f"segformer_spatial_best{FOLD_TAG}.pth"
 
     TRAIN_CSV = SPLITS_DIR / "static_v4i_train_manifest.csv"
     VAL_CSV   = SPLITS_DIR / "static_v4i_val_manifest.csv"
@@ -119,6 +121,7 @@ def train_stage1(git_commit: str = "unknown"):
         "dice_mode": "batch_fg",
         "seed": SEED,
         "git_commit": git_commit,
+        "fold": fold,
     }
     print(f"🆔 RUN_ID = {RUN_ID} | git = {git_commit} | preprocess = {fc.PREPROCESS_VERSION}")
 
@@ -170,7 +173,7 @@ def train_stage1(git_commit: str = "unknown"):
     NUM_EPOCHS = CONFIG["epochs"]
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=NUM_EPOCHS, eta_min=CONFIG["eta_min"])
 
-    history_path = LOGS_DIR / f"stage1_history_{RUN_ID}.json"
+    history_path = LOGS_DIR / f"stage1_history{FOLD_TAG}_{RUN_ID}.json"
 
     # =========================================================================
     # 3. VÒNG LẶP HUẤN LUYỆN
@@ -278,9 +281,9 @@ def train_stage1(git_commit: str = "unknown"):
 
 
 @app.local_entrypoint()
-def main():
+def main(fold: int = -1):
     # spawn (not remote): with `modal run --detach` the job keeps running on Modal even if
     # this machine sleeps / shuts down. `.remote()` would be cancelled when the client exits.
-    call = train_stage1.spawn(git_commit=local_git_commit())
-    print(f"🚀 Đã gửi job Stage 1 lên Modal (call id: {call.object_id}). Có thể tắt máy.")
+    call = train_stage1.spawn(git_commit=local_git_commit(), fold=fold)
+    print(f"🚀 Đã gửi job Stage 1{f' fold {fold}' if fold >= 0 else ''} lên Modal (call id: {call.object_id}). Có thể tắt máy.")
     print("   Theo dõi: modal app list  |  modal app logs <app-id>")

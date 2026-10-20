@@ -214,16 +214,17 @@ class UnionFind:
         self.p[self.find(a)] = self.find(b)
 
 
-def resplit_static(video_manifest, dry):
+def resplit_static(video_manifest, dry, video_root=VIDEO_ROOT, ratios=None):
+    """ratios=None keeps the current split proportions."""
     parts = [read_csv(SPLITS_DIR / f"static_v4i_{s}_manifest.csv") for s in SPLITS]
     df = pd.concat(parts, ignore_index=True)
     old_split = df["split"].tolist()
     n = len(df)
-    ratios = {s: (df["split"] == s).mean() for s in SPLITS}
+    ratios = ratios or {s: (df["split"] == s).mean() for s in SPLITS}
 
     print(f"[6] Static: phash {n} ảnh tĩnh + {len(video_manifest)} frame video...")
     sb = phash_bits([STATIC_ROOT / f for f in df["filename"]])
-    vb = phash_bits([VIDEO_ROOT / p for p in video_manifest["image_path"]])
+    vb = phash_bits([Path(video_root) / p for p in video_manifest["image_path"]])
 
     uf = UnionFind(n)
     for i in range(n):

@@ -436,7 +436,7 @@ def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, spe
     clip_mode = cfg.get("clip_mode", "sparse")
     prefix = "dense_" if clip_mode != "sparse" else ""
     if clip_mode != "sparse":
-        data_root = dense_root or str(Path(data_root).parent / "dataset_video_dense")
+        data_root = dense_root or data_root
     print(f"ℹ️ clip_mode = {clip_mode} | data_root = {data_root}")
 
     def make_datasets(split):
@@ -597,10 +597,11 @@ if modal is not None:
     @app.function(image=image, volumes={"/data": volume}, gpu="A10G", timeout=7200, memory=32768)
     def evaluate_remote(limit: int = 0, stage1_ckpt: str = "/data/checkpoints/segformer_spatial_best.pth",
                         stage2_ckpt: str = "/data/checkpoints/timesformer_spatiotemporal_best.pth",
-                        speed_runs: int = 20, git_commit: str = "unknown"):
-        res = run_evaluation("/data/dataset_video_prepared", "/data/data_splits", stage1_ckpt, stage2_ckpt,
-                             limit=limit, speed_runs=speed_runs, git_commit=git_commit,
-                             dense_root="/data/dataset_video_dense")
+                        speed_runs: int = 20, git_commit: str = "unknown", fold: int = -1):
+        # thresholds are chosen on the val part of the fold; test is the same for every fold
+        splits_dir = "/data/data_splits" + (f"/folds/fold{fold}" if fold >= 0 else "")
+        res = run_evaluation("/data/dataset_video_unified", splits_dir, stage1_ckpt, stage2_ckpt,
+                             limit=limit, speed_runs=speed_runs, git_commit=git_commit)
         res = json.loads(json.dumps(res, default=_json_default))
         # also keep the report on the volume, in case the local client is gone when the job ends
         write_outputs(res, "/data/reports")
@@ -609,10 +610,11 @@ if modal is not None:
 
     @app.local_entrypoint()
     def main(limit: int = 0, stage1_ckpt: str = "/data/checkpoints/segformer_spatial_best.pth",
-             stage2_ckpt: str = "/data/checkpoints/timesformer_spatiotemporal_best.pth", speed_runs: int = 20):
+             stage2_ckpt: str = "/data/checkpoints/timesformer_spatiotemporal_best.pth", speed_runs: int = 20,
+             fold: int = -1):
         # spawn + get: if this machine goes away the job still finishes and saves to /data/reports
         call = evaluate_remote.spawn(limit=limit, stage1_ckpt=stage1_ckpt, stage2_ckpt=stage2_ckpt,
-                                     speed_runs=speed_runs, git_commit=local_git_commit())
+                                     speed_runs=speed_runs, git_commit=local_git_commit(), fold=fold)
         print(f"🚀 Đã gửi job đánh giá (call id: {call.object_id}). Kết quả cũng được lưu ở volume: /reports/")
         write_outputs(call.get(), ROOT / "docs" / "reports")
 
@@ -621,11 +623,11 @@ if __name__ == "__main__":
     if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--data-root", default=str(ROOT / "data" / "dataset_video_prepared"))
+    ap.add_argument("--data-root", default=str(ROOT / "data" / "dataset_video_unified"))
     ap.add_argument("--splits-dir", default=str(ROOT / "data" / "data_splits"))
     ap.add_argument("--stage1-ckpt", default=str(ROOT / "checkpoints" / "segformer_spatial_best.pth"))
     ap.add_argument("--stage2-ckpt", default=str(ROOT / "checkpoints" / "checkpoints" / "timesformer_spatiotemporal_best.pth"))
-    ap.add_argument("--dense-root", default=str(ROOT / "data" / "dataset_video_dense"))
+    ap.add_argument("--dense-root", default=None, help="only if dense clips live outside --data-root")
     ap.add_argument("--limit", type=int, default=0, help="number of clips per split (0 = all)")
     ap.add_argument("--speed-runs", type=int, default=3)
     ap.add_argument("--out-dir", default=str(ROOT / "docs" / "reports"))

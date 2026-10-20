@@ -70,7 +70,7 @@ def local_git_commit():
     timeout=86400,
     memory=32768,
 )
-def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool = False):
+def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool = False, fold: int = -1):
     import os
     import random
     import numpy as np
@@ -101,15 +101,18 @@ def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool 
     # clip_mode:
     #   "sparse"     -> clips of consecutive labeled frames (1-2 FPS), all frames supervised
     #   "dense10fps" -> one clip per labeled frame: 7 context frames at 10 FPS before it,
-    #                   only labeled frames supervised (scripts/build_dense_clips.py)
+    #                   only labeled frames supervised
+    # Both layouts read the same frames: scripts/build_unified_dataset.py
     CLIP_MODE = "dense10fps" if dense else "sparse"
-    DATA_ROOT = Path("/data/dataset_video_dense" if dense else "/data/dataset_video_prepared")
-    SPLITS_DIR = Path("/data/data_splits")
+    DATA_ROOT = Path("/data/dataset_video_unified")
+    # fold = -1 -> default layout of data_splits/ (val = fold 0); fold = k -> data_splits/folds/fold<k>/
+    SPLITS_DIR = Path("/data/data_splits") / (f"folds/fold{fold}" if fold >= 0 else "")
+    FOLD_TAG = f"_fold{fold}" if fold >= 0 else ""
     CHECKPOINTS_DIR = Path("/data/checkpoints")
     LOGS_DIR = Path("/data/logs")
 
-    PREFIX = "timesformer_dense" if dense else "timesformer"
-    STAGE1_CHECKPOINT = CHECKPOINTS_DIR / "segformer_spatial_best.pth"
+    PREFIX = ("timesformer_dense" if dense else "timesformer") + FOLD_TAG
+    STAGE1_CHECKPOINT = CHECKPOINTS_DIR / f"segformer_spatial_best{FOLD_TAG}.pth"  # same fold: no val leakage
     BEST_CHECKPOINT   = CHECKPOINTS_DIR / f"{PREFIX}_spatiotemporal_best.pth"
     BEST_FIRE_CKPT    = CHECKPOINTS_DIR / f"{PREFIX}_best_fire.pth"
     BEST_SMOKE_CKPT   = CHECKPOINTS_DIR / f"{PREFIX}_best_smoke.pth"
@@ -163,6 +166,7 @@ def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool 
         "temp_smooth_weight": 0.05,
         "seed": SEED,
         "git_commit": git_commit,
+        "fold": fold,
         "stage1_checkpoint": str(STAGE1_CHECKPOINT),
         "stage1_run_id": s1_ckpt.get("run_id", "legacy"),
         "stage1_epoch": s1_ckpt.get("epoch"),
@@ -267,7 +271,7 @@ def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool 
     else:
         print("🌱 Bắt đầu huấn luyện Stage 2 từ đầu (Kỷ lục mới từ 0.0%)...")
 
-    history_path = LOGS_DIR / f"stage2_{'dense_' if dense else ''}history_{RUN_ID}.json"
+    history_path = LOGS_DIR / f"stage2_{'dense_' if dense else ''}history{FOLD_TAG}_{RUN_ID}.json"
 
     print("\n" + "=" * 80)
     print(f"🔥 BẮT ĐẦU HUẤN LUYỆN SPATIO-TEMPORAL SEGFORMER: EPOCHS {start_epoch:02d} -> {NUM_EPOCHS} TRÊN NVIDIA A100")
@@ -398,9 +402,9 @@ def train_stage2(resume: bool = False, git_commit: str = "unknown", dense: bool 
 
 
 @app.local_entrypoint()
-def main(resume: bool = False, dense: bool = False):
+def main(resume: bool = False, dense: bool = False, fold: int = -1):
     # spawn (not remote): with `modal run --detach` the job keeps running on Modal even if
     # this machine sleeps / shuts down. `.remote()` would be cancelled when the client exits.
-    call = train_stage2.spawn(resume=resume, git_commit=local_git_commit(), dense=dense)
-    print(f"🚀 Đã gửi job Stage 2 ({'dense10fps' if dense else 'sparse'}) lên Modal (call id: {call.object_id}). Có thể tắt máy.")
+    call = train_stage2.spawn(resume=resume, git_commit=local_git_commit(), dense=dense, fold=fold)
+    print(f"🚀 Đã gửi job Stage 2 ({'dense10fps' if dense else 'sparse'}{f', fold {fold}' if fold >= 0 else ''}) lên Modal (call id: {call.object_id}). Có thể tắt máy.")
     print("   Theo dõi: modal app list  |  modal app logs <app-id>")

@@ -8,7 +8,7 @@ prints a summary. Checks:
 2. Static leakage: perceptual hash (phash) of every static image; cross-split pairs
    with Hamming distance <= 4 (+ identical Roboflow source names across splits).
 3. Mask values: every static + video mask only contains {0, 1, 2}.
-4. Frame sizes in dataset_video_prepared (min / max / distribution).
+4. Frame sizes in dataset_video_unified (min / max / distribution).
 5. Pixel statistics per video split, recomputed from the masks, incl. the
    BG_pixels >= empty_frames x H x W sanity constraint and manifest consistency.
 6. Clips: clips / frames per video and inferred stride.
@@ -176,7 +176,7 @@ def check_masks_and_frames(splits_dir, static_root, video_root):
             n_static += 1
 
     # video masks + frame sizes + pixel stats
-    manifest = _read_csv(splits_dir / "prepared_video_manifest_with_splits.csv")
+    manifest = _read_csv(splits_dir / "video_manifest_with_splits.csv")
     sizes = Counter()
     size_mismatch = []
     stats = {}
@@ -236,7 +236,7 @@ def check_masks_and_frames(splits_dir, static_root, video_root):
 # -----------------------------------------------------------------------------
 def check_clips(splits_dir):
     out = {}
-    manifest = _read_csv(splits_dir / "prepared_video_manifest_with_splits.csv")
+    manifest = _read_csv(splits_dir / "video_manifest_with_splits.csv")
     frames_per_video = manifest.groupby("video_name").size().to_dict()
     for split in SPLITS:
         df = _read_csv(splits_dir / f"{split}_clips.csv")
@@ -294,7 +294,7 @@ def match_truncated_video(rest, video_names):
 
 
 def check_illustrations(splits_dir, docs_dir):
-    manifest = _read_csv(splits_dir / "prepared_video_manifest_with_splits.csv")
+    manifest = _read_csv(splits_dir / "video_manifest_with_splits.csv")
     vid_split = manifest.groupby("video_name")["split"].first().to_dict()
     rows = []
     for d in sorted(docs_dir.glob("inference_comparisons*")):
@@ -389,7 +389,7 @@ if modal is not None:
 
     @app.function(image=image, volumes={"/data": volume}, timeout=3600, memory=8192)
     def audit_remote(skip_phash: bool = False):
-        return run_audit("/data/data_splits", "/data/Fire_Smoke.v4i/train", "/data/dataset_video_prepared",
+        return run_audit("/data/data_splits", "/data/Fire_Smoke.v4i/train", "/data/dataset_video_unified",
                          docs_dir=None, skip_phash=skip_phash)
 
     @app.local_entrypoint()
@@ -407,7 +407,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--splits-dir", default=str(ROOT / "data" / "data_splits"))
     ap.add_argument("--static-root", default=str(ROOT / "data" / "Fire_Smoke.v4i.png-mask-semantic" / "train"))
-    ap.add_argument("--video-root", default=str(ROOT / "data" / "dataset_video_prepared"))
+    ap.add_argument("--video-root", default=str(ROOT / "data" / "dataset_video_unified"))
     ap.add_argument("--docs-dir", default=str(ROOT / "docs"))
     ap.add_argument("--out-dir", default=str(ROOT / "docs" / "reports"))
     ap.add_argument("--skip-phash", action="store_true")
