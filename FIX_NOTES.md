@@ -274,3 +274,9 @@ Còn lại (không sửa được / không thuộc dữ liệu train):
   Train: `modal run --detach src/train_stage1_segformer.py --fold k`, `... train_stage2_timesformer.py [--dense] --fold k`
   (Stage 2 fold k đọc `segformer_spatial_best_fold<k>.pth`); `modal run src/evaluate_test.py --fold k --stage1-ckpt ... --stage2-ckpt ...`.
 - Nguồn cố định của pipeline cũ (dense clips cũ, manifest prepared, v1 mapping): `data/data_splits/legacy_sources/`.
+
+### Train + đánh giá fold 0 (2026-10-20/21) — baseline trên dữ liệu hợp nhất
+
+- Stage 1 fold 0 run `20261020-151616` (val tĩnh 65,30%, ep 26); Stage 2 dense fold 0 run `20261020-154030` (val video 46,43%, ep 6, γ=+0,019).
+- Test: Stage 2 đầy đủ Fg-mIoU 46,5% (Stage 1 trên video 40,8%; Stage 1 trên ảnh tĩnh test 63,1%). Lửa tốt, khói yếu; temporal giờ có ích.
+- Nhận xét + đề xuất: `docs/reports/Danh_gia_fold0_2026-10-21.md`; số liệu đầy đủ: `docs/reports/eval_20261020-154030_dense10fps.md`.
