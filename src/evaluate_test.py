@@ -20,6 +20,8 @@ Protocol:
 - Object level: LTPR / LPPV / S after removing predicted regions smaller than A_min.
 - Bootstrap 95% CI (1000 resamples over VIDEOS).
 - Per-video table, speed (CPU preprocessing / GPU per clip / streaming with feature cache).
+- Stage 1 on the static images too: thresholds on static val, metrics on static test.
+- --fold k: val = fold k (thresholds), test is the same for every fold.
 
 Local CPU debug:
   python src/evaluate_test.py --limit 2
@@ -143,8 +145,8 @@ def video_level(records, c, tau_i, a_min, k):
     return rates(binary_counts(y_true, y_pred))
 
 
-def select_thresholds(val_records):
-    """Per class: (tau, A_min) at frame level, then k at video level, all on VAL."""
+def select_frame_thresholds(val_records):
+    """Per class: (tau, A_min) at frame (image) level on VAL."""
     sel = {}
     for c in FG:
         cands = []
@@ -154,9 +156,17 @@ def select_thresholds(val_records):
                 y_pred = [frame_pred(r, c, ti, a) for r in val_records]
                 cands.append(((ti, a), rates(binary_counts(y_true, y_pred))))
         (ti, a), fr = choose_operating_point(cands)
-        kc = [((k,), video_level(val_records, c, ti, a, k)) for k in KS]
+        sel[c] = {"tau": TAUS[ti], "tau_index": ti, "A_min": a, "val_frame": fr}
+    return sel
+
+
+def select_thresholds(val_records):
+    """Per class: (tau, A_min) at frame level, then k at video level, all on VAL."""
+    sel = select_frame_thresholds(val_records)
+    for c, s in sel.items():
+        kc = [((k,), video_level(val_records, c, s["tau_index"], s["A_min"], k)) for k in KS]
         (k,), vr = choose_operating_point(kc)
-        sel[c] = {"tau": TAUS[ti], "tau_index": ti, "A_min": a, "k": k, "val_frame": fr, "val_video": vr}
+        s.update({"k": k, "val_video": vr})
     return sel
 
 
@@ -353,6 +363,42 @@ def summarize_test(records, sel, loc):
             "video": video, "object": objects, "bootstrap_ci95": bootstrap(records, sel), "per_video": per_video}
 
 
+def run_static(model, splits_dir, static_root, device, limit=0):
+    """Stage 1 on the STATIC images: thresholds on static val, metrics on static test.
+    Each image is its own bootstrap unit (images come from ~1200 different sources)."""
+    import fire_core as fc
+    from fire_core import iou_dice_from_cm
+
+    def records_of(split):
+        ds = fc.StaticSegDataset(Path(splits_dir) / f"static_v4i_{split}_manifest.csv", static_root)
+        n = min(len(ds), limit) if limit else len(ds)
+        recs = []
+        for i in range(n):
+            img, mask = ds[i]
+            prob = predict_probs("stage1_framewise", model, img.unsqueeze(0), device)[0]
+            recs.append(frame_record(ds.df["filename"].iloc[i], ds.df["filename"].iloc[i], prob,
+                                     mask.numpy().astype(np.uint8)))
+        print(f"  [static {split}] {n} ảnh", flush=True)
+        return recs
+
+    val, test = records_of("val"), records_of("test")
+    sel = select_frame_thresholds(val)
+    frame = {}
+    alarm_true, alarm_pred = [], []
+    for c, name in FG.items():
+        y_true = [r["gt"][c] for r in test]
+        y_pred = [frame_pred(r, c, sel[c]["tau_index"], sel[c]["A_min"]) for r in test]
+        frame[name] = rates(binary_counts(y_true, y_pred))
+        alarm_true.append(y_true)
+        alarm_pred.append(y_pred)
+    frame["any"] = rates(binary_counts(np.any(alarm_true, axis=0), np.any(alarm_pred, axis=0)))
+    pixel = iou_dice_from_cm(sum(r["cm"] for r in test))
+    return {"selection_on_val": {FG[c]: s for c, s in sel.items()},
+            "val_pixel": iou_dice_from_cm(sum(r["cm"] for r in val)),
+            "test": {"num_images": len(test), "pixel": pixel, "frame": frame,
+                     "bootstrap_ci95": bootstrap(test, sel)}}
+
+
 # =============================================================================
 # Speed
 # =============================================================================
@@ -425,7 +471,7 @@ def measure_speed(models, dataset, device, T, runs):
 # Main evaluation
 # =============================================================================
 def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, speed_runs=20, git_commit="unknown",
-                   dense_root=None):
+                   dense_root=None, static_root=None):
     import torch
     import fire_core as fc
 
@@ -464,6 +510,11 @@ def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, spe
             "test": summarize_test(test_records[n], selections[n], loc[n]),
         }
 
+    static = None
+    if static_root:
+        print("▶ STATIC: Stage 1 trên ảnh tĩnh (ngưỡng từ static val)...")
+        static = run_static(models["stage1_framewise"], splits_dir, static_root, device, limit=limit)
+
     print("▶ Đo tốc độ...")
     speed = measure_speed(models, test_ds["stage2"], device, T, speed_runs)
 
@@ -481,8 +532,10 @@ def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, spe
             "selection": f"on val: recall >= {TARGET_RECALL} with lowest FAR, else max F1",
             "taus": TAUS, "A_mins": A_MINS, "ks": KS, "bootstrap": f"{N_BOOT} resamples over videos",
         },
+        "splits_dir": str(splits_dir),
         "checkpoints": meta,
         "results": results,
+        "static_stage1": static,
         "speed": speed,
     }
 
@@ -536,6 +589,23 @@ def to_markdown(res):
     for n, r in res["results"].items():
         for name, o in r["test"]["object"].items():
             L.append(f"| {n} | {name} | {_pct(o['LTPR'])} | {_pct(o['LPPV'])} | {_pct(o['S'])} | {o['gt_regions']} | {o['pred_regions']} |")
+
+    st = res.get("static_stage1")
+    if st:
+        t, p, ci = st["test"], st["test"]["pixel"], st["test"]["bootstrap_ci95"]
+        L += ["", "## Stage 1 on static images (test; thresholds fixed from static val)", "",
+              f"- {t['num_images']} images | val Fg-mIoU {_pct(st['val_pixel']['fg_miou'])}",
+              f"- Pixel: IoU BG {_pct(p['iou_bg'])} | IoU Fire {_pct(p['iou_fire'])} {_ci(ci['iou_fire'])} | "
+              f"IoU Smoke {_pct(p['iou_smoke'])} {_ci(ci['iou_smoke'])} | Fg-mIoU {_pct(p['fg_miou'])} {_ci(ci['fg_miou'])} | "
+              f"All-mIoU {_pct(p['all_miou'])}", "",
+              "| Class | tau | A_min | Base rate | TP | FP | TN | FN | Recall | FAR | Precision | F1 | MCC |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+        for name in list(FG.values()) + ["any"]:
+            f = t["frame"][name]
+            s = st["selection_on_val"].get(name, {})
+            L.append(f"| {name} | {s.get('tau', '-')} | {s.get('A_min', '-')} | {_pct(f['BaseRate'])} | {f['TP']} | {f['FP']} | "
+                     f"{f['TN']} | {f['FN']} | {_pct(f['Recall'])} | {_pct(f['FAR'])} | {_pct(f['Precision'])} | "
+                     f"{_pct(f['F1'])} | {f['MCC']:.3f} |")
 
     sp = res["speed"]
     L += ["", "## Speed", "",
@@ -601,7 +671,8 @@ if modal is not None:
         # thresholds are chosen on the val part of the fold; test is the same for every fold
         splits_dir = "/data/data_splits" + (f"/folds/fold{fold}" if fold >= 0 else "")
         res = run_evaluation("/data/dataset_video_unified", splits_dir, stage1_ckpt, stage2_ckpt,
-                             limit=limit, speed_runs=speed_runs, git_commit=git_commit)
+                             limit=limit, speed_runs=speed_runs, git_commit=git_commit,
+                             static_root="/data/Fire_Smoke.v4i/train")
         res = json.loads(json.dumps(res, default=_json_default))
         # also keep the report on the volume, in case the local client is gone when the job ends
         write_outputs(res, "/data/reports")
@@ -628,11 +699,13 @@ if __name__ == "__main__":
     ap.add_argument("--stage1-ckpt", default=str(ROOT / "checkpoints" / "segformer_spatial_best.pth"))
     ap.add_argument("--stage2-ckpt", default=str(ROOT / "checkpoints" / "checkpoints" / "timesformer_spatiotemporal_best.pth"))
     ap.add_argument("--dense-root", default=None, help="only if dense clips live outside --data-root")
+    ap.add_argument("--static-root", default=str(ROOT / "data" / "Fire_Smoke.v4i.png-mask-semantic" / "train"),
+                    help="Stage 1 static-image evaluation ('' to skip)")
     ap.add_argument("--limit", type=int, default=0, help="number of clips per split (0 = all)")
     ap.add_argument("--speed-runs", type=int, default=3)
     ap.add_argument("--out-dir", default=str(ROOT / "docs" / "reports"))
     args = ap.parse_args()
     result = run_evaluation(args.data_root, args.splits_dir, args.stage1_ckpt, args.stage2_ckpt,
                             limit=args.limit, speed_runs=args.speed_runs, git_commit=local_git_commit(),
-                            dense_root=args.dense_root)
+                            dense_root=args.dense_root, static_root=args.static_root or None)
     write_outputs(result, args.out_dir)
