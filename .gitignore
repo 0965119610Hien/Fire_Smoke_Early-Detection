@@ -54,3 +54,19 @@ venv38/
 *.sln
 *.pth
 *.pptx
+
+# ==========================================
+# 6. LOG, FILE BUILD LATEX, NHÁP & TÀI LIỆU THAM KHẢO
+# ==========================================
+*.log
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+scratch/
+lab_experiments/
+2102.05095v4.pdf
+.env
+.claude/settings.local.json

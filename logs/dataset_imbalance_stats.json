@@ -1,0 +1,8 @@
+{
+    "total_images": 11437,
+    "class_0_bboxes": 8526,
+    "class_1_bboxes": 6528,
+    "cat_only_0": 5649,
+    "cat_only_1": 4233,
+    "cat_both": 1555
+}

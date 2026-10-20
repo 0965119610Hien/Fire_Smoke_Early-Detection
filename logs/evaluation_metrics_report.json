@@ -1,0 +1,81 @@
+{
+  "Stage2_TimeSformer": {
+    "Classification_Fire": {
+      "TP": 94,
+      "TN": 4,
+      "FP": 39,
+      "FN": 7,
+      "ACC": 0.6805555555555556,
+      "TPR_Recall": 0.9306930693069307,
+      "FPR_FAR": 0.9069767441860465,
+      "TNR_Specificity": 0.09302325581395349,
+      "FNR_MissRate": 0.06930693069306931,
+      "PPV_Precision": 0.706766917293233,
+      "FDR": 0.2932330827067669,
+      "F1": 0.8034188034188035,
+      "MCC": 0.0408620496316969
+    },
+    "Classification_Smoke": {
+      "TP": 67,
+      "TN": 47,
+      "FP": 22,
+      "FN": 8,
+      "ACC": 0.7916666666666666,
+      "TPR_Recall": 0.8933333333333333,
+      "FPR_FAR": 0.3188405797101449,
+      "TNR_Specificity": 0.6811594202898551,
+      "FNR_MissRate": 0.10666666666666667,
+      "PPV_Precision": 0.7528089887640449,
+      "FDR": 0.24719101123595505,
+      "F1": 0.8170731707317072,
+      "MCC": 0.5906951214985215
+    },
+    "Classification_Overall": {
+      "TP": 133,
+      "TN": 0,
+      "FP": 11,
+      "FN": 0,
+      "ACC": 0.9236111111111112,
+      "TPR_Recall": 1.0,
+      "FPR_FAR": 1.0,
+      "TNR_Specificity": 0.0,
+      "FNR_MissRate": 0.0,
+      "PPV_Precision": 0.9236111111111112,
+      "FDR": 0.0763888888888889,
+      "F1": 0.9602888086642599,
+      "MCC": 0.0
+    },
+    "Localization_Fire": {
+      "Total_GT_Regions": 413,
+      "Detected_GT_Regions": 105,
+      "Total_Pred_Regions": 1487,
+      "Correct_Pred_Regions": 102,
+      "LTPR": 0.2542372881355932,
+      "LPPV": 0.06859448554135844,
+      "Mean_Similarity_S": 0.5801525728195029
+    },
+    "Localization_Smoke": {
+      "Total_GT_Regions": 93,
+      "Detected_GT_Regions": 8,
+      "Total_Pred_Regions": 986,
+      "Correct_Pred_Regions": 8,
+      "LTPR": 0.08602150537634409,
+      "LPPV": 0.008113590263691683,
+      "Mean_Similarity_S": 0.5128320969740418
+    },
+    "Pixel_Segmentation": {
+      "IoU_BG": 0.8253927009899878,
+      "IoU_Fire": 0.34469616673765474,
+      "IoU_Smoke": 0.08844112608606591,
+      "Dice_BG": 0.9043453505016659,
+      "Dice_Fire": 0.5126751682111129,
+      "Dice_Smoke": 0.16250971038556458,
+      "Fg_mIoU": 0.21656864641186033,
+      "All_mIoU": 0.41950999793790283
+    },
+    "Speed_Clips_Per_Sec": 12.734818003067794,
+    "Speed_Video_FPS": 101.87854402454235,
+    "Latency_Per_Clip_ms": 78.52487564086914,
+    "Mean_Detection_Latency_Frames": 0.0
+  }
+}

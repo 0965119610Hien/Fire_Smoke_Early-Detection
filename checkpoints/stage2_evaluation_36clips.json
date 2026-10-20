@@ -1,0 +1,76 @@
+{
+  "Classification_Fire": {
+    "TP": 101,
+    "TN": 65,
+    "FP": 122,
+    "FN": 0,
+    "ACC": 0.5763888888888888,
+    "TPR_Recall": 1.0,
+    "FPR_FAR": 0.6524064171122995,
+    "TNR_Specificity": 0.34759358288770054,
+    "FNR_MissRate": 0.0,
+    "PPV_Precision": 0.452914798206278,
+    "FDR": 0.547085201793722,
+    "F1": 0.6234567901234568,
+    "MCC": 0.3967748447814958
+  },
+  "Classification_Smoke": {
+    "TP": 61,
+    "TN": 137,
+    "FP": 76,
+    "FN": 14,
+    "ACC": 0.6875,
+    "TPR_Recall": 0.8133333333333334,
+    "FPR_FAR": 0.3568075117370892,
+    "TNR_Specificity": 0.6431924882629108,
+    "FNR_MissRate": 0.18666666666666668,
+    "PPV_Precision": 0.44525547445255476,
+    "FDR": 0.5547445255474452,
+    "F1": 0.5754716981132076,
+    "MCC": 0.4011779205391778
+  },
+  "Classification_Overall": {
+    "TP": 133,
+    "TN": 12,
+    "FP": 143,
+    "FN": 0,
+    "ACC": 0.5034722222222222,
+    "TPR_Recall": 1.0,
+    "FPR_FAR": 0.9225806451612903,
+    "TNR_Specificity": 0.07741935483870968,
+    "FNR_MissRate": 0.0,
+    "PPV_Precision": 0.48188405797101447,
+    "FDR": 0.5181159420289855,
+    "F1": 0.6503667481662592,
+    "MCC": 0.19315059636246354
+  },
+  "Localization_Fire": {
+    "Total_GT_Regions": 413,
+    "Detected_GT_Regions": 141,
+    "Total_Pred_Regions": 965,
+    "Correct_Pred_Regions": 130,
+    "LTPR": 0.3414043583535109,
+    "LPPV": 0.13471502590673576,
+    "Mean_Similarity_S": 0.6314693277058989
+  },
+  "Localization_Smoke": {
+    "Total_GT_Regions": 93,
+    "Detected_GT_Regions": 35,
+    "Total_Pred_Regions": 581,
+    "Correct_Pred_Regions": 35,
+    "LTPR": 0.3763440860215054,
+    "LPPV": 0.060240963855421686,
+    "Mean_Similarity_S": 0.9011484484020188
+  },
+  "Pixel_Segmentation": {
+    "IoU_BG": 0.9387257493823101,
+    "IoU_Fire": 0.4463396586912386,
+    "IoU_Smoke": 0.39914784516299984,
+    "Dice_BG": 0.968394575335262,
+    "Dice_Fire": 0.6171989490974557,
+    "Dice_Smoke": 0.5705584960772525,
+    "Fg_mIoU": 0.4227437519271192,
+    "All_mIoU": 0.5947377510788495
+  },
+  "Mean_Detection_Latency_Frames": 0.0
+}

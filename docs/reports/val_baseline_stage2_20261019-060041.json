@@ -1,0 +1,30 @@
+{
+  "A_stage1_nomotion": {
+    "iou_bg": 96.13,
+    "iou_fire": 54.54,
+    "iou_smoke": 52.41,
+    "fg_miou": 53.47,
+    "all_miou": 67.69
+  },
+  "B_epoch0_motion": {
+    "iou_bg": 96.17,
+    "iou_fire": 55.31,
+    "iou_smoke": 52.6,
+    "fg_miou": 53.96,
+    "all_miou": 68.03
+  },
+  "C_best_ep2": {
+    "iou_bg": 95.87,
+    "iou_fire": 66.53,
+    "iou_smoke": 56.3,
+    "fg_miou": 61.41,
+    "all_miou": 72.9
+  },
+  "D_last_ep35": {
+    "iou_bg": 94.72,
+    "iou_fire": 62.7,
+    "iou_smoke": 52.66,
+    "fg_miou": 57.68,
+    "all_miou": 70.03
+  }
+}

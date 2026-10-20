@@ -1,0 +1,160 @@
+{
+  "Stage1_SegFormer": {
+    "Classification_Fire": {
+      "TP": 107,
+      "TN": 47,
+      "FP": 2,
+      "FN": 2,
+      "ACC": 0.9746835443037974,
+      "TPR_Recall": 0.981651376146789,
+      "FPR_FAR": 0.04081632653061224,
+      "TNR_Specificity": 0.9591836734693877,
+      "FNR_MissRate": 0.01834862385321101,
+      "PPV_Precision": 0.981651376146789,
+      "FDR": 0.01834862385321101,
+      "F1": 0.981651376146789,
+      "MCC": 0.9408350496161767
+    },
+    "Classification_Smoke": {
+      "TP": 63,
+      "TN": 82,
+      "FP": 0,
+      "FN": 13,
+      "ACC": 0.9177215189873418,
+      "TPR_Recall": 0.8289473684210527,
+      "FPR_FAR": 0.0,
+      "TNR_Specificity": 1.0,
+      "FNR_MissRate": 0.17105263157894737,
+      "PPV_Precision": 1.0,
+      "FDR": 0.0,
+      "F1": 0.9064748201438849,
+      "MCC": 0.8458796991144552
+    },
+    "Classification_Overall": {
+      "TP": 153,
+      "TN": 0,
+      "FP": 0,
+      "FN": 5,
+      "ACC": 0.9683544303797469,
+      "TPR_Recall": 0.9683544303797469,
+      "FPR_FAR": 0.0,
+      "TNR_Specificity": 0.0,
+      "FNR_MissRate": 0.03164556962025317,
+      "PPV_Precision": 1.0,
+      "FDR": 0.0,
+      "F1": 0.9839228295819936,
+      "MCC": 0.0
+    },
+    "Localization_Fire": {
+      "Total_GT_Regions": 152,
+      "Detected_GT_Regions": 121,
+      "Total_Pred_Regions": 167,
+      "Correct_Pred_Regions": 119,
+      "LTPR": 0.7960526315789473,
+      "LPPV": 0.7125748502994012,
+      "Mean_Similarity_S": 0.8035472740961702
+    },
+    "Localization_Smoke": {
+      "Total_GT_Regions": 90,
+      "Detected_GT_Regions": 62,
+      "Total_Pred_Regions": 94,
+      "Correct_Pred_Regions": 62,
+      "LTPR": 0.6888888888888889,
+      "LPPV": 0.6595744680851063,
+      "Mean_Similarity_S": 0.7470329528868617
+    },
+    "Pixel_Segmentation": {
+      "IoU_BG": 0.9691104091713895,
+      "IoU_Fire": 0.7491743788125496,
+      "IoU_Smoke": 0.509222739880273,
+      "Dice_BG": 0.9843129208576936,
+      "Dice_Fire": 0.8566034214621203,
+      "Dice_Smoke": 0.6748145604016035,
+      "Fg_mIoU": 0.6291985593464113,
+      "All_mIoU": 0.7425025092880707
+    },
+    "Speed": {
+      "Latency_ms": 18.744653463363647,
+      "FPS": 53.34854559752178
+    }
+  },
+  "Stage2_TimeSformer": {
+    "Classification_Fire": {
+      "TP": 101,
+      "TN": 34,
+      "FP": 9,
+      "FN": 0,
+      "ACC": 0.9375,
+      "TPR_Recall": 1.0,
+      "FPR_FAR": 0.20930232558139536,
+      "TNR_Specificity": 0.7906976744186046,
+      "FNR_MissRate": 0.0,
+      "PPV_Precision": 0.9181818181818182,
+      "FDR": 0.08181818181818182,
+      "F1": 0.957345971563981,
+      "MCC": 0.8520588174121606
+    },
+    "Classification_Smoke": {
+      "TP": 61,
+      "TN": 38,
+      "FP": 31,
+      "FN": 14,
+      "ACC": 0.6875,
+      "TPR_Recall": 0.8133333333333334,
+      "FPR_FAR": 0.4492753623188406,
+      "TNR_Specificity": 0.5507246376811594,
+      "FNR_MissRate": 0.18666666666666668,
+      "PPV_Precision": 0.6630434782608695,
+      "FDR": 0.33695652173913043,
+      "F1": 0.7305389221556886,
+      "MCC": 0.3786431774233086
+    },
+    "Classification_Overall": {
+      "TP": 133,
+      "TN": 0,
+      "FP": 11,
+      "FN": 0,
+      "ACC": 0.9236111111111112,
+      "TPR_Recall": 1.0,
+      "FPR_FAR": 1.0,
+      "TNR_Specificity": 0.0,
+      "FNR_MissRate": 0.0,
+      "PPV_Precision": 0.9236111111111112,
+      "FDR": 0.0763888888888889,
+      "F1": 0.9602888086642599,
+      "MCC": 0.0
+    },
+    "Localization_Fire": {
+      "Total_GT_Regions": 413,
+      "Detected_GT_Regions": 143,
+      "Total_Pred_Regions": 549,
+      "Correct_Pred_Regions": 131,
+      "LTPR": 0.34624697336561744,
+      "LPPV": 0.23861566484517305,
+      "Mean_Similarity_S": 0.6317887234164741
+    },
+    "Localization_Smoke": {
+      "Total_GT_Regions": 93,
+      "Detected_GT_Regions": 35,
+      "Total_Pred_Regions": 354,
+      "Correct_Pred_Regions": 35,
+      "LTPR": 0.3763440860215054,
+      "LPPV": 0.09887005649717515,
+      "Mean_Similarity_S": 0.9010686929454081
+    },
+    "Pixel_Segmentation": {
+      "IoU_BG": 0.896584540033325,
+      "IoU_Fire": 0.5021205515996874,
+      "IoU_Smoke": 0.45024672603110905,
+      "Dice_BG": 0.9454727918614904,
+      "Dice_Fire": 0.6685489404493138,
+      "Dice_Smoke": 0.6209243130143306,
+      "Fg_mIoU": 0.4761836388153982,
+      "All_mIoU": 0.6163172725547071
+    },
+    "Speed_Clips_Per_Sec": 7.425788044915786,
+    "Speed_Video_FPS": 59.406304359326285,
+    "Latency_Per_Clip_ms": 134.6658420562744,
+    "Mean_Detection_Latency_Frames": 0.0
+  }
+}
