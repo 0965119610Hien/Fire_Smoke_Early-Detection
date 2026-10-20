@@ -110,3 +110,83 @@ Stage 2 streaming có cache 35,7 FPS → đủ thời gian thực cho 1 luồng 
 4. **Bổ sung âm tính khó dạng hơi nước / sương / mây / bụi** (video + ảnh tĩnh, mask toàn 0) và cân nhắc tăng trọng số FP khói
    (class weight hoặc focal loss) — nhắm thẳng vào nhận xét 5.
 5. Sau khi chốt 1–4 trên fold 0: chạy đủ **5 fold** và báo cáo trung bình ± độ lệch chuẩn; chỉ đánh giá test một lần cho cấu hình cuối.
+
+## 6. Quan sát định tính từ ảnh suy luận
+
+Ảnh: `data/inference_samples_fold0/` (sinh bằng `modal run src/infer_samples.py --fold 0`), 118 frame / 30 video mô hình chưa
+thấy khi train (17 video test + 13 video val fold 0), 4 frame rải đều mỗi video. Mỗi ảnh gồm: ảnh gốc | nhãn | Stage 1 | Stage 2;
+đỏ = lửa, xanh = khói; dự đoán là argmax (chưa áp ngưỡng báo động). Đã xem kỹ khoảng 15/30 video, ưu tiên các ca IoU thấp.
+
+### 6.1 Ưu điểm
+
+**Chung**
+- Lửa rõ được khoanh rất sát viền, kể cả hình dạng phức tạp (que diêm, lửa trào khỏi lò, lửa chảo).
+- Bắt được lửa nhỏ trong cảnh rộng: lửa ngoài hiên ~1.700 px trên camera mắt cá (`electrical_ignition_Roltnt5J_e0`, IoU 78–86%),
+  lửa trong kho tối (`bucket11`, 60–80%).
+- Ít báo lửa giả trên nền thường: video âm tính thường gần như sạch; đèn sáng, nắng chói, đèn hậu xe đỏ không bị nhận là lửa.
+- Đôi khi đúng hơn nhãn: ống khói nhà máy đang nhả khói nhưng nhãn rỗng (`9a06358f`), phòng đầy khói nhưng nhãn chỉ có lửa
+  (`battery_thermal_runaway_ld00r`) → mô hình đã học được khái niệm khói, không chỉ học thuộc nhãn.
+
+**Riêng Stage 2 (temporal)**
+- Mạnh hẳn với khói lớn, loãng, lan rộng: chảo khoai `14112316` IoU khói 65–84% trong khi Stage 1 ≈ 0%.
+- Vùng khói liền mạch hơn, ít mảng lốm đốm (khớp số liệu: vùng khói dự đoán 667 → 190).
+- Lửa đầy đặn và ổn định hơn qua các frame: lò `12393269` IoU lửa 34–53% (Stage 1) → 64–72%.
+
+### 6.2 Nhược điểm
+
+**Chung**
+- **Bỏ sót khói mỏng / xa / dạng sợi** — đúng loại khói của giai đoạn cháy sớm: khói xa trong video chất lượng thấp (`VimYV`),
+  sợi khói sau que diêm (`e731c09a`), làn khói ngay trên lửa (`bucket11`).
+- Nhầm hơi nước / sương với khói: hơi nồi ngoài trời lạnh (`jKMNSvpB9dY`), máy phun sương (`zFDB6XlHWVU`), hơi ống khói.
+- Nhầm theo màu: rau xào, mì màu cam/đỏ bị gán lửa (`13323137`, `316af409`); vùng tối, mờ, ít chi tiết (áo tối) bị gán khói.
+- Khói lớn bị khoanh thiếu khi cả phòng mù khói (`battery_ld00r` frame cuối).
+
+**Riêng Stage 2**
+- **"Tưởng tượng" khói quanh nguồn nóng**: đèn khò `13106082` bị vẽ cả một cột khói trên bức tường tối không có khói, lớn hơn nhiều
+  so với Stage 1 — có vẻ học được kiểu "có lửa thì phía trên có khói".
+- **Bỏ sót lửa nhỏ đứng yên**: đốm lửa sau cửa bếp lò `13862697` mất hẳn ở các frame sau (IoU 0%) trong khi Stage 1 vẫn bắt được
+  (49–71%) — nghi do phần motion / nhánh temporal làm mờ vật nhỏ ít chuyển động.
+- Khi đã nhầm thì nhầm to hơn (lửa giả phủ cả chảo mì, khói giả phủ cả vạt áo tối); hay sinh thêm đốm khói lẻ (cạnh đèn sáng,
+  vùng có chữ chèn).
+
+**Riêng Stage 1**
+- Gần như không thấy khói loãng phủ rộng (chỉ học trên ảnh tĩnh, nơi khói thường đặc và có viền rõ).
+- Dự đoán vụn hơn: lửa / khói tách thành nhiều mảng nhỏ, viền lửa lớn bị khuyết.
+
+### 6.3 Tóm tắt so sánh
+
+| | Stage 1 | Stage 2 |
+|---|---|---|
+| Lửa rõ / lớn | Tốt | **Tốt hơn** (đầy đặn, ổn định) |
+| Lửa nhỏ đứng yên | **Tốt hơn** | Có thể mất |
+| Khói lớn, loãng | Kém | **Rất tốt** |
+| Khói mỏng / xa (cháy sớm) | Kém | Kém |
+| Báo nhầm (hơi nước, nguồn nóng, màu cam, vùng tối) | Có, vừa | **Có, nặng hơn** |
+
+**Stage 2 nhạy hơn nhưng "liều" hơn**: thấy nhiều khói thật hơn, nhưng sai thì sai to hơn. Hai điểm yếu đáng lo nhất cho mục tiêu
+phát hiện sớm: **bỏ sót khói mỏng** và **báo khói giả quanh nguồn nóng / hơi nước**.
+
+### 6.4 Vấn đề nhãn phát hiện được
+
+Một phần "lỗi" của mô hình thực chất là lỗi / mâu thuẫn nhãn; với test chỉ 17 video, vài video như vậy đủ kéo IoU khói và đẩy FAR lên.
+
+| Vấn đề | Ví dụ |
+|---|---|
+| **Hơi nước là "khói" trong video dương tính nhưng là "nền" trong video âm tính khó** → mô hình bị dạy hai điều trái ngược | Hơi bốc từ chảo `14112316` gán khói; hơi nồi `jKMNSvpB9dY`, sương máy phun `zFDB6XlHWVU` gán nền |
+| Khói thật nhưng nhãn rỗng | Ống khói nhà máy `9a06358f`; khói xả xe trong tuyết `nJe-Y9QM0cA` (âm tính nhưng về vật lý là khói) |
+| Nhãn thiếu khói khi phòng đã đầy khói | `battery_thermal_runaway_ld00r` frame 2 (nhãn chỉ có lửa) |
+| Nhãn thô dạng hộp / trùm cả chữ chèn | Lửa trong lò `12393269` vẽ thành hình chữ nhật; `VimYV` frame cuối gán khói trùm dòng chữ "Smoke Detected!!" |
+| Chính sách "lửa" chưa thống nhất | Ngọn lửa xanh bếp gas được gán lửa (`13323137`, `14112316`) |
+
+### 6.5 Việc nên làm (bổ sung cho mục 5)
+
+1. **Chốt quy tắc gán nhãn trước khi train tiếp**: hơi nước / sương là khói hay nền? Lửa xanh bếp gas có tính là lửa? Khói xả xe?
+   Sau đó sửa các video ở bảng 6.4 trên Roboflow (ưu tiên `9a06358f`, `battery_thermal_runaway_ld00r`).
+2. Nếu coi hơi nước là nền: thêm nhiều âm tính khó dạng hơi nước / sương và sửa nhãn hơi nước trong video dương tính
+   (ngược lại nếu coi là khói).
+3. Khói mỏng / nhỏ: tăng cường scale-crop và cho Stage 1 học thêm frame video (mục 5.2–5.3).
+4. Stage 2 vẽ khói quanh nguồn nóng và mất lửa nhỏ đứng yên: ablation tắt motion; chọn checkpoint theo chỉ số khói / FAR thay vì
+   chỉ theo Fg-mIoU.
+
+**Giới hạn của quan sát:** mới xem ~15/30 video × 4 frame; ảnh là argmax chưa áp ngưỡng báo động (ngưỡng sẽ lọc bớt đốm khói lẻ);
+cần chốt quy tắc nhãn trước khi kết luận chắc chắn về các lỗi liên quan đến hơi nước.
