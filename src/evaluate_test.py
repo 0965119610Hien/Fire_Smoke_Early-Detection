@@ -22,6 +22,8 @@ Protocol:
 - Per-video table, speed (CPU preprocessing / GPU per clip / streaming with feature cache).
 - Stage 1 on the static images too: thresholds on static val, metrics on static test.
 - --fold k: val = fold k (thresholds), test is the same for every fold.
+- Empty Stage 2 checkpoint ("") -> Stage 1 only (stage1_framewise on the dense clips + static images).
+- Preprocessing follows each checkpoint's config: `enhance` False = raw frames, no enhance_base.
 
 Local CPU debug:
   python src/evaluate_test.py --limit 2
@@ -217,6 +219,13 @@ def load_models(stage1_ckpt, stage2_ckpt, device):
     stage1 = fc.build_segformer_b2(pretrained=False)
     stage1.load_state_dict(s1["model_state_dict"])
     stage1.to(device).eval()
+    meta = {"stage1": {"path": str(stage1_ckpt), "run_id": s1.get("run_id", "legacy"), "epoch": s1.get("epoch"),
+                       "config": s1.get("config")}}
+
+    if not stage2_ckpt:
+        cfg = {"T": 8, "clip_mode": "dense", "use_motion": False, "letterbox": True}
+        meta["stage2"] = None
+        return {"stage1_framewise": stage1}, cfg, meta
 
     s2 = torch.load(stage2_ckpt, map_location="cpu", weights_only=False)
     cfg = s2.get("config")
@@ -236,13 +245,9 @@ def load_models(stage1_ckpt, stage2_ckpt, device):
     with torch.no_grad():
         gamma0.temporal_refinement.gamma.zero_()
 
-    meta = {
-        "stage1": {"path": str(stage1_ckpt), "run_id": s1.get("run_id", "legacy"), "epoch": s1.get("epoch"),
-                   "config": s1.get("config")},
-        "stage2": {"path": str(stage2_ckpt), "run_id": s2.get("run_id", "legacy"), "epoch": s2.get("epoch"),
-                   "gamma": float(stage2.temporal_refinement.gamma.item()), "config": s2.get("config"),
-                   "legacy": legacy, "eval_model_config": cfg},
-    }
+    meta["stage2"] = {"path": str(stage2_ckpt), "run_id": s2.get("run_id", "legacy"), "epoch": s2.get("epoch"),
+                      "gamma": float(stage2.temporal_refinement.gamma.item()), "config": s2.get("config"),
+                      "legacy": legacy, "eval_model_config": cfg}
     return {"stage1_framewise": stage1, "stage2_gamma0": gamma0, "stage2_full": stage2}, cfg, meta
 
 
@@ -299,7 +304,7 @@ def run_split(datasets, models, clips_df, device, sel_by_cfg=None, limit=0, desc
     loc = {n: {c: defaultdict(float) for c in FG} for n in models}
     t0 = time.time()
     for j, ci in enumerate(clip_ids):
-        keys = datasets["stage2"].frame_keys(ci)
+        keys = datasets["stage1"].frame_keys(ci)
         cache = {}
         for name, model in models.items():
             ds_key = "stage1" if name == "stage1_framewise" else "stage2"
@@ -363,14 +368,14 @@ def summarize_test(records, sel, loc):
             "video": video, "object": objects, "bootstrap_ci95": bootstrap(records, sel), "per_video": per_video}
 
 
-def run_static(model, splits_dir, static_root, device, limit=0):
+def run_static(model, splits_dir, static_root, device, limit=0, enhance=True):
     """Stage 1 on the STATIC images: thresholds on static val, metrics on static test.
     Each image is its own bootstrap unit (images come from ~1200 different sources)."""
     import fire_core as fc
     from fire_core import iou_dice_from_cm
 
     def records_of(split):
-        ds = fc.StaticSegDataset(Path(splits_dir) / f"static_v4i_{split}_manifest.csv", static_root)
+        ds = fc.StaticSegDataset(Path(splits_dir) / f"static_v4i_{split}_manifest.csv", static_root, enhance=enhance)
         n = min(len(ds), limit) if limit else len(ds)
         recs = []
         for i in range(n):
@@ -420,7 +425,7 @@ def measure_speed(models, dataset, device, T, runs):
     for p in paths[: max(runs, 1)]:
         img = fc.read_image(dataset.data_root / p)
         t = time.perf_counter()
-        base = fc.enhance_base(img)
+        base = fc.enhance_base(img) if dataset.enhance else img
         x = fc.apply_motion(base, prev) if dataset.use_motion else base
         prev = base
         x = fc.letterbox_image_and_mask(x, None, dataset.target_size)[0] if dataset.letterbox else x
@@ -445,13 +450,16 @@ def measure_speed(models, dataset, device, T, runs):
         return 1000 * float(np.mean(ts))
 
     with torch.no_grad(), torch.autocast(**amp):
-        s1, s2 = models["stage1_framewise"], models["stage2_full"]
+        s1, s2 = models["stage1_framewise"], models.get("stage2_full")
         # (b) model time per clip of T frames
         out["stage1_ms_per_clip"] = timed(lambda: s1(pixel_values=clip[0]), runs)
-        out["stage2_ms_per_clip"] = timed(lambda: s2(clip), runs)
         # (c) streaming, stride 1: per new frame
         frame = clip[:, 0]
         out["stage1_stream_ms_per_frame"] = timed(lambda: s1(pixel_values=frame), runs)
+        out["stage1_stream_fps"] = 1000.0 / out["stage1_stream_ms_per_frame"]
+        if s2 is None:
+            return out
+        out["stage2_ms_per_clip"] = timed(lambda: s2(clip), runs)
         cache = deque([s2.encode_frames(clip[0, i:i + 1]) for i in range(T)], maxlen=T)
 
         def stream_step():
@@ -463,7 +471,6 @@ def measure_speed(models, dataset, device, T, runs):
 
         out["stage2_stream_ms_per_frame_cached"] = timed(stream_step, runs)
     out["stage2_stream_fps_cached"] = 1000.0 / out["stage2_stream_ms_per_frame_cached"]
-    out["stage1_stream_fps"] = 1000.0 / out["stage1_stream_ms_per_frame"]
     return out
 
 
@@ -483,24 +490,26 @@ def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, spe
     prefix = "dense_" if clip_mode != "sparse" else ""
     if clip_mode != "sparse":
         data_root = dense_root or data_root
-    print(f"ℹ️ clip_mode = {clip_mode} | data_root = {data_root}")
+    s1_enhance = (meta["stage1"]["config"] or {}).get("enhance", True)
+    s2_enhance = cfg.get("enhance", True)
+    print(f"ℹ️ clip_mode = {clip_mode} | data_root = {data_root} | enhance: stage1 {s1_enhance}, stage2 {s2_enhance}")
 
     def make_datasets(split):
         csv = Path(splits_dir) / f"{prefix}{split}_clips.csv"
-        return {
-            "stage1": fc.VideoClipDataset(csv, data_root, use_motion=False, letterbox=True),
-            "stage2": fc.VideoClipDataset(csv, data_root, use_motion=cfg.get("use_motion", True),
-                                          letterbox=cfg.get("letterbox", True)),
-        }
+        ds = {"stage1": fc.VideoClipDataset(csv, data_root, use_motion=False, letterbox=True, enhance=s1_enhance)}
+        if "stage2_full" in models:
+            ds["stage2"] = fc.VideoClipDataset(csv, data_root, use_motion=cfg.get("use_motion", True),
+                                               letterbox=cfg.get("letterbox", True), enhance=s2_enhance)
+        return ds
 
     print("▶ VAL: chọn ngưỡng (tau, A_min, k)...")
     val_ds = make_datasets("val")
-    val_records, _ = run_split(val_ds, models, val_ds["stage2"].df, device, limit=limit, desc="val")
+    val_records, _ = run_split(val_ds, models, val_ds["stage1"].df, device, limit=limit, desc="val")
     selections = {n: select_thresholds(val_records[n]) for n in models}
 
     print("▶ TEST: đánh giá với ngưỡng cố định...")
     test_ds = make_datasets("test")
-    test_records, loc = run_split(test_ds, models, test_ds["stage2"].df, device, sel_by_cfg=selections,
+    test_records, loc = run_split(test_ds, models, test_ds["stage1"].df, device, sel_by_cfg=selections,
                                   limit=limit, desc="test")
 
     results = {}
@@ -513,12 +522,13 @@ def run_evaluation(data_root, splits_dir, stage1_ckpt, stage2_ckpt, limit=0, spe
     static = None
     if static_root:
         print("▶ STATIC: Stage 1 trên ảnh tĩnh (ngưỡng từ static val)...")
-        static = run_static(models["stage1_framewise"], splits_dir, static_root, device, limit=limit)
+        static = run_static(models["stage1_framewise"], splits_dir, static_root, device, limit=limit,
+                            enhance=s1_enhance)
 
     print("▶ Đo tốc độ...")
-    speed = measure_speed(models, test_ds["stage2"], device, T, speed_runs)
+    speed = measure_speed(models, test_ds.get("stage2", test_ds["stage1"]), device, T, speed_runs)
 
-    run_id = meta["stage2"]["run_id"]
+    run_id = (meta["stage2"] or meta["stage1"])["run_id"]
     return {
         "run_id": run_id,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
@@ -555,7 +565,9 @@ def to_markdown(res):
     L = [f"# Evaluation — run `{res['run_id']}` ({res.get('clip_mode', 'sparse')})", "",
          f"- Generated: {res['generated_at']} | eval git: `{res['eval_git_commit']}` | limit clips: {res['limit_clips'] or 'none'}",
          f"- Stage 1: `{res['checkpoints']['stage1']['path']}` (run {res['checkpoints']['stage1']['run_id']}, epoch {res['checkpoints']['stage1']['epoch']})",
-         f"- Stage 2: `{res['checkpoints']['stage2']['path']}` (run {res['checkpoints']['stage2']['run_id']}, epoch {res['checkpoints']['stage2']['epoch']}, gamma {res['checkpoints']['stage2']['gamma']:.4f}, legacy={res['checkpoints']['stage2']['legacy']})",
+         (f"- Stage 2: `{res['checkpoints']['stage2']['path']}` (run {res['checkpoints']['stage2']['run_id']}, epoch {res['checkpoints']['stage2']['epoch']}, gamma {res['checkpoints']['stage2']['gamma']:.4f}, legacy={res['checkpoints']['stage2']['legacy']})"
+          if res['checkpoints']['stage2'] else "- Stage 2: không dùng (chỉ đánh giá Stage 1)"),
+         f"- Preprocess: enhance_base = {(res['checkpoints']['stage1']['config'] or {}).get('enhance', True)} (Stage 1)",
          f"- Protocol: {res['protocol']['unique_frames']}; {res['protocol']['frame_positive']}; thresholds {res['protocol']['selection']}.",
          "", "## Pixel level (test, %)", "",
          "| Config | Frames | Videos | IoU BG | IoU Fire | IoU Smoke | Dice Fire | Dice Smoke | Fg-mIoU [95% CI] | All-mIoU |",
@@ -608,16 +620,20 @@ def to_markdown(res):
                      f"{_pct(f['F1'])} | {f['MCC']:.3f} |")
 
     sp = res["speed"]
+    has_s2 = "stage2_full" in res["results"]
+    per_video_cfg = "stage2_full" if has_s2 else "stage1_framewise"
     L += ["", "## Speed", "",
           f"- Device: {sp['device']} | batch {sp['batch']} | T {sp['T']} | AMP fp16: {sp['amp_fp16']} | runs {sp['runs']}",
           f"- (a) CPU preprocessing: {sp['preprocess_ms_per_frame_cpu']:.1f} ms/frame (source {sp['preprocess_source_resolution']})",
-          f"- (b) Model per clip: Stage 1 {sp['stage1_ms_per_clip']:.1f} ms | Stage 2 {sp['stage2_ms_per_clip']:.1f} ms",
-          f"- (c) Streaming stride 1: Stage 1 {sp['stage1_stream_ms_per_frame']:.1f} ms/frame ({sp['stage1_stream_fps']:.1f} FPS) | "
-          f"Stage 2 with feature cache {sp['stage2_stream_ms_per_frame_cached']:.1f} ms/frame ({sp['stage2_stream_fps_cached']:.1f} FPS)",
-          "", "## Per video (stage2_full, test)", "",
+          f"- (b) Model per clip: Stage 1 {sp['stage1_ms_per_clip']:.1f} ms"
+          + (f" | Stage 2 {sp['stage2_ms_per_clip']:.1f} ms" if has_s2 else ""),
+          f"- (c) Streaming stride 1: Stage 1 {sp['stage1_stream_ms_per_frame']:.1f} ms/frame ({sp['stage1_stream_fps']:.1f} FPS)"
+          + (f" | Stage 2 with feature cache {sp['stage2_stream_ms_per_frame_cached']:.1f} ms/frame ({sp['stage2_stream_fps_cached']:.1f} FPS)"
+             if has_s2 else ""),
+          "", f"## Per video ({per_video_cfg}, test)", "",
           "| Video | Frames | IoU BG | IoU Fire | IoU Smoke | Fire FP fr. | Fire FN fr. | Smoke FP fr. | Smoke FN fr. |",
           "|---|---|---|---|---|---|---|---|---|"]
-    for row in res["results"]["stage2_full"]["test"]["per_video"]:
+    for row in res["results"][per_video_cfg]["test"]["per_video"]:
         L.append(f"| {row['video']} | {row['frames']} | {_pct(row['iou_bg'])} | {_pct(row['iou_fire'])} | {_pct(row['iou_smoke'])} | "
                  f"{row['fire_FP_frames']} | {row['fire_FN_frames']} | {row['smoke_FP_frames']} | {row['smoke_FN_frames']} |")
     return "\n".join(L) + "\n"

@@ -1,0 +1,670 @@
+{
+  "run_id": "20261023-144146",
+  "generated_at": "2026-10-23T15:37:17",
+  "eval_git_commit": "43ce03a-dirty",
+  "limit_clips": 0,
+  "clip_mode": "dense",
+  "data_root": "/data/dataset_video_unified",
+  "protocol": {
+    "unique_frames": "each (video, frame) counted once; Stage 2 prediction from the clip where the frame is at its latest position",
+    "frame_positive": "area(prob_c > tau) >= max(A_min, 1) pixels at 512x512 model resolution, pad excluded",
+    "selection": "on val: recall >= 0.95 with lowest FAR, else max F1",
+    "taus": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "A_mins": [
+      0,
+      50,
+      200,
+      500,
+      1000,
+      2000
+    ],
+    "ks": [
+      1,
+      2,
+      3
+    ],
+    "bootstrap": "1000 resamples over videos"
+  },
+  "splits_dir": "/data/data_splits",
+  "checkpoints": {
+    "stage1": {
+      "path": "/data/checkpoints/segformer_spatial_best_raw.pth",
+      "run_id": "20261023-144146",
+      "epoch": 24,
+      "config": {
+        "stage": 1,
+        "model": "nvidia/mit-b2",
+        "num_labels": 3,
+        "target_size": [
+          512,
+          512
+        ],
+        "letterbox": true,
+        "mask_pad_value": 255,
+        "preprocess_version": "v3.2",
+        "use_motion": false,
+        "enhance": false,
+        "batch_size": 8,
+        "num_workers": 4,
+        "epochs": 40,
+        "lr_backbone": 6e-05,
+        "lr_head": 0.0006,
+        "weight_decay": 0.01,
+        "eta_min": 1e-06,
+        "class_weights": [
+          0.1,
+          3.5,
+          2.0
+        ],
+        "dice_weight": 1.0,
+        "dice_mode": "batch_fg",
+        "seed": 42,
+        "git_commit": "43ce03a-dirty",
+        "fold": -1
+      }
+    },
+    "stage2": null
+  },
+  "results": {
+    "stage1_framewise": {
+      "selection_on_val": {
+        "fire": {
+          "tau": 0.4,
+          "tau_index": 1,
+          "A_min": 0,
+          "val_frame": {
+            "TP": 119,
+            "FP": 34,
+            "TN": 109,
+            "FN": 54,
+            "Recall": 0.6878612716763006,
+            "FAR": 0.23776223776223776,
+            "Precision": 0.7777777777777778,
+            "F1": 0.7300613496932514,
+            "MCC": 0.4482906010558681,
+            "BaseRate": 0.5474683544303798,
+            "N": 316
+          },
+          "k": 1,
+          "val_video": {
+            "TP": 9,
+            "FP": 7,
+            "TN": 3,
+            "FN": 0,
+            "Recall": 1.0,
+            "FAR": 0.7,
+            "Precision": 0.5625,
+            "F1": 0.72,
+            "MCC": 0.4107919181288746,
+            "BaseRate": 0.47368421052631576,
+            "N": 19
+          }
+        },
+        "smoke": {
+          "tau": 0.7,
+          "tau_index": 4,
+          "A_min": 50,
+          "val_frame": {
+            "TP": 87,
+            "FP": 34,
+            "TN": 174,
+            "FN": 21,
+            "Recall": 0.8055555555555556,
+            "FAR": 0.16346153846153846,
+            "Precision": 0.71900826446281,
+            "F1": 0.759825327510917,
+            "MCC": 0.6265160160733676,
+            "BaseRate": 0.34177215189873417,
+            "N": 316
+          },
+          "k": 1,
+          "val_video": {
+            "TP": 9,
+            "FP": 5,
+            "TN": 5,
+            "FN": 0,
+            "Recall": 1.0,
+            "FAR": 0.5,
+            "Precision": 0.6428571428571429,
+            "F1": 0.782608695652174,
+            "MCC": 0.5669467095138409,
+            "BaseRate": 0.47368421052631576,
+            "N": 19
+          }
+        }
+      },
+      "test": {
+        "num_frames": 282,
+        "num_videos": 18,
+        "pixel": {
+          "iou": [
+            0.9587867015411535,
+            0.7256938490906805,
+            0.44425685182058644
+          ],
+          "dice": [
+            0.9789597823865047,
+            0.84104587783409,
+            0.6152047695125278
+          ],
+          "iou_bg": 0.9587867015411535,
+          "iou_fire": 0.7256938490906805,
+          "iou_smoke": 0.44425685182058644,
+          "dice_fire": 0.84104587783409,
+          "dice_smoke": 0.6152047695125278,
+          "fg_miou": 0.5849753504556334,
+          "all_miou": 0.7095791341508068,
+          "confusion_matrix": [
+            [
+              39445134,
+              61495,
+              375655
+            ],
+            [
+              121890,
+              507887,
+              3277
+            ],
+            [
+              1136503,
+              5315,
+              1215676
+            ]
+          ]
+        },
+        "frame": {
+          "fire": {
+            "TP": 128,
+            "FP": 2,
+            "TN": 130,
+            "FN": 22,
+            "Recall": 0.8533333333333334,
+            "FAR": 0.015151515151515152,
+            "Precision": 0.9846153846153847,
+            "F1": 0.9142857142857143,
+            "MCC": 0.8390297514468894,
+            "BaseRate": 0.5319148936170213,
+            "N": 282
+          },
+          "smoke": {
+            "TP": 79,
+            "FP": 26,
+            "TN": 162,
+            "FN": 15,
+            "Recall": 0.8404255319148937,
+            "FAR": 0.13829787234042554,
+            "Precision": 0.7523809523809524,
+            "F1": 0.7939698492462312,
+            "MCC": 0.6846642484984248,
+            "BaseRate": 0.3333333333333333,
+            "N": 282
+          },
+          "any": {
+            "TP": 190,
+            "FP": 18,
+            "TN": 63,
+            "FN": 11,
+            "Recall": 0.945273631840796,
+            "FAR": 0.2222222222222222,
+            "Precision": 0.9134615384615384,
+            "F1": 0.9290953545232274,
+            "MCC": 0.7436390509337611,
+            "BaseRate": 0.7127659574468085,
+            "N": 282
+          }
+        },
+        "video": {
+          "fire": {
+            "k": 1,
+            "TP": 8,
+            "FP": 2,
+            "TN": 6,
+            "FN": 2,
+            "Recall": 0.8,
+            "FAR": 0.25,
+            "Precision": 0.8,
+            "F1": 0.8000000000000002,
+            "MCC": 0.55,
+            "BaseRate": 0.5555555555555556,
+            "N": 18
+          },
+          "smoke": {
+            "k": 1,
+            "TP": 7,
+            "FP": 4,
+            "TN": 7,
+            "FN": 0,
+            "Recall": 1.0,
+            "FAR": 0.36363636363636365,
+            "Precision": 0.6363636363636364,
+            "F1": 0.7777777777777778,
+            "MCC": 0.6363636363636364,
+            "BaseRate": 0.3888888888888889,
+            "N": 18
+          }
+        },
+        "object": {
+          "fire": {
+            "LTPR": 0.6877076411960132,
+            "LPPV": 0.258974358974359,
+            "S": 0.7939703985509523,
+            "gt_regions": 301,
+            "pred_regions": 780,
+            "min_pred_area": 16
+          },
+          "smoke": {
+            "LTPR": 0.425,
+            "LPPV": 0.06666666666666667,
+            "S": 0.5159124346308737,
+            "gt_regions": 120,
+            "pred_regions": 765,
+            "min_pred_area": 50
+          }
+        },
+        "bootstrap_ci95": {
+          "fg_miou": [
+            0.4382907231761363,
+            0.7271417111136065
+          ],
+          "iou_fire": [
+            0.6750056945455875,
+            0.7515868719182734
+          ],
+          "iou_smoke": [
+            0.16929121566886893,
+            0.7175264119670838
+          ],
+          "fire_frame_recall": [
+            0.5957061362935553,
+            1.0
+          ],
+          "fire_frame_far": [
+            0.0,
+            0.045497427101200645
+          ],
+          "smoke_frame_recall": [
+            0.6976744186046512,
+            1.0
+          ],
+          "smoke_frame_far": [
+            0.032861925652274304,
+            0.28239288307915755
+          ]
+        },
+        "per_video": [
+          {
+            "video": "13269425_2160_3840_30fps",
+            "frames": 31,
+            "iou_bg": 0.9951332995570564,
+            "iou_fire": 0.6727337562961532,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "13676716_2160_3840_30fps_pure",
+            "frames": 11,
+            "iou_bg": 0.9830325724883108,
+            "iou_fire": 0.7514191711699425,
+            "iou_smoke": 0.0,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 2,
+            "smoke_FN_frames": 2
+          },
+          {
+            "video": "13845809_2160_3840_25fps",
+            "frames": 13,
+            "iou_bg": 0.9977551594407696,
+            "iou_fire": 0.7379117703717973,
+            "iou_smoke": 0.0,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 1,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "13862697_2160_3840_25fps",
+            "frames": 12,
+            "iou_bg": 0.9991604112964904,
+            "iou_fire": 0.7446588559614059,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "13976903_1080_1920_25fps_pure",
+            "frames": 16,
+            "iou_bg": 0.9933352387091282,
+            "iou_fire": 0.788013594540079,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "17116108-hd_1920_1080_25fps_pure",
+            "frames": 10,
+            "iou_bg": 0.9982851451635851,
+            "iou_fire": 0.6909202453987731,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "4a37a9df_pexels_heavy_smoke_17202470_pure",
+            "frames": 11,
+            "iou_bg": 0.9424876272104435,
+            "iou_fire": NaN,
+            "iou_smoke": 0.6337385493382144,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "4cf31d6f_pexels_heavy_smoke_36068162_pure",
+            "frames": 16,
+            "iou_bg": 0.9865551242816281,
+            "iou_fire": NaN,
+            "iou_smoke": 0.9151324294352986,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "6770d887_pexels_heavy_smoke_28478389_pure",
+            "frames": 11,
+            "iou_bg": 0.7420941409546171,
+            "iou_fire": 0.6975705281194541,
+            "iou_smoke": 0.2827478289953056,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 2
+          },
+          {
+            "video": "6eeb70d4_pexels_heavy_smoke_34004202",
+            "frames": 16,
+            "iou_bg": 0.9076084622197478,
+            "iou_fire": 0.0,
+            "iou_smoke": 0.7541837863865052,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 16,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "816fd10a_pexels_cooking_smoke_37848046",
+            "frames": 1,
+            "iou_bg": 0.9836900499131944,
+            "iou_fire": 0.0,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 1,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "electrical_ignition_VimYV-zgYo0_continuous_trimmed",
+            "frames": 28,
+            "iou_bg": 0.8775647438611895,
+            "iou_fire": 0.0,
+            "iou_smoke": 0.03704533703610939,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 6,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 11
+          },
+          {
+            "video": "electrical_ignition_qRoT41qla9I_continuous_trimmed",
+            "frames": 26,
+            "iou_bg": 0.9594746982361043,
+            "iou_fire": 0.7523168078003132,
+            "iou_smoke": 0.5681159729595621,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 7,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "neg_hard_negatives_jKMNSvpB9dY",
+            "frames": 16,
+            "iou_bg": 0.9250123765733507,
+            "iou_fire": NaN,
+            "iou_smoke": 0.0,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 12,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "neg_hard_negatives_lqNZtZFUgcE",
+            "frames": 16,
+            "iou_bg": 0.9979544745551215,
+            "iou_fire": 0.0,
+            "iou_smoke": 0.0,
+            "fire_FP_frames": 1,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 2,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "neg_hard_negatives_nJe-Y9QM0cA",
+            "frames": 16,
+            "iou_bg": 1.0,
+            "iou_fire": NaN,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "neg_hard_negatives_wb6iirzZKlk",
+            "frames": 16,
+            "iou_bg": 0.9991060892740885,
+            "iou_fire": NaN,
+            "iou_smoke": 0.0,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 2,
+            "smoke_FN_frames": 0
+          },
+          {
+            "video": "neg_normal_1gi5qn1khVk_4MP_PTZ_Camera_with_Night_",
+            "frames": 16,
+            "iou_bg": 1.0,
+            "iou_fire": NaN,
+            "iou_smoke": NaN,
+            "fire_FP_frames": 0,
+            "fire_FN_frames": 0,
+            "smoke_FP_frames": 0,
+            "smoke_FN_frames": 0
+          }
+        ]
+      }
+    }
+  },
+  "static_stage1": {
+    "selection_on_val": {
+      "fire": {
+        "tau": 0.5,
+        "tau_index": 2,
+        "A_min": 0,
+        "val_frame": {
+          "TP": 119,
+          "FP": 9,
+          "TN": 77,
+          "FN": 5,
+          "Recall": 0.9596774193548387,
+          "FAR": 0.10465116279069768,
+          "Precision": 0.9296875,
+          "F1": 0.9444444444444444,
+          "MCC": 0.8618419086746727,
+          "BaseRate": 0.5904761904761905,
+          "N": 210
+        }
+      },
+      "smoke": {
+        "tau": 0.3,
+        "tau_index": 0,
+        "A_min": 200,
+        "val_frame": {
+          "TP": 78,
+          "FP": 18,
+          "TN": 110,
+          "FN": 4,
+          "Recall": 0.9512195121951219,
+          "FAR": 0.140625,
+          "Precision": 0.8125,
+          "F1": 0.8764044943820225,
+          "MCC": 0.7938300375079894,
+          "BaseRate": 0.3904761904761905,
+          "N": 210
+        }
+      }
+    },
+    "val_pixel": {
+      "iou": [
+        0.9668005372470939,
+        0.7549301834569391,
+        0.6256900951096164
+      ],
+      "dice": [
+        0.9831200662577737,
+        0.8603535235456994,
+        0.7697532229442877
+      ],
+      "iou_bg": 0.9668005372470939,
+      "iou_fire": 0.7549301834569391,
+      "iou_smoke": 0.6256900951096164,
+      "dice_fire": 0.8603535235456994,
+      "dice_smoke": 0.7697532229442877,
+      "fg_miou": 0.6903101392832778,
+      "all_miou": 0.7824736052712163
+    },
+    "test": {
+      "num_images": 186,
+      "pixel": {
+        "iou": [
+          0.96612567030845,
+          0.6679933522506459,
+          0.5539601689570154
+        ],
+        "dice": [
+          0.9827710251673609,
+          0.8009544538643556,
+          0.7129657246347846
+        ],
+        "iou_bg": 0.96612567030845,
+        "iou_fire": 0.6679933522506459,
+        "iou_smoke": 0.5539601689570154,
+        "dice_fire": 0.8009544538643556,
+        "dice_smoke": 0.7129657246347846,
+        "fg_miou": 0.6109767606038307,
+        "all_miou": 0.7293597305053705
+      },
+      "frame": {
+        "fire": {
+          "TP": 109,
+          "FP": 4,
+          "TN": 72,
+          "FN": 1,
+          "Recall": 0.990909090909091,
+          "FAR": 0.05263157894736842,
+          "Precision": 0.9646017699115044,
+          "F1": 0.9775784753363229,
+          "MCC": 0.944569230974747,
+          "BaseRate": 0.5913978494623656,
+          "N": 186
+        },
+        "smoke": {
+          "TP": 65,
+          "FP": 23,
+          "TN": 91,
+          "FN": 7,
+          "Recall": 0.9027777777777778,
+          "FAR": 0.20175438596491227,
+          "Precision": 0.7386363636363636,
+          "F1": 0.8125,
+          "MCC": 0.6839066234051839,
+          "BaseRate": 0.3870967741935484,
+          "N": 186
+        },
+        "any": {
+          "TP": 150,
+          "FP": 13,
+          "TN": 18,
+          "FN": 5,
+          "Recall": 0.967741935483871,
+          "FAR": 0.41935483870967744,
+          "Precision": 0.9202453987730062,
+          "F1": 0.9433962264150944,
+          "MCC": 0.6208350153605057,
+          "BaseRate": 0.8333333333333334,
+          "N": 186
+        }
+      },
+      "bootstrap_ci95": {
+        "fg_miou": [
+          0.5450702422615742,
+          0.6707396203659997
+        ],
+        "iou_fire": [
+          0.5761437590052372,
+          0.7450073193763701
+        ],
+        "iou_smoke": [
+          0.4582269739333235,
+          0.6296679993869189
+        ],
+        "fire_frame_recall": [
+          0.9705882352941176,
+          1.0
+        ],
+        "fire_frame_far": [
+          0.012496141975308643,
+          0.10962709284627088
+        ],
+        "smoke_frame_recall": [
+          0.8281115301724138,
+          0.9615506329113924
+        ],
+        "smoke_frame_far": [
+          0.13221509351892127,
+          0.2782755016722408
+        ]
+      }
+    }
+  },
+  "speed": {
+    "device": "NVIDIA A10",
+    "amp_fp16": true,
+    "batch": 1,
+    "T": 8,
+    "runs": 20,
+    "preprocess_ms_per_frame_cpu": 3.5574738749915014,
+    "preprocess_source_resolution": [
+      960,
+      540
+    ],
+    "stage1_ms_per_clip": 66.61178950000703,
+    "stage1_stream_ms_per_frame": 15.613426449999679,
+    "stage1_stream_fps": 64.04744040024735
+  }
+}

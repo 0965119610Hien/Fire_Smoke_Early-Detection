@@ -6,13 +6,15 @@ Mục tiêu:
 - Tối ưu hóa đặc trưng không gian (Spatial Representation) nhận diện đốm lửa nhỏ & khói sớm.
 - Combined Loss (Weighted Cross-Entropy + Dice foreground theo batch) khắc phục mất cân bằng điểm ảnh.
 - Letterbox giữ tỉ lệ; vùng pad của mask = 255 (bị bỏ qua bởi loss và metric).
-- Xuất checkpoint: `/data/checkpoints/segformer_spatial_best.pth` (kèm run_id + config).
+- Xuất checkpoint: `/data/checkpoints/segformer_spatial_best.pth` (kèm run_id + config);
+  với `--enhance 0` (ảnh thô, không enhance_base): `segformer_spatial_best_raw.pth`.
 - Khi bắt đầu lần chạy mới, checkpoint cũ được chuyển vào `/data/checkpoints/archive/`.
 
 Model / dataset / loss / tiền xử lý dùng chung nằm trong `src/fire_core.py`.
 
 Cách chạy trên Modal GPU:
-  modal run --detach src/train_stage1_segformer.py
+  modal run --detach src/train_stage1_segformer.py                      # enhance_base (mặc định)
+  modal run --detach src/train_stage1_segformer.py --enhance 0          # ảnh thô
 """
 
 import subprocess
@@ -59,7 +61,7 @@ def local_git_commit():
     timeout=86400,
     memory=32768,
 )
-def train_stage1(git_commit: str = "unknown", fold: int = -1):
+def train_stage1(git_commit: str = "unknown", fold: int = -1, enhance: int = 1):
     import random
     import numpy as np
 
@@ -86,11 +88,13 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
     # fold = -1 -> default layout of data_splits/ (val = fold 0); fold = k -> data_splits/folds/fold<k>/
     SPLITS_DIR = Path("/data/data_splits") / (f"folds/fold{fold}" if fold >= 0 else "")
     FOLD_TAG = f"_fold{fold}" if fold >= 0 else ""
+    ENHANCE = bool(enhance)
+    TAG = ("" if ENHANCE else "_raw") + FOLD_TAG
     CHECKPOINTS_DIR = Path("/data/checkpoints")
     LOGS_DIR = Path("/data/logs")
     CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    BEST_CHECKPOINT = CHECKPOINTS_DIR / f"segformer_spatial_best{FOLD_TAG}.pth"
+    BEST_CHECKPOINT = CHECKPOINTS_DIR / f"segformer_spatial_best{TAG}.pth"
 
     TRAIN_CSV = SPLITS_DIR / "static_v4i_train_manifest.csv"
     VAL_CSV   = SPLITS_DIR / "static_v4i_val_manifest.csv"
@@ -109,6 +113,7 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
         "mask_pad_value": fc.IGNORE_INDEX,
         "preprocess_version": fc.PREPROCESS_VERSION,
         "use_motion": False,
+        "enhance": ENHANCE,
         "batch_size": 8,
         "num_workers": 4,
         "epochs": 40,
@@ -123,7 +128,7 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
         "git_commit": git_commit,
         "fold": fold,
     }
-    print(f"🆔 RUN_ID = {RUN_ID} | git = {git_commit} | preprocess = {fc.PREPROCESS_VERSION}")
+    print(f"🆔 RUN_ID = {RUN_ID} | git = {git_commit} | preprocess = {fc.PREPROCESS_VERSION} | enhance = {ENHANCE}")
 
     # Lần chạy mới: chuyển checkpoint cũ vào archive để mọi file best đến từ cùng 1 run
     archived = fc.archive_existing_checkpoints([BEST_CHECKPOINT], CHECKPOINTS_DIR / "archive")
@@ -134,8 +139,8 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
     # =========================================================================
     # 1. DATALOADERS
     # =========================================================================
-    train_dataset = fc.StaticSegDataset(TRAIN_CSV, DATA_ROOT, target_size=(512, 512), is_training=True)
-    val_dataset   = fc.StaticSegDataset(VAL_CSV, DATA_ROOT, target_size=(512, 512), is_training=False)
+    train_dataset = fc.StaticSegDataset(TRAIN_CSV, DATA_ROOT, target_size=(512, 512), is_training=True, enhance=ENHANCE)
+    val_dataset   = fc.StaticSegDataset(VAL_CSV, DATA_ROOT, target_size=(512, 512), is_training=False, enhance=ENHANCE)
 
     BATCH_SIZE = CONFIG["batch_size"]
     NUM_WORKERS = CONFIG["num_workers"]
@@ -173,7 +178,7 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
     NUM_EPOCHS = CONFIG["epochs"]
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=NUM_EPOCHS, eta_min=CONFIG["eta_min"])
 
-    history_path = LOGS_DIR / f"stage1_history{FOLD_TAG}_{RUN_ID}.json"
+    history_path = LOGS_DIR / f"stage1_history{TAG}_{RUN_ID}.json"
 
     # =========================================================================
     # 3. VÒNG LẶP HUẤN LUYỆN
@@ -281,9 +286,10 @@ def train_stage1(git_commit: str = "unknown", fold: int = -1):
 
 
 @app.local_entrypoint()
-def main(fold: int = -1):
+def main(fold: int = -1, enhance: int = 1):
     # spawn (not remote): with `modal run --detach` the job keeps running on Modal even if
     # this machine sleeps / shuts down. `.remote()` would be cancelled when the client exits.
-    call = train_stage1.spawn(git_commit=local_git_commit(), fold=fold)
-    print(f"🚀 Đã gửi job Stage 1{f' fold {fold}' if fold >= 0 else ''} lên Modal (call id: {call.object_id}). Có thể tắt máy.")
+    call = train_stage1.spawn(git_commit=local_git_commit(), fold=fold, enhance=enhance)
+    print(f"🚀 Đã gửi job Stage 1{f' fold {fold}' if fold >= 0 else ''} ({'enhance_base' if enhance else 'ảnh thô'}) "
+          f"lên Modal (call id: {call.object_id}). Có thể tắt máy.")
     print("   Theo dõi: modal app list  |  modal app logs <app-id>")

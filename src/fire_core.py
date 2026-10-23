@@ -42,7 +42,7 @@ IMAGENET_STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 NUM_CLASSES = 3            # 0 = background, 1 = fire, 2 = smoke
 IGNORE_INDEX = 255         # letterbox padding in masks; ignored by loss & metrics
 PAD_COLOR = (114, 114, 114)
-PREPROCESS_VERSION = "v3.1"
+PREPROCESS_VERSION = "v3.2"  # v3.2: train augmentation on the raw image, before enhance_base
 
 # Config keys that change the model / input definition. Resuming a run whose
 # saved config differs on any of these keys is refused.
@@ -185,15 +185,18 @@ def read_mask(path, strict=True, fallback_shape=(512, 512)):
 # 3. DATASETS
 # =============================================================================
 class StaticSegDataset(Dataset):
-    """Stage 1 static images. Pipeline: enhance_base (original resolution) ->
-    letterbox (image pad 114, mask pad IGNORE_INDEX) -> physics-aware augmentation."""
+    """Stage 1 static images. Pipeline: physics-aware augmentation on the raw image (train only)
+    -> enhance_base (original resolution; skipped when enhance=False) -> letterbox (image pad 114,
+    mask pad IGNORE_INDEX)."""
 
-    def __init__(self, manifest_csv, data_root, target_size=(512, 512), is_training=False, strict=True):
+    def __init__(self, manifest_csv, data_root, target_size=(512, 512), is_training=False, strict=True,
+                 enhance=True):
         self.df = pd.read_csv(manifest_csv)
         self.data_root = Path(data_root)
         self.target_size = target_size
         self.is_training = is_training
         self.strict = strict
+        self.enhance = enhance
 
     def __len__(self):
         return len(self.df)
@@ -203,22 +206,27 @@ class StaticSegDataset(Dataset):
         img_path = self.data_root / row["filename"]
         mask_path = self.data_root / row["mask_filename"]
 
-        img = enhance_base(read_image(img_path, self.strict, self.target_size))
+        img = read_image(img_path, self.strict, self.target_size)
         mask = read_mask(mask_path, self.strict, img.shape[:2])
-        img_pad, mask_pad = letterbox_image_and_mask(img, mask, self.target_size)
 
-        # Physics-aware augmentation (train only, NO vertical flip)
+        # Physics-aware augmentation (train only, NO vertical flip), on the raw image so that
+        # enhance_base sees the augmented camera conditions
         if self.is_training:
             if random.random() < 0.5:
-                img_pad = cv2.flip(img_pad, 1)
-                mask_pad = cv2.flip(mask_pad, 1)
+                img = cv2.flip(img, 1)
+                mask = cv2.flip(mask, 1)
             if random.random() < 0.5:
                 alpha = 1.0 + random.uniform(-0.2, 0.2)
                 beta = random.uniform(-20, 20)
-                img_pad = np.clip(alpha * img_pad.astype(np.float32) + beta, 0, 255).astype(np.uint8)
+                img = np.clip(alpha * img.astype(np.float32) + beta, 0, 255).astype(np.uint8)
             if random.random() < 0.2:
-                ksize = random.choice([3, 5])
-                img_pad = cv2.GaussianBlur(img_pad, (ksize, ksize), 0)
+                # kernel 3 / 5 at the 512 model resolution, scaled to the source resolution
+                ksize = 2 * round(random.choice([3, 5]) * max(img.shape[:2]) / max(self.target_size) / 2) + 1
+                img = cv2.GaussianBlur(img, (ksize, ksize), 0)
+
+        if self.enhance:
+            img = enhance_base(img)
+        img_pad, mask_pad = letterbox_image_and_mask(img, mask, self.target_size)
 
         img_tensor = torch.from_numpy(normalize_to_chw(img_pad)).float()
         mask_tensor = torch.from_numpy(mask_pad).long()
@@ -236,15 +244,15 @@ def clip_labeled_positions(row):
 
 
 class VideoClipDataset(Dataset):
-    """Stage 2 T-frame clips. Per frame: enhance_base on the original frame ->
-    optional motion term against the previous *base* frame -> letterbox (same
-    as Stage 1) -> clip-consistent augmentation.
+    """Stage 2 T-frame clips. Per frame: clip-consistent augmentation on the raw frame (train only) ->
+    enhance_base (skipped when enhance=False) -> optional motion term against the previous *base*
+    frame -> letterbox (same as Stage 1).
 
     An empty entry in `mask_paths` marks an unlabeled context frame: its mask is
     all IGNORE_INDEX, so it only provides temporal context (dense clips)."""
 
     def __init__(self, clips_csv, data_root, target_size=(512, 512), is_training=False,
-                 use_motion=True, letterbox=True, strict=True):
+                 use_motion=True, letterbox=True, strict=True, enhance=True):
         self.df = pd.read_csv(clips_csv)
         self.data_root = Path(data_root)
         self.target_size = target_size
@@ -252,6 +260,7 @@ class VideoClipDataset(Dataset):
         self.use_motion = use_motion
         self.letterbox = letterbox
         self.strict = strict
+        self.enhance = enhance
 
     def __len__(self):
         return len(self.df)
@@ -287,17 +296,17 @@ class VideoClipDataset(Dataset):
             if mask.shape[:2] != img.shape[:2]:
                 raise ValueError(f"Kích thước mask {mask.shape[:2]} != ảnh {img.shape[:2]}: {mask_rel}")
 
-            base = enhance_base(img)
-            img = apply_motion(base, prev_base) if self.use_motion else base
-            prev_base = base
-
-            img, mask = self._fit(img, mask)
-
             if do_flip:
                 img = cv2.flip(img, 1)
                 mask = cv2.flip(mask, 1)
             if brightness_factor != 1.0:
                 img = np.clip(img.astype(np.float32) * brightness_factor, 0, 255).astype(np.uint8)
+
+            base = enhance_base(img) if self.enhance else img
+            img = apply_motion(base, prev_base) if self.use_motion else base
+            prev_base = base
+
+            img, mask = self._fit(img, mask)
 
             clip_frames.append(normalize_to_chw(img))
             clip_masks.append(mask)
