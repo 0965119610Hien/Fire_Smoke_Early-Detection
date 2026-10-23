@@ -11,8 +11,9 @@ Original masks are backed up once to data/label_overrides_backup/<same relative 
 Manifests under data/data_splits (top level + folds/*) get has_fire / has_smoke / pixel
 counts / ratios / category recomputed from the masks for the affected frames / images.
 
-Re-run after every `build_unified_dataset.py` full build or Roboflow re-export, since
-those regenerate the masks from the exports.
+A full `build_unified_dataset.py` build re-decodes the video masks from the Roboflow exports
+and applies these overrides itself (before the split); re-run this script by hand only after
+replacing the static export (Fire_Smoke.v4i) or editing label_overrides.csv.
 """
 import argparse
 import shutil
@@ -108,11 +109,9 @@ def refresh_manifests(video_stats, static_stats, dry):
     return touched
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
-
+def apply_overrides(dry=False):
+    """Write every override mask. Returns (overrides, n_changed, video_stats, static_stats), stats as
+    in refresh_manifests. Also called by build_unified_dataset.py right after decoding the videos."""
     ov = pd.read_csv(OVERRIDES, encoding="utf-8-sig")
     if "source" not in ov.columns:
         ov["source"] = ""
@@ -120,7 +119,7 @@ def main():
     video_stats, static_stats, n_changed = {}, {}, 0
     for r in ov.itertuples():
         rel = r.mask_path.replace("\\", "/")
-        changed, mask = apply_mask(rel, r.action, r.source, args.dry_run)
+        changed, mask = apply_mask(rel, r.action, r.source, dry)
         n_changed += changed
         stat = (int((mask == 1).sum()), int((mask == 2).sum()), int(mask.size))
         p = Path(rel)
@@ -128,6 +127,15 @@ def main():
             video_stats[f"{p.parent.name}/{p.name}"] = stat
         else:
             static_stats[p.name] = stat
+    return ov, n_changed, video_stats, static_stats
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    args = ap.parse_args()
+
+    ov, n_changed, video_stats, static_stats = apply_overrides(args.dry_run)
     touched = refresh_manifests(video_stats, static_stats, args.dry_run)
 
     tag = "[dry-run] " if args.dry_run else ""

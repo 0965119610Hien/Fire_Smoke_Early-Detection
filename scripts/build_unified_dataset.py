@@ -228,6 +228,23 @@ def group_videos(videos):
     return {v: find(v) for v in videos}
 
 
+def apply_label_overrides_to(man):
+    """Manual relabels (data/label_overrides.csv, scripts/apply_label_overrides.py) on top of the
+    freshly decoded masks, so a full rebuild keeps them; label columns of `man` are recomputed."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from apply_label_overrides import apply_overrides
+
+    ov, n_changed, video_stats, _ = apply_overrides()
+    keys = man["mask_path"]
+    for i in man.index[keys.isin(video_stats)]:
+        fire, smoke, _ = video_stats[keys[i]]
+        man.loc[i, ["has_fire", "has_smoke", "fire_pixels", "smoke_pixels", "category"]] = [
+            int(fire > 0), int(smoke > 0), fire, smoke, category(fire > 0, smoke > 0)]
+    print(f"    Override nhãn: {len(ov)} dòng, {n_changed} mask được ghi lại, "
+          f"{int(keys.isin(video_stats).sum())} frame video cập nhật")
+    return man
+
+
 def video_kinds(man):
     """video_name -> kind, from the labels (not the name): a video with any fire / smoke frame is
     positive; an all-empty video is neg_normal if named so, otherwise neg_hard (e.g. a `neg_hard_*`
@@ -621,6 +638,7 @@ def main():
             print(f"    [{n}/{len(videos)}] {vid[:50]:50s} {info['anchors']:3d} nhãn, {info['frames_saved']:4d} frame, "
                   f"{info['size'][0]}x{info['size'][1]}{warn}", flush=True)
         man = pd.concat(parts, ignore_index=True)
+        man = apply_label_overrides_to(man)
 
     # 2. static <-> video links, then videos -> test + K folds (MILP)
     group_of = group_videos(videos)
