@@ -228,8 +228,13 @@ def group_videos(videos):
     return {v: find(v) for v in videos}
 
 
-def video_kind(v):
-    return "neg_hard" if v.startswith("neg_hard") else ("neg_normal" if v.startswith("neg_normal") else "positive")
+def video_kinds(man):
+    """video_name -> kind, from the labels (not the name): a video with any fire / smoke frame is
+    positive; an all-empty video is neg_normal if named so, otherwise neg_hard (e.g. a `neg_hard_*`
+    video, or a former positive whose smoke turned out to be steam / welding)."""
+    pos = (man["category"] != "empty").groupby(man["video_name"]).any()
+    return {v: "positive" if p else ("neg_normal" if v.startswith("neg_normal") else "neg_hard")
+            for v, p in pos.items()}
 
 
 FIRE_BINS = (0.3, 2.0)     # fire coverage (% of frame): small < 0.3 <= medium < 2.0 <= large
@@ -374,7 +379,7 @@ def split_videos(man, group_of, n_folds, test_ratio, time_limit, static=None, li
     (`static_empty`, `static_pos`), so the forced static images also end up evenly spread."""
     area = man["width"] * man["height"]
     fcov, scov = 100 * man["fire_pixels"] / area, 100 * man["smoke_pixels"] / area
-    man = man.assign(group=man["video_name"].map(group_of), kind=man["video_name"].map(video_kind))
+    man = man.assign(group=man["video_name"].map(group_of), kind=man["video_name"].map(video_kinds(man)))
     groups = sorted(man["group"].unique())
     X = pd.DataFrame({g: area_features(d, fcov[d.index], scov[d.index]) for g, d in man.groupby("group")}).T.reindex(groups)
     if link is not None:
@@ -633,7 +638,8 @@ def main():
         multi[group_of[v]].append(v)
     multi = {g: vs for g, vs in multi.items() if len(vs) > 1}
     print(f"    Video: {len(set(group_of.values()))} nhóm nguồn -> test + {K} fold | lệch tối đa {vdev:.2f} điểm % | {vmsg}")
-    man["kind"] = man["video_name"].map(video_kind)
+    kinds = video_kinds(man)
+    man["kind"] = man["video_name"].map(kinds)
     print(bin_table(man, man["fold"].to_numpy(), K, kind_col="kind").to_string())
     man = man.drop(columns=["kind"])
 
@@ -664,7 +670,7 @@ def main():
               .agg(fold=("fold", "first"), source_group=("source_group", "first"), round=("round", "first"),
                    frames=("frame_name", "size"), fire=("has_fire", "sum"), smoke=("has_smoke", "sum"))
               .reset_index())
-    assign["kind"] = assign["video_name"].map(video_kind)
+    assign["kind"] = assign["video_name"].map(kinds)
     assign.to_csv(SPLITS_DIR / "video_split_assignment.csv", index=False, encoding="utf-8-sig")
     static.to_csv(SPLITS_DIR / "static_v4i_folds.csv", index=False, encoding="utf-8-sig")
 

@@ -42,8 +42,16 @@ def main():
         n = sum(1 for _ in unified.rglob("*") if _.is_file())
         folds = DATA / "data_splits" / "folds"
         n_folds = sum(1 for _ in folds.rglob("*.csv")) if folds.exists() else 0
+        # static masks changed by scripts/apply_label_overrides.py (video masks are inside `unified`)
+        static_dir = DATA / "Fire_Smoke.v4i.png-mask-semantic" / "train"
+        overrides = DATA / "label_overrides.csv"
+        static_masks = []
+        if overrides.exists():
+            import pandas as pd
+            paths = pd.read_csv(overrides, encoding="utf-8-sig")["mask_path"].str.replace("\\", "/")
+            static_masks = sorted({static_dir / Path(p).name for p in paths if "Fire_Smoke.v4i" in p})
         print(f"Volume: {VOLUME_NAME}\n- {n} file -> /dataset_video_unified/\n- {len(files)} file -> /data_splits/"
-              f"\n- {n_folds} file -> /data_splits/folds/")
+              f"\n- {n_folds} file -> /data_splits/folds/\n- {len(static_masks)} mask ảnh tĩnh đã sửa -> /Fire_Smoke.v4i/train/")
         if args.dry_run:
             return
         import modal
@@ -54,6 +62,8 @@ def main():
                 batch.put_file(str(p), f"/data_splits/{p.name}")
             if n_folds:
                 batch.put_directory(str(folds), "/data_splits/folds")
+            for p in static_masks:
+                batch.put_file(str(p), f"/Fire_Smoke.v4i/train/{p.name}")
         print("✅ Upload unified xong. Kiểm tra trên volume: modal run scripts/audit_data.py")
         return
 

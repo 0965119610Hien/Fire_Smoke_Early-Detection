@@ -60,8 +60,10 @@ def pct_cols(df, cols):
     return df[cols].apply(lambda c: (100 * c / tot).round(1).astype(str) + "%")
 
 
-def video_kind(v):
-    return "neg_hard" if v.startswith("neg_hard") else ("neg_normal" if v.startswith("neg_normal") else "positive")
+def video_kinds(man):
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from build_unified_dataset import video_kinds as kinds
+    return kinds(man)
 
 
 def topic(v):
@@ -157,7 +159,7 @@ def fold_section(man, static, report):
          "`data/data_splits/` = bố cục fold 0.\n",
          f"Video: {report['video_solver']}. Ảnh tĩnh: {report['static']['solver']}.\n"]
     vk = man.groupby("video_name").agg(fold=("fold", "first"))
-    vk["kind"] = [video_kind(v) for v in vk.index]
+    vk["kind"] = vk.index.map(video_kinds(man))
     kt = pd.crosstab(vk["kind"], vk["fold"]).rename(columns=lambda k: "test" if k == -1 else f"fold{k}")
     kt = kt[[p for p, _ in parts]]
     kt.index.name = "Video"
@@ -179,7 +181,7 @@ def main():
     sparse = {s: read_csv(SPLITS_DIR / f"{s}_clips.csv") for s in SPLITS}
     dense = {s: read_csv(SPLITS_DIR / f"dense_{s}_clips.csv") for s in SPLITS}
 
-    man["kind"] = man["video_name"].map(video_kind)
+    man["kind"] = man["video_name"].map(video_kinds(man))
     man["topic"] = man["video_name"].map(topic)
     man["area"] = man["width"] * man["height"]
     print("Đếm vùng lửa/khói trên mask video...")
